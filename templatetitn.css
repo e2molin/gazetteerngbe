@@ -1,0 +1,309 @@
+/* 
+   GLOBAL STYLES
+-------------------------------------------------- */
+/* Padding below the footer and lighter body text */
+
+
+html{
+    min-height: 100%;
+    position: relative;
+}
+body {
+    /*padding-bottom: 40px;*/
+    background-color:#dbdbdb;
+    /*background: url("img/background-body.jpg") no-repeat  center scroll;*/
+    /*background-repeat: repeat-x;*/
+    color: #000000;/*#5a5a5a;*/
+    font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 50px;/*Para que el footer no solape*/
+}
+header{
+	margin-top:0px;
+}
+
+
+/*BOOTSTRAP Variations
+--------------------------------------------------*/
+
+
+/*-----------------------------------*/
+/*Top navbar*/
+/*-----------------------------------*/
+#topnavbar{
+    margin:0px;
+    background: url("img/background-header.jpg") no-repeat bottom center scroll;
+
+}
+ .navbar-brand{
+    /*color: #a5a5a5;*/
+     color: #000000;
+}
+
+
+.jumbotron {
+    position: relative;
+    background: url("img/jumbotron2.png") center center;
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    overflow: hidden;
+}
+
+/*-----------------------------------*/
+/*Sidebar*/
+/*-----------------------------------*/
+#sidebar-container button{
+    background-color: #1B5794;
+    color: #FFFFFF;
+}
+
+#sidebar{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+#sidebar-container{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+#sidebar li a{
+    color: #0076ff;
+    font-size:14px;
+}
+.panel-heading{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.panel-title{
+    font-size:14px;
+}
+
+
+
+/*Dispositivos pantalla PC*/
+@media(min-width:1024px) {
+    .typeahead-devs, .tt-hint,.combomunis  {
+        border: 2px solid #CCCCCC;/*#CCCCCC*/
+        border-radius: 4px 4px 4px 4px;
+        font-size: 11px;
+        height: 25px;
+        line-height: 30px;
+        outline: medium none;
+        padding: 4px 4px;
+        width: 180px;
+    }
+    .tt-dropdown-menu {
+      width: 210px;
+      margin-top: 5px;
+      padding: 8px 12px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 4px 4px 4px 4px;
+      font-size: 10px;
+      color: #111;
+      background-color: #F1F1F1;
+    }
+}
+/*Dispositivos intemedios*/
+@media screen and (max-width: 1024px) and (min-width: 768px) {
+    .typeahead-devs, .tt-hint,.combomunis  {
+        border: 2px solid #CCCCCC;/*#CCCCCC*/
+        border-radius: 4px 4px 4px 4px;
+        font-size: 11px;
+        height: 25px;
+        line-height: 30px;
+        outline: medium none;
+        padding: 4px 4px;
+        width: 190px;
+    }
+   
+    .tt-dropdown-menu {
+      width: 190px;
+      margin-top: 5px;
+      padding: 8px 12px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 4px 4px 4px 4px;
+      font-size: 10px;
+      color: #111;
+      background-color: #F1F1F1;
+    }    
+
+}
+/*Dispositivos móviles*/
+@media(max-width:767px) {
+    .typeahead-devs, .tt-hint,.combomunis  {
+        border: 2px solid #CCCCCC;
+        border-radius: 4px 4px 4px 4px;
+        font-size: 11px;
+        height: 25px;
+        line-height: 30px;
+        outline: medium none;
+        padding: 4px 4px;
+        /*width: 100%;*/
+    }
+    .tt-dropdown-menu {
+      /*width: 210px;*/
+      margin-top: 5px;
+      padding: 8px 12px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 4px 4px 4px 4px;
+      font-size: 10px;
+      color: #111;
+      background-color: #F1F1F1;
+    }
+
+    
+}
+
+
+#codDictio, #provinCbo{
+    font-size: 10px;
+    padding: 3px 6px;
+    height: 24px;
+}
+
+
+
+
+
+/*---------------------------------------------*/
+/*Páginas de atributos atributosEntityList     */
+/*---------------------------------------------*/
+#listsElem{
+    max-height: 700px;
+    overflow-y: scroll;
+}
+
+
+#atributosEntity li {
+    margin: 0;
+    padding: 0.2em;
+    line-height: 1em;
+}
+@media(max-width:1300px) {
+    .tipoimg-ngbe{
+        display:visible;
+    }
+    .tipotxt-ngbe{
+        display:none;
+    }
+}
+@media(min-width:1301px) {
+    .tipoimg-ngbe{
+        display:none;
+    }
+    .tipotxt-ngbe{
+        display:visible;
+    }
+}
+
+
+
+.propTitle {
+    border-bottom: 1px dotted #389b17;
+    color: #176d9b;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 15px;
+    text-transform: uppercase;
+}
+
+.propContent {
+    color: #6c6c6c;
+    font-size: 14px;
+    line-height: normal;
+    margin-top: 15px;
+}
+
+p.propContent {
+    color: #6c6c6c;
+    text-align: justify;
+}
+
+
+/*-------------------------*/
+/*Footer                   */
+/*-------------------------*/
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    padding-top: 5px;
+    width: 100%;
+    height: 40px;
+    background-color: #222;
+    color: #666;
+}
+
+.footer a {
+    color: #999;
+}
+.footer a:hover {
+    color: #efefef;
+}
+
+
+
+/*-------------------------*/
+/*Estilos de cartografía*/
+/*-------------------------*/
+
+#mapCanvas{		
+    margin:auto;
+    height:730px;
+}
+
+.ol-zoomslider {
+            top: 7em;
+}
+
+.infoLayersclass {
+            position:absolute; 
+            bottom: 6.5em;
+            right: 22px;
+            min-width: 0px;
+            font-size: 10px;
+            background-color: slategrey;
+			border-radius: 4px;    
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+            color: white;
+            padding: 3px;
+            z-index:16; 
+}
+
+@media(min-width:768px) {
+    .ol-mouse-position {
+            top: auto;
+            bottom: 3.5em;
+            min-width: 0px;
+            font-size: 10px;
+            background-color: slategrey;
+			border-radius: 4px;    
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+            color: white;
+            padding: 6px;
+    }
+
+}
+
+@media(max-width:767px) { 
+    .ol-mouse-position {
+            top: auto;
+            bottom: 0.5em;
+            min-width: 0px;
+            font-size: 11px;
+            background-color: slategrey;
+			border-radius: 4px;    
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+            color: white;
+            padding: 2px;
+    }
+}
+
+
