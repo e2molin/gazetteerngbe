@@ -1,59 +1,77 @@
 
-
-function showResultsetList(resultsRequest){
+const getClassIdioma= (idioma)=>{
     
-    
-    //Pintamos el geoJSOn en el mapa
-    var format = new ol.format.GeoJSON();
-    resultNGBE_lyr.getSource().clear();
-    resultNGBE_lyr.getSource().addFeatures(format.readFeatures(resultsRequest, {
-                featureProjection: 'EPSG:3857'
-            }));
-    //Ahora cargo el panel con los resultados
-    var info = [];
-    $("#searchingBar").hide();
-    $("#atributosEntityList").show();
-    info.push("<h2>Topónimos encontrados  <small>(" + resultsRequest.features.length + ")</small></h2>");
-    info.push("<ul id=\"listsElem\" class=\"list-group\">");
-    for(var i = 0; i < resultsRequest.features.length; i++) {
-        info.push("<li class=\"list-group-item\">" + resultsRequest.features[i].properties.nombre + 
-            "<span class=\"pull-right\"><button id=\"ngbe" +  resultsRequest.features[i].properties.identidad + "\" " + 
-            "type=\"button\" class=\"btn btn-xs btn-secondary showAttribNGBE\"><i class=\"fa fa-info-circle \"></i></button>" + 
-            "<button id=\"ngbecoo" +  resultsRequest.features[i].properties.identidad + "\"  type=\"button\" class=\"btn btn-xs btn-secondary panningNGBE\" " +
-            "data-lat=\"" + resultsRequest.features[i].geometry.coordinates[1] + "\" " + 
-            "data-lon=\"" + resultsRequest.features[i].geometry.coordinates[0] + "\"><i class=\"fa fa-map \"></i></button>" +
-            "</span>" + 
-            "<img class=\"pull-right tipoimg-ngbe\" src=\"img/icons/" + resultsRequest.features[i].properties.dictiongbe + ".png\" title=\"" + resultsRequest.features[i].properties.tipo + "\">" + 
-            "<span class=\"pull-right tipotxt-ngbe\"><small><em>" + resultsRequest.features[i].properties.tipo + "</em></small></span> " + 
-            "</li>");
+    if (idioma === undefined || idioma === null) {
+        return "";
+    } else if (idioma === "gal") {
+        return `idioma_glg`;  
+    } else {
+      return `idioma_${idioma}`;
     }
-    info.push("</ul>");
-    var containerAtrib = document.getElementById('atributosEntityList');
-    containerAtrib.innerHTML = '&nbsp;';                            
-    containerAtrib.innerHTML = info.join('') || '(unknown)';
-    $("#atributosEntity").hide();
-    $("#atributosEntityList").show();    
-    $("#spinner_searchid").hide();
-    //Como hemos metido los botnes en este proceso, aquí definimos el evento
-    $(".panningNGBE").on("click", function(event) {
-            console.log("centro coordendas en: " + $(this).attr("data-lat") + "," + $(this).attr("data-lon"));
-            centrarVistaToponimo(map,
-                                $(this).attr("data-lon"),
-                                $(this).attr("data-lat"),
-                                map.getView().getZoom(),"");                                    
-    });    
-    $(".showAttribNGBE").on("click", function(event) {
-            var idEntidad = replaceAll($(this).attr('id'),"ngbe","");
-            console.log("id:" + $(this).attr('id'));
-            console.log("Consulto detalle:" + idEntidad);
-            mostrarInfoByNumEnti(idEntidad,true);
-            $("#atributosEntity").show();
-            $("#atributosEntityList").hide();
-    });      
-    $("#spinner_searchspatial").hide();
-    $("#spinner_searchid").hide();
+
 }
 
+const getClassEstatus= (estatus)=>{
+    
+    if (estatus === undefined || estatus === null) {
+        return "";
+    } else if (estatus === "Oficial") {
+        return `oficial`;  
+    } else if (estatus === "Normalizado") {
+        return `normalizado`; 
+    } else if (estatus === "No Normalizado") {
+        return `no-normalizado`; 
+    } else {
+      return "";
+    }
+
+}
+
+const fixNullValue = (value) => {
+
+    return (value === undefined || value === null ? '<em>No definido <i class="fa fa-question-circle" aria-hidden="true"></i></em>' : value);
+
+}
+
+const showResultsetList = (resultsRequest) => {
+  console.log("showResultsetList");
+
+  //Pintamos el geoJSOn en el mapa
+  var format = new ol.format.GeoJSON();
+  resultNGBE_lyr.getSource().clear();
+  resultNGBE_lyr.getSource().addFeatures(
+    format.readFeatures(resultsRequest, {
+      featureProjection: "EPSG:3857",
+    })
+  );
+
+  $("#searchingBar").hide();
+  $("#atributosEntity").hide();
+  $("#spinner_searchid").show();
+  document.getElementById("filter-value").value=``;
+  document.getElementById("numResultsFilter").textContent = ``;
+
+  var tableData = [];
+  for (let i = 0; i < resultsRequest.features.length; i++) {
+    tableData.push({
+      dictiongbe: resultsRequest.features[i].properties.dictiongbe,
+      nombre: resultsRequest.features[i].properties.nombre,
+      tipo: resultsRequest.features[i].properties.tipo,
+      identidad: resultsRequest.features[i].properties.identidad,
+      dataLon: resultsRequest.features[i].geometry.coordinates[0],
+      dataLat: resultsRequest.features[i].geometry.coordinates[1],
+    });
+  }
+
+  tabulatorResults.clearFilter();
+  tabulatorResults.setData(tableData);
+
+  document.getElementById("numResults").textContent=resultsRequest.features.length;
+
+  $("#tabulatorEntityList").show();
+  $("#spinner_searchspatial").hide();
+  $("#spinner_searchid").hide();
+};
 
 
 function mostrarInfoByNumEnti(idEnti,showBtnResults,panningEntity){
@@ -76,99 +94,198 @@ function mostrarInfoByNumEnti(idEnti,showBtnResults,panningEntity){
                 console.log(municipioInfoByIdServer + idEnti);
                 console.log("Encontrados: " + resultsRequest.features.length);
                 console.log("Elemento primero: " + resultsRequest.features[0].properties.identificador_geografico);
-                var fichaEntity="<h2 id=\"nameEntity\">" + resultsRequest.features[0].properties.identificador_geografico + "</h2>" + 
-                    "<button id=\"showListResults\" type=\"button\" class=\"btn btn-xs btn-secondary pull-right\" style=\"" + attributeDisplay + "\">Ver resultados</button>" + 
-                    "<h2><small>Atributos</small></h2>" + 
-                    "<h3 class=\"propTitle\">Identidad nº</h3>" + 
-                    "<span class=\"propContent\">" + idEnti + "</span>" + 
-                    "<h3 class=\"propTitle\">Geometría</h3>" +
-                    "<ul>" + 
-                        "<li class=\"propContent\">Geográficas (epsg:4258): <span class=\"pull-right\">" +  resultsRequest.features[0].properties.long_etrs89_regcan95 + " " + resultsRequest.features[0].properties.lat_etrs89_regcan95 + "</span></li>" + 
-                        "<li class=\"propContent\">UTM (epsg:258" + resultsRequest.features[0].properties.huso_etrs89_regcan95 + "): <span class=\"pull-right\">" + resultsRequest.features[0].properties.x_utm_etrs89_regcan95 + " " + resultsRequest.features[0].properties.y_utm_etrs89_regcan95 + "</span></li>" +
-                    "</ul>" + 
-                    "<h3 class=\"propTitle\">Clasificación local</h3>" + 
-                    "<span class=\"propContent\">" + resultsRequest.features[0].properties.tipo_mostrado + "</span>" +
-                    "<img class=\"pull-right\" style=\"width:48px; \" src=\"img/icons/" + resultsRequest.features[0].properties.codigo_ngbe + "-master.png\" title=\"" + resultsRequest.features[0].properties.tipo_mostrado + "\">" +
-                    "<h3 class=\"propTitle\">Hoja MTN25</h3>" + 
-                    "<span class=\"propContent\">" + resultsRequest.features[0].properties.hojamtn_25 + "</span>" + 
-                    "<h3 class=\"propTitle\">Códigos INE asociados</h3>" + 
-                    "<span class=\"propContent\">" + resultsRequest.features[0].properties.codigo_ine + "</span>" + 
-                    "<h3 class=\"propTitle\">Identificador geográfico</h3>" + 
-                    "<ul>" + 
-                        "<li class=\"propContent\">Idioma: <span class=\"pull-right\">" + resultsRequest.features[0].properties.idioma_idg + "</span></li>" + 
-                        "<li class=\"propContent\">Fuente: <span class=\"pull-right\">" + resultsRequest.features[0].properties.fuente_idg + "</span></li>" +
-                        "<li class=\"propContent\">Nombre: <span class=\"pull-right\">" + resultsRequest.features[0].properties.identificador_geografico + "</span></li>" +
-                    "</ul>";
+                let itemSelected = resultsRequest.features[0];
 
-                
-                if (resultsRequest.features[0].properties.nombre_extendido!=null){
-                    fichaEntity= fichaEntity + "<h3 class=\"propTitle\">Nombre extendido</h3>" + 
-                        "<ul>" + 
-                        "<li class=\"propContent\">Fuente: <span class=\"pull-right\">" + resultsRequest.features[0].properties.fuente_extendido + "</span></li>" +
-                        "<li class=\"propContent\">Nombre: <span class=\"pull-right\">" + resultsRequest.features[0].properties.nombre_extendido + "</span></li>" +
-                    "</ul>";
+                document.getElementById('propNameEntity').textContent = itemSelected.properties.identificador_geografico;
+                document.getElementById('propImageDictio').src = `img/icons/${itemSelected.properties.codigo_ngbe}-master.png`;
+                document.getElementById('propImageDictio').title = itemSelected.properties.tipo_mostrado;
+
+                let evalNumNombres = 0;
+                if (itemSelected.properties.nombre_alternativo_3 !== undefined && itemSelected.properties.nombre_alternativo_3 !== null){
+                    evalNumNombres=evalNumNombres+1;
                 }
-                
-                if (resultsRequest.features[0].properties.nombre_alternativo_2!=null){
-                    fichaEntity= fichaEntity + "<h3 class=\"propTitle\">Nombre alternativo II</h3>" + 
-                        "<ul>" + 
-                        "<li class=\"propContent\">Fuente: <span class=\"pull-right\">" + resultsRequest.features[0].properties.fuente_alternativo_2 + "</span></li>" +
-                        "<li class=\"propContent\">Nombre: <span class=\"pull-right\">" + resultsRequest.features[0].properties.nombre_alternativo_2 + "</span></li>" +
-                    "</ul>";
-                }                
-
-                if (resultsRequest.features[0].properties.nombre_alternativo_3!=null){
-                    fichaEntity= fichaEntity + "<h3 class=\"propTitle\">Nombre alternativo II</h3>" + 
-                        "<ul>" + 
-                        "<li class=\"propContent\">Fuente: <span class=\"pull-right\">" + resultsRequest.features[0].properties.fuente_alternativo_3 + "</span></li>" +
-                        "<li class=\"propContent\">Nombre: <span class=\"pull-right\">" + resultsRequest.features[0].properties.nombre_alternativo_3 + "</span></li>" +
-                    "</ul>";
+                if (itemSelected.properties.nombre_variante_2 !== undefined && itemSelected.properties.nombre_variante_2 !== null){
+                    evalNumNombres=evalNumNombres+1;
                 }
-                
-                if (resultsRequest.features[0].properties.nombre_variante_1!=null){
-                    fichaEntity= fichaEntity + "<h3 class=\"propTitle\">Nombre variante I</h3>" + 
-                        "<ul>" + 
-                        "<li class=\"propContent\">Fuente: <span class=\"pull-right\">" + resultsRequest.features[0].properties.fuente_variante_1 + "</span></li>" +
-                        "<li class=\"propContent\">Nombre: <span class=\"pull-right\">" + resultsRequest.features[0].properties.nombre_variante_1 + "</span></li>" +
-                    "</ul>";
+                if (itemSelected.properties.nombre_variante_3 !== undefined && itemSelected.properties.nombre_variante_3 !== null){
+                    evalNumNombres=evalNumNombres+1;
+                }
+                if (itemSelected.properties.ig_recomendado !== undefined && itemSelected.properties.ig_recomendado !== null){
+                    evalNumNombres=evalNumNombres+1;
+                }
+                if (itemSelected.properties.alternativo_recomendado !== undefined && itemSelected.properties.alternativo_recomendado !== null){
+                    evalNumNombres=evalNumNombres+1;
+                }
+                if (itemSelected.properties.otras_denominaciones !== undefined && itemSelected.properties.otras_denominaciones !== null){
+                    evalNumNombres=evalNumNombres+1;
+                }
+                if (itemSelected.properties.forma_no_recomendada !== undefined && itemSelected.properties.forma_no_recomendada !== null){
+                    evalNumNombres=evalNumNombres+1;
                 }                
+                if (itemSelected.properties.forma_erronea !== undefined && itemSelected.properties.forma_erronea !== null){
+                    evalNumNombres=evalNumNombres+1;
+                }
 
-                if (resultsRequest.features[0].properties.nombre_variante_2!=null){
-                    fichaEntity= fichaEntity + "<h3 class=\"propTitle\">Nombre variante II</h3>" + 
-                        "<ul>" + 
-                        "<li class=\"propContent\">Fuente: <span class=\"pull-right\">" + resultsRequest.features[0].properties.fuente_variante_2 + "</span></li>" +
-                        "<li class=\"propContent\">Nombre: <span class=\"pull-right\">" + resultsRequest.features[0].properties.nombre_variante_2 + "</span></li>" +
-                    "</ul>";
-                }                
+                document.getElementById('numNombres').textContent = evalNumNombres;
 
-                if (resultsRequest.features[0].properties.nombre_variante_3!=null){
-                    fichaEntity= fichaEntity + "<h3 class=\"propTitle\">Nombre variante III</h3>" + 
-                        "<ul>" + 
-                        "<li class=\"propContent\">Fuente: <span class=\"pull-right\">" + resultsRequest.features[0].properties.fuente_variante_3 + "</span></li>" +
-                        "<li class=\"propContent\">Nombre: <span class=\"pull-right\">" + resultsRequest.features[0].properties.nombre_variante_3 + "</span></li>" +
-                    "</ul>";
-                }                
+                let generalAttribTemplate  = `<h3 class="propTitle">General</h3>
+                                        <ul>
+                                        <li class="propContent">Identidad nº: <span class="pull-right">${itemSelected.properties.id}</span></li>
+                                        <li class="propContent">Clasificación: <span class="pull-right">${itemSelected.properties.codigo_ngbe_text}</span></li>
+                                        <li class="${itemSelected.properties.provincias_nombre.length>75 ? "propSubContent":"propContent"}">Provincias: <span class="pull-right">${replaceAllOcurrences(fixNullValue(itemSelected.properties.provincias_nombre),',',', ')}</span></li>
+                                        </ul>
+                                        <h3 class="propTitle">Identificador geográfico</h3>
+                                        <ul>
+                                        <li class="propContent">Denominación: <span class="pull-right">${itemSelected.properties.identificador_geografico}</span></li>
+                                        <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_idg)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_idg)}</span></li>
+                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_idg)}</span></li>
+                                        <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
+                                        </ul>
+                                        <h3 class="propSubTitle">Nombre extendido</h3>
+                                        <ul>
+                                        <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_extendido)}</span></li>
+                                        <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_extendido)}</span></li>
+                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_extendido)}</span></li>
+                                        <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
+                                        </ul>
+
+                                        <h3 class="propSubTitle">Nombre alternativo 2</h3>
+                                        <ul>
+                                        <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_alternativo_2)}</span></li>
+                                        <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_alternativo_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_alternativo_2)}</span></li>
+                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_alternativo_2)}</span></li>
+                                        <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_alternativo_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_alternativo_2)}</span></li>
+                                        </ul>
+
+                                        <h3 class="propSubTitle">Nombre variante 1</h3>
+                                        <ul>
+                                        <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_1)}</span></li>
+                                        <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_1)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_1)}</span></li>
+                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_1)}</span></li>
+                                        <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_1)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_1)}</span></li>
+                                        </ul>`;
+
+
+                let namingAttribTemplate  = `<h3 class="propSubTitle">Nombre alternativo 3</h3>
+                                        <ul>
+                                        <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_alternativo_3)}</span></li>
+                                        <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_alternativo_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_alternativo_3)}</span></li>
+                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_alternativo_3)}</span></li>
+                                        <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_alternativo_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_alternativo_3)}</span></li>
+                                        </ul>
+
+
+                                        <h3 class="propSubTitle">Nombre variante 2</h3>
+                                        <ul>
+                                        <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_2)}</span></li>
+                                        <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_2)}</span></li>
+                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_2)}</span></li>
+                                        <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_2)}</span></li>
+                                        </ul>
+
+                                        <h3 class="propSubTitle">Nombre variante 3</h3>
+                                        <ul>
+                                        <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_3)}</span></li>
+                                        <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_3)}</span></li>
+                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_3)}</span></li>
+                                        <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_3)}</span></li>
+                                        </ul>
+
+                                        <h3 class="propSubTitle">Otras denominaciones</h3>
+                                        <ul>
+                                        <li class="propContent">Nombre recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.ig_recomendado)}</span></li>
+                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_ig_recomendada)}</span></li>
+                                        <li class="propContent">Alternativo recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.alternativo_recomendado)}</span></li>
+                                        <li class="propContent">Otras denominaciones: <span class="pull-right">${fixNullValue(itemSelected.properties.otras_denominaciones)}</span></li>
+                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_otras_denominaciones)}</span></li>
+                                        <li class="propContent">No recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.forma_no_recomendada)}</span></li>
+                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_fnr)}</span></li>
+                                        <li class="propContent">Forma errónea: <span class="pull-right">${fixNullValue(itemSelected.properties.forma_erronea)}</span></li>
+                                        </ul>`;
+
+
+
+
+                let locationAttribTemplate  = `<h3 class="propTitle">Geometría</h3>
+                                        <ul>
+                                        <li class="propContent">Geográficas (epsg:4258): <span class="pull-right">${fixNullValue(itemSelected.properties.long_etrs89_regcan95)} ${fixNullValue(itemSelected.properties.lat_etrs89_regcan95)}</span>
+                                        </li>
+                                        <li class="propContent">UTM (epsg:258${itemSelected.properties.huso_etrs89_regcan95}): <span class="pull-right">${fixNullValue(itemSelected.properties.x_utm_etrs89_regcan95)} ${fixNullValue(itemSelected.properties.y_utm_etrs89_regcan95)}</span></li>
+                                        </ul>
+                                        <h3 class="propTitle">Provincias</h3>
+                                        <p class="propContent">${replaceAllOcurrences(fixNullValue(itemSelected.properties.provincias_nombre),',',', ')}</p>
+                                        <h3 class="propTitle">Códigos INE asociados</h3>
+                                        <p class="propContent">${replaceAllOcurrences(fixNullValue(itemSelected.properties.codigo_ine),',',', ')}</p>
+                                        <h3 class="propTitle">Hoja MTN25</h3><span class="propContent">${itemSelected.properties.hojamtn_25}</span>`;
+
+
+
+
+                let othersAttribTemplate  = `<h3 class="propTitle">Tema INSPIRE</h3><span class="propContent">https://inspire.ec.europa.eu/codelist/NamedPlaceTypeValue/hydrography</span>
+                                        <h3 class="propTitle">Otras codificaciones</h3>
+                                        <ul>
+                                            <li class="propContent">id_autonum_union_sep2013 <span class="pull-right">${fixNullValue(itemSelected.properties.id_autonum_union_sep2013)}</span></li>
+                                            <li class="propContent">objectid <span class="pull-right">${fixNullValue(itemSelected.properties.objectid)}</span></li>
+                                        </ul>
+                                        <h3 class="propTitle">Proceso de autocorrección</h3>
+                                        <ul>
+                                            <li class="propContent">Texto previo en BTN <span class="pull-right">${fixNullValue(itemSelected.properties.texto_previo_btn)}</span></li>
+                                            <li class="propContent">Código TTGGSS <span class="pull-right">${fixNullValue(itemSelected.properties.ttggss)}</span></li>
+                                            <li class="propContent">Relación <span class="pull-right">${fixNullValue(itemSelected.properties.relacion)}</span></li>
+                                            <li class="propContent">Tratamiento <span class="pull-right">${fixNullValue(itemSelected.properties.tratamiento)}</span></li>
+                                        </ul>
+                                    </div>`;
                 
-                var containerAtrib = document.getElementById('atributosEntity');
-                containerAtrib.innerHTML = '&nbsp;';                            
-                containerAtrib.innerHTML = fichaEntity;
+                let generalAttribContainer = document.getElementById('generalAttrib');
+                generalAttribContainer.innerHTML = generalAttribTemplate;
+                let namingAttribContainer = document.getElementById('namingAttrib');
+                namingAttribContainer.innerHTML = namingAttribTemplate;
+                let locationAttribContainer = document.getElementById('locationAttrib');
+                locationAttribContainer.innerHTML = locationAttribTemplate;
+                let othersAttribContainer = document.getElementById('othersAttrib');
+                othersAttribContainer.innerHTML = othersAttribTemplate;                
+
                 if (panningEntity==true){
+                    //map.getView().getZoom()
                                 centrarVistaToponimo(map,
                                      resultsRequest.features[0].properties.long_etrs89_regcan95,
                                      resultsRequest.features[0].properties.lat_etrs89_regcan95,
-                                     map.getView().getZoom(),resultsRequest.features[0].properties.identificador_geografico);
+                                     15,resultsRequest.features[0].properties.identificador_geografico);
                 }
                 $("#showListResults").on("click", function(event) {
                                         $("#atributosEntity").hide();
-                                        $("#atributosEntityList").show();                    
+                                        $("#tabulatorEntityList").show();                    
                 }); 
                 $("#spinner_searchid").hide();
             },
             error: function(e){
                         console.log(e.responseText);
                     }
-            });
+    });
+
+    console.log("Petición de histórico");
+    
+    $.ajax({
+        url: urlSearchHistoEntityById + idEnti,
+        dataType: 'json',
+        success: function(resultsRequest){
+            document.getElementById('numRegHisto').textContent = resultsRequest.data.length;
+            tabulatorHisto.setData(resultsRequest.data);
+
+        },
+        error: function(e){
+                    console.log(e.responseText);
+                }
+    });
+
+
 }
+
+    
+    
+
+
+
 
 
 /*-------------------------------------------------------------------
@@ -188,7 +305,7 @@ $("#searchById").on("click", function(event) {
 
     
     $("#presentacion").hide();  
-    $("#atributosEntityList").hide();
+    $("#tabulatorEntityList").hide();
     $("#atributosEntity").hide();
     $("#searchingBar").show();
     $("#spinner_searchid").show();
@@ -196,14 +313,15 @@ $("#searchById").on("click", function(event) {
     $.ajax({
             /*url: 'apinomen2/public/listngbe/json/id/' + idEnti,
             url: 'apinomen2/public/entityngbe/json/id/' + idEnti,*/
-            url: municipioInfoByIdServer + idEnti,            
+            url: urlSearchListById + idEnti,            
             dataType: 'json',
             success: function(resultsRequest){
                                 //Pintamos el geoJSOn en el mapa
+                                console.log(resultsRequest);
                                 showResultsetList(resultsRequest);
             },
             error: function(e){
-                    console.log(e.responseText);
+                    console.log("Fallo " + e.responseText);
             }
     });
 
@@ -223,7 +341,7 @@ $("#searchByView").on("click", function(event) {
             return;
         }
         $("#presentacion").hide();  
-        $("#atributosEntityList").hide();
+        $("#tabulatorEntityList").hide();
         $("#atributosEntity").hide();
         $("#searchingBar").show();
         $("#spinner_searchspatial").show();
@@ -261,7 +379,7 @@ function searchByMuni(){
     let urlRequest = ineSearchServer + codMuni + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "");
 
     $("#presentacion").hide();  
-    $("#atributosEntityList").hide();
+    $("#tabulatorEntityList").hide();
     $("#atributosEntity").hide();
     $("#searchingBar").show();
     $("#spinner_searchid").show();
@@ -291,7 +409,7 @@ $("#searchByMTN").on("click", function(event) {
     let urlRequest = mtn25SearchServer + numMTN + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "") + (codProv != "00" ? "codProv=" + codProv + "&" : "");
 
     $("#presentacion").hide();  
-    $("#atributosEntityList").hide();
+    $("#tabulatorEntityList").hide();
     $("#atributosEntity").hide();
     $("#searchingBar").show();
     $("#spinner_searchid").show();
@@ -323,7 +441,7 @@ $("#searchByName").on("click", function(event) {
         let urlRequest = nameSearchServer + nameEnti + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "") + (codProv != "00" ? "codProv=" + codProv + "&" : "");
 
         $("#presentacion").hide();  
-        $("#atributosEntityList").hide();
+        $("#tabulatorEntityList").hide();
         $("#atributosEntity").hide();
         $("#searchingBar").show();
         $("#spinner_searchid").show();
@@ -355,17 +473,24 @@ $("#searchByMuni").on("click", function(event) {
 
 
 /*-------------------------------------------------------------------
-Prepara los datos para la b´suqeuda de municipios
+Prepara los datos para la búsqueda de municipios
 -------------------------------------------------------------------*/
 $(document).ready(function() {
-		$('input.combomunis').typeahead({
+		$('#muniselect').typeahead({
 		  name: 'combomunis',
-          prefetch : munisActualServer
+          prefetch : urlHojaMTNSearcher
 		});
+		$('#mtnselect').typeahead({
+            name: 'combomtn',
+            prefetch : urlHojaMTNSearcher
+          });
+
         console.log("Paso");
-        console.log(munisActualServer);
+        console.log(urlMunisSearcher);
+        console.log(urlHojaMTNSearcher);
         $("#deslintable").hide();
         $("#alertnosel").hide();
+        $("#alertnoselMTN").hide();
 });
 
 

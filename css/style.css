@@ -3,16 +3,12 @@
 -------------------------------------------------- */
 /* Padding below the footer and lighter body text */
 
-
 html{
     min-height: 100%;
     position: relative;
 }
 body {
-    /*padding-bottom: 40px;*/
     background-color:#dbdbdb;
-    /*background: url("img/background-body.jpg") no-repeat  center scroll;*/
-    /*background-repeat: repeat-x;*/
     color: #000000;/*#5a5a5a;*/
     font-size: 12px;
     font-family: 'Open Sans', sans-serif;
@@ -22,22 +18,19 @@ header{
 	margin-top:0px;
 }
 
-
-/*BOOTSTRAP Variations
---------------------------------------------------*/
-
-
 /*-----------------------------------*/
 /*Top navbar*/
 /*-----------------------------------*/
 #topnavbar{
     margin:0px;
-    background: url("img/background-header.jpg") no-repeat bottom center scroll;
+    background: url("img/background-header.png") no-repeat center scroll;
+    background-color: #364b5f;
 
 }
- .navbar-brand{
-    /*color: #a5a5a5;*/
-     color: #000000;
+
+.navbar-brand{
+    color: #a5a5a5;
+     /*color: #000000;*/
 }
 
 
@@ -82,7 +75,7 @@ header{
 
 /*Dispositivos pantalla PC*/
 @media(min-width:1024px) {
-    .typeahead-devs, .tt-hint,.combomunis  {
+    .typeahead-devs, .tt-hint,.combomunis,.combomtn  {
         border: 2px solid #CCCCCC;/*#CCCCCC*/
         border-radius: 4px 4px 4px 4px;
         font-size: 11px;
@@ -107,7 +100,7 @@ header{
 }
 /*Dispositivos intemedios*/
 @media screen and (max-width: 1024px) and (min-width: 768px) {
-    .typeahead-devs, .tt-hint,.combomunis  {
+    .typeahead-devs, .tt-hint,.combomunis,.combomtn  {
         border: 2px solid #CCCCCC;/*#CCCCCC*/
         border-radius: 4px 4px 4px 4px;
         font-size: 11px;
@@ -134,7 +127,7 @@ header{
 }
 /*Dispositivos móviles*/
 @media(max-width:767px) {
-    .typeahead-devs, .tt-hint,.combomunis  {
+    .typeahead-devs, .tt-hint,.combomunis,.combomtn  {
         border: 2px solid #CCCCCC;
         border-radius: 4px 4px 4px 4px;
         font-size: 11px;
@@ -185,6 +178,12 @@ header{
     padding: 0.2em;
     line-height: 1em;
 }
+
+#atributosEntity li.headertab {
+    margin: 0;
+    line-height: 1em;
+}
+
 @media(max-width:1300px) {
     .tipoimg-ngbe{
         display:visible;
@@ -203,15 +202,68 @@ header{
 }
 
 
+.titleFirst {
+    /* Hasta 36 caracteres */
+    border-bottom: 1px double #0b5b8e;
+    padding-bottom: 5px;
+    color: #176d9b;
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: normal;
+    margin-top: 15px;
+}
+
+.titleSecond {
+    /* Hasta 47 caracteres */
+    border-bottom: 1px double #0b5b8e;
+    padding-bottom: 10px;
+    padding-right: 55px;
+    color: #176d9b;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: normal;
+    margin-top: 15px;
+    word-break:normal;
+}
+
+.dictioTitleFirst{
+    position: absolute;
+    top: 8px; 
+    right: 16px;
+    width:48px;
+}
+
+.dictioTitleSecond{
+    position: absolute;
+    top: 0px; 
+    right: 16px;
+    width:48px;
+}
 
 .propTitle {
-    border-bottom: 1px dotted #389b17;
+    /*border-bottom: 1px dotted #389b17;*/
     color: #176d9b;
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 1.5rem;
+    font-weight: 800;
     line-height: normal;
     margin-top: 15px;
     text-transform: uppercase;
+}
+
+.propSubTitle{
+    color: #176d9b;
+    font-size: 1.2rem;
+    font-weight: 800;
+    line-height: normal;
+    margin-top: 10px;
+    text-transform: uppercase;   
+}
+
+.propSubContent{
+    color: #6c6c6c;
+    font-size: 1rem;
+    line-height: normal;
+    margin-top: 5px;  
 }
 
 .propContent {
@@ -225,6 +277,68 @@ p.propContent {
     color: #6c6c6c;
     text-align: justify;
 }
+
+
+img.idioma_spa{
+    content: url("img/flag-es.svg");
+    width:20px; 
+    margin-left:5px; 
+}
+
+img.idioma_cat{
+    content: url("img/flag-cat.svg");
+    width:20px; 
+    margin-left:5px; 
+}
+
+img.idioma_glg{
+    content: url("img/flag-gal.svg");
+    width:20px; 
+    margin-left:5px; 
+}
+
+img.idioma_oci{
+    content: url("img/flag-oci.svg");
+    width:20px; 
+    margin-left:5px; 
+}
+
+img.idioma_eus{
+    content: url("img/flag-eus.svg");
+    width:20px; 
+    margin-left:5px; 
+}
+
+img.idioma_ara{
+    content: url("img/flag-ara.svg");
+    width:20px; 
+    margin-left:5px; 
+}
+
+img.idioma_ast{
+    content: url("img/flag-ast.svg");
+    width:20px; 
+    margin-left:5px; 
+}
+
+img.oficial{
+    content: url("img/stamp-svgrepo-com.svg");
+    width:14px; 
+    margin-left:5px; 
+}
+
+img.normalizado{
+    content: url("img/thumbs-up-solid.svg");
+    width:14px; 
+    margin-left:5px; 
+}
+
+img.no-normalizado{
+    content: url("img/thumbs-down-solid.svg");
+    width:14px; 
+    margin-left:5px; 
+}
+
 
 
 /*-------------------------*/

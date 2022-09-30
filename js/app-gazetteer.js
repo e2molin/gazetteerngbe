@@ -2,19 +2,30 @@ var mobileMode=false;
 var map;
 var resultNGBE_lyr=null;                        //Capa para almacenar resultados de las búsquedas
 var projection = ol.proj.get('EPSG:3857');
+var tabulatorResults;
+var tabulatorHisto;
 
 /**
  * APIBADASID Calls
  */
-const munisActualServer = 'http://localhost/apibadasidv4/public/autoridades/municipios';
-const municipioInfoByIdServer = 'http://localhost/apibadasidv4/public/nomenclator/json/entityngbe/id/'
-const bboxSearchServer = 'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/bbox?'
-const ineSearchServer = 'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/codine/'
-const mtn25SearchServer = 'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/mtn25/'
-const nameSearchServer  = 'http://localhost/apibadasidv4/public/nomenclator/json/listngbeINSPIRE/name/'
+
+ 
+const domainProduction = "http://10.13.90.93/apibadasidv4/";
+const domainDeveloper = "http://localhost/apibadasidv4/";
+const modoDeveloper = true;
+const domainRoot = modoDeveloper === true ? domainDeveloper:domainProduction;
+
+const urlMunisSearcher = `${domainRoot}public/autoridades/municipios`;//'http://localhost/apibadasidv4/public/autoridades/municipios';
+const urlHojaMTNSearcher = `${domainRoot}public/autoridades/hojamtn25`;//'http://localhost/apibadasidv4/public/autoridades/hojamtn25';
+const municipioInfoByIdServer = `${domainRoot}public/nomenclator/json/entityngbe/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/entityngbe/id/'
+const bboxSearchServer = `${domainRoot}public/nomenclator/json/listngbe/bbox?`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/bbox?'
+const ineSearchServer = `${domainRoot}public/nomenclator/json/listngbe/codine/`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/codine/'
+const mtn25SearchServer = `${domainRoot}public/nomenclator/json/listngbe/mtn25/`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/mtn25/'
+const nameSearchServer  = `${domainRoot}public/nomenclator/json/listngbeINSPIRE/name/`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbeINSPIRE/name/'
+const urlSearchListById = `${domainRoot}public/nomenclator/json/listngbe/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/id/'
+const urlSearchHistoEntityById = `${domainRoot}public/nomenclator/json/entityngbehisto/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/entityngbehisto/id/'
 
 
-//const munisActualServer = '../apibadasid/general/getAllMunis.php';
 
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -25,8 +36,8 @@ String.prototype.beginsWith = function (string) {
     return(this.indexOf(string) === 0);
 };
 
-function replaceAll(str, find, replace) {
-  return str.replace(new RegExp(find, 'g'), replace);
+function replaceAllOcurrences(str, find, replace) {
+    return (str.toString().indexOf(find)===-1 ? str.toString() :  str.toString().replace(new RegExp(find, 'g'), replace));
 }
 
 function getFloatNum(valorNumero) {
@@ -46,21 +57,25 @@ function getFloatNum(valorNumero) {
 /*Botoneras ------------------------------*/
 /*----------------------------------------*/
 
-/*
-$("[id^='ngbe']").on("click", function(event) {
-    
-    console.log("Mostrar información");
-});
-*/
 
 $("#showPresentacion").on("click", function(event) {
-        console.log("Mostrar bienvenida");
-        $("#atributosEntityList").hide();
+        $("#tabulatorEntityList").hide();
         $("#atributosEntity").hide();
         $("#presentacion").show();
 });
 
-
+$("#showTabulatorResults").on("click", function(event) {
+    $("#atributosEntityList").hide();
+    $("#atributosEntity").hide();
+    $("#presentacion").hide();
+    $("#tabulatorEntityList").show();
+});
+$("#showStandardListResults").on("click", function(event) {
+    $("#atributosEntityList").show();
+    $("#atributosEntity").hide();
+    $("#presentacion").hide();
+    $("#tabulatorEntityList").hide();
+});
 
 
 
@@ -180,6 +195,7 @@ function setDivVisibility(){
     } 
     console.log($("#codDictio").css("width"));
     $("#muniselect").css("width", $("#codDictio").css("width"));
+    $("#mtnselect").css("width", $("#codDictio").css("width"));
     $(".tt-dropdown-menu").css("width", $("#codDictio").css("width"));
     $(".tt-hint").css("width", $("#codDictio").css("width"));
     
@@ -196,6 +212,7 @@ $(document).ready(function() {
     }
     //Resizing inicial
     $("#muniselect").css("width", $("#sidebar-container").width()-35);
+    $("#mtnselect").css("width", $("#sidebar-container").width()-35);
     $(".tt-dropdown-menu").css("width", $("#sidebar-container").width()-35);    
     $(".tt-hint").css("width", $("#sidebar-container").width()-35);    
     
@@ -203,9 +220,95 @@ $(document).ready(function() {
     $("#searchByMTNparam").val("");
     $("#searchByNameparam").val("");
     $("#muniselect").val("");
+    $("#mtnselect").val("");
     $("#searchByIdparam").val("");
     
     console.log(mobileMode);
     basicMap();
+
+    //initialize table
+    const dictioIcon = (cell, formatterParams, onRendered)=>{ //plain text value
+        return `<img src="img/icons/${cell.getRow().getData().dictiongbe}.png" alt="${cell.getRow().getData().tipo}">`;
+    };
+    const mapIcon = (cell, formatterParams)=>{ //plain text value
+        return "<i class='fa fa-map'></i>";
+    };
+    const infoIcon = (cell, formatterParams)=>{ //plain text value
+        return "<i class='fa fa-info-circle'></i>";
+    };
+
+    const getInfoResult = (e, cell)=>{
+        mostrarInfoByNumEnti(cell.getRow().getData().identidad,true);
+        $("#atributosEntity").show();
+        $("#atributosEntityList").hide();
+        $("#tabulatorEntityList").hide();
+    }
+
+    const zoomToResultPosition=(e,cell)=>{
+        centrarVistaToponimo(map,cell.getRow().getData().dataLon,cell.getRow().getData().dataLat,map.getView().getZoom(),"");                                    
+    }
+
+    const updateFilter = () => {
+      let filterValue = document.getElementById("filter-value").value;
+      tabulatorResults.setFilter("nombre", "like", filterValue);
+      let numResultadosFiltrados = tabulatorResults.rowManager.activeRowsCount;
+      if (numResultadosFiltrados != tabulatorResults.rowManager.rows.length) {
+        document.getElementById(
+          "numResultsFilter"
+        ).textContent = `Filtrados: ${numResultadosFiltrados}`;
+      } else {
+        document.getElementById("numResultsFilter").textContent = ``;
+      }
+    };
+
+    tabulatorResults = new Tabulator("#example-table", {
+        /*data:tabledata,*/ //assign data to table
+        /*height:"311px",*/
+        layout:"fitColumns",
+        columns:[
+        {formatter: dictioIcon,width:30, hozAlign:"center"},
+        {title:"Nombre", field:"nombre", width:320},
+        {title:"Tipo", field:"tipo", hozAlign:"left"},
+        {title:"dictiongbe", field:"dictiongbe", visible:false},
+        {title:"identidad", field:"identidad", visible:false},
+        {title:"dataLon", field:"dataLon", visible:false},
+        {title:"dataLat", field:"dataLat", visible:false},
+        {formatter:mapIcon, width:30, hozAlign:"center", cellClick:zoomToResultPosition},
+        {formatter:infoIcon, width:30, hozAlign:"center", cellClick:getInfoResult},
+/*        {title:"Rating", field:"rating", hozAlign:"center"},
+        {title:"Favourite Color", field:"col", widthGrow:3},
+        {title:"Date Of Birth", field:"dob", hozAlign:"center", sorter:"date", widthGrow:2},
+        {title:"Driver", field:"car", hozAlign:"center"},*/
+        ],
+    });
+
+    tabulatorHisto = new Tabulator("#histodataTable", {
+        /*data:tabledata,*/ //assign data to table
+        /*height:"311px",*/
+        layout:"fitColumns",
+        columns:[
+        {title:"Fecha", field:"fecha", width:100},
+        {title:"Usuario", field:"username", width:100, hozAlign:"left"},
+        {title:"Campo", field:"tipocambio", hozAlign:"left"},
+        {title:"Antes", field:"oldvalue", hozAlign:"left"},
+        {title:"Después", field:"newvalue", hozAlign:"left"},
+        ],
+    });
+
+
+    document.getElementById("filter-value").addEventListener("keyup", updateFilter);
+
+    document.getElementById("download-csv").addEventListener("click", function(){
+        tabulatorResults.download("csv", "data.csv");
+    });
+
+    document.getElementById("download-json").addEventListener("click", function(){
+        tabulatorResults.download("json", "data.json");
+    });
+
+    document.getElementById("download-html").addEventListener("click", function(){
+        tabulatorResults.download("html", "data.html", {style:true});
+    })
+
     
 });

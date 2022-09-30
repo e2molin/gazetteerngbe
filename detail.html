@@ -10,17 +10,14 @@
 <!-- Bootstrap core CSS -->
 <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
 <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/openlayers/3.15.1/ol.css" type="text/css">
 <link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
-<link rel="stylesheet" href="css/bootstrap/tabulator_bootstrap3.css">
 
 <link rel="stylesheet" href="css/ol3/ol3-layerswitcher.css" type="text/css">    
-<link rel="stylesheet" href="css/style.css">        
-
-<link rel="shortcut icon" href="favicon.ico">
-
+<link rel="stylesheet" href="templatetitn.css">        
+    
 </head>
 <body>
 <header id="topnavbar" class="navbar navbar-inverse navbar-fixed-top">
@@ -32,8 +29,8 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <img src="img/logoIGN.png">
-          <a class="navbar-brand" href="#"><img src="img/logoNGBE.png" style="float:left; width:48px; padding-right:2px; margin-top:-10px;"> Gazetteer</a>
+            <img src="img/logo_IGN-small.png">
+          <a class="navbar-brand" href="#">Gazetteer NGBE</a>
         </div>
         
         <div id="navbar" class="navbar-collapse collapse">
@@ -130,18 +127,7 @@
                             <button id="searchByMuni" class="btn btn-secondary btn-sm center-block" type="button">Buscar <i class="fa fa-search"></i></button>
                         </form>
 
-                        <br/>
-                        
-                        <small>Topónimos de una Hoja MTN25</small><br/><br/>
-                        <form method="POST" action="../apibadasid/siddae/getDocSIDDAEByINE.php" onsubmit="return valida(this)">
-                            <!--<div class="input-group">-->
-                            <input type="text" id="mtnselect" name="mtnselect" class="combomtn" placeholder="Introduce una hoja MTN y pulsa buscar"><br/><br/>
-                            <!--</div>-->
-                            <span id="alertnoselMTN" class="label label-danger">Selecciona una hoja MTN25</span>
-                            <button id="searchByHojaMTN" class="btn btn-secondary btn-sm center-block" type="button">Buscar <i class="fa fa-search"></i></button>
-                        </form>
-
-                        <br/>                         
+                        <br/>                                             
 
                         <!--Buscar por identificador de la entidad-->
                         <div class="input-group">
@@ -199,7 +185,6 @@
                             <option value="2.1.7">Distrito municipal (2.1.7)</option>
                             <option value="2.1.8">Barrio (2.1.8)</option>
                             <option value="2.1.9">Entidad singular (2.1.9)</option>
-                            <option value="2.1.10">Núcleo de población (2.1.10)</option>
                             <option value="2.2.1">Construcción/instalación abierta (2.2.1)</option>
                             <option value="2.2.2">Edificación (2.2.2)</option>
                             <option value="2.3.1">Vértice Geodésico (2.3.1)</option>
@@ -330,7 +315,6 @@
                         <img class="pull-left" style="width:48px;" src="img/icons/2.1.7-master.png" title="Distrito municipal (2.1.7)">
                         <img class="pull-left" style="width:48px;" src="img/icons/2.1.8-master.png" title="Barrio (2.1.8)">
                         <img class="pull-left" style="width:48px;" src="img/icons/2.1.9-master.png" title="Entidad singular (2.1.9)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.1.10-master.png" title="Núcleos de población (2.1.10)">
                         <img class="pull-left" style="width:48px;" src="img/icons/2.2.1-master.png" title="Construcción/instalación abierta (2.2.1)">
                         <img class="pull-left" style="width:48px;" src="img/icons/2.2.2-master.png" title="Edificación (2.2.2)">
                         <img class="pull-left" style="width:48px;" src="img/icons/2.3.1-master.png" title="Vértice Geodésico (2.3.1)">
@@ -391,27 +375,18 @@
     </nav>
     <div class="col-lg-10 col-md-9 col-sm-9">
         <div id="panelBusquedas" class="row" >
-            <div class="col-lg-5 col-md-12" id="presentacion">
-                <h1><img src="img/logoNGBE.png" class="pull-right" style="width:64px; ">  Gazetteer NGBE</h1>
+            <div class="col-lg-5 col-md-12" id="presentacion" style="display:none;">
+                <h1>Gazetteer NGBE</h1>
                 <h2><small>Nomenclátor Geográfico Básico de España</small></h2>
                 <img src="img/jumbotron2.png" class="img-responsive" alt="NGBE - Gazetteer"> 
                 <p class="text-justify">
-                    El <strong>Nomenclátor Geográfico Nacional</strong> se define como un registro dinámico de información que recoge las denominaciones oficiales referenciadas geográficamente que deben utilizarse en la cartografía oficial.
-                </p>
+                El <strong>Nomenclátor Geográfico Nacional</strong> se define como un registro dinámico de información que recoge las denominaciones oficiales referenciadas geográficamente que deben utilizarse en la cartografía oficial.</p>
                 <p class="text-justify">
-                    Le corresponde a la Dirección General del Instituto Geográfico Nacional la aprobación del <strong>Nomenclátor Geográfico Básico de España</strong> cuya formación será realizada 
-                    por el <strong>Registro Central de Cartografía</strong>. Comprenderá todas las denominaciones oficiales georreferenciadas sobre cartografía topográfica a escala 1:25.000 y menores.
-                </p>
+                Le corresponde a la Dirección General del Instituto Geográfico Nacional la aprobación del <strong>Nomenclátor Geográfico Básico de España</strong> cuya formación será realizada por el <strong>Registro Central de Cartografía</strong>. Comprenderá todas las denominaciones oficiales georreferenciadas sobre cartografía topográfica a escala 1:25.000 y menores.</p>
                 <p class="text-justify">
-                    La aplicación web permite localizar una denominación oficial por su nombre o número de entidad en el registro. 
-                    También podemos obtener las denominaciones asociadas a un municipio o a una hoja del MTN25. Se permiten definir filtros por clase y provincia. 
-                    Por último podemos localizar las denominaciones de la región visible del mapa. Si el resultado de la consulta es único, se muestra toda la información asociada a la denominación. 
-                    Si la búsqueda produce múltiples resultados, se mostrarán en un listado y se dibujarán sobre el mapa. Para ello, la capa <em>Resultados</em> tiene que estar visible.
-                </p>
+                    La aplicación web permite localizar una denominación oficial por su nombre o número de entidad en el registro. También podemos obtener las denominaciones asociadas a un municipio o a una hoja del MTN25. Se permiten definir filtros por clase y provincia. Por último podemos localizar las denominaciones de la región visible del mapa. Si el resultado de la consulta es único, se muestra toda la información asociada a la denominación. Si la búsqueda produce múltiples resultados, se mostrarán en un listado y se dibujarán sobre el mapa. Para ello, la capa <em>Resultados</em> tiene que estar visible.</p>
                 <p class="text-justify">
-                    Como mapa de fondo disponemos de varios servicios proporcionados por el <strong>IGN</strong> y <strong>OpenStreetMap</strong>. 
-                    El mapa muestra las coordendas del cursor, y al pinchar sobre un topónimo resultado de la consulta se muestra su información asociada.
-                </p>
+                    Como mapa de fondo disponemos de varios servicios proporcionados por el <strong>IGN</strong> y <strong>OpenStreetMap</strong>. El mapa muestra las coordendas del cursor, y al pinchar sobre un topónimo resultado de la consulta se muestra su información asociada.</p>
 
             </div>
             <div class="col-lg-5 col-md-12" id="searchingBar" style="display:none;">
@@ -434,47 +409,141 @@
                     <button type="button" class="btn btn-primary" id="download-json"><i class="fa fa-download"></i> Download JSON</button>
                     <button type="button" class="btn btn-primary" id="download-html"><i class="fa fa-download"></i> Download HTML</button>
                 </div>
-            </div>
+            </div>            
 
-            <div class="col-lg-5 col-md-12" id="atributosEntity" style="display:none;">
-                <!-- Contenedor para el detalle de un topónimo -->
-                <h2 id="propNameEntity" class="titleSecond">Lorem apsum daoman e quaet es fretur d sadadm</h2>
-                <img id="propImageDictio" class="dictioTitleSecond" src="img/icons/5.1-master.png" title="Curso natural de agua (5.1)">
+                <!--Contenedor para el detalle de un topónimo-->
+                <div class="col-lg-5 col-md-12" id="atributosEntity">
+                  <h2 id="nameEntity" class="titleSecond">Lorem apsum daoman e quaet es fretur d sadadm</h2>
+                  <img class="dictioTitleSecond" src="img/icons/5.1-master.png" title="Curso natural de agua (5.1)">
 
-                <div role="tabpanel" style="min-height:70vh">
-                  <ul class="nav nav-tabs nav-justified">
-                      <li role="presentation" class="headertab active">
-                          <a href="#generalAttrib" aria-controls="generalAttrib" role="tab" data-toggle="tab">General</a>
-                      </li>
-                      <li role="presentation" class="headertab">
-                        <a href="#namingAttrib" aria-controls="namingAttrib" role="tab" data-toggle="tab">Nombres <span class="label label-primary" id="numNombres"></span></a>
-                      </li>                        
-                      <li role="presentation" class="headertab">
-                          <a href="#locationAttrib" aria-controls="locationAttrib" role="tab" data-toggle="tab">Localización</a>
-                      </li>
-                      <li role="presentation" class="headertab">
-                          <a href="#othersAttrib" aria-controls="othersAttrib" role="tab" data-toggle="tab">Más info</a>
-                      </li>
-                      <li role="presentation" class="headertab">
-                        <a href="#historialAttrib" aria-controls="historialAttrib" role="tab" data-toggle="tab">Histórico <span class="label label-primary" id="numRegHisto"></span></a>
-                    </li>                      
-                  </ul>
-              
-                  <!-- Tab panes -->
-                  <div class="tab-content" id="itemAttribution">
-                    <div role="tabpanel" class="tab-pane active" id="generalAttrib"></div>
-                    <div role="tabpanel" class="tab-pane" id="namingAttrib"></div>
-                    <div role="tabpanel" class="tab-pane" id="locationAttrib"></div>
-                    <div role="tabpanel" class="tab-pane" id="othersAttrib"></div>
-                    <div role="tabpanel" class="tab-pane" id="historialAttrib">
-                        <div id="histodataTable" style="height:50vh;"></div>
-                    </div>                    
+                  <div role="tabpanel" style="min-height:70vh">
+                    <ul class="nav nav-tabs nav-justified">
+                        <li role="presentation" class="active">
+                            <a href="#attributes" aria-controls="attributes" role="tab" data-toggle="tab">General</a>
+                        </li>
+                        <li role="presentation">
+                          <a href="#naming" aria-controls="naming" role="tab" data-toggle="tab">Otros nombres <span class="badge">2</span></a>
+                        </li>                        
+                        <li role="presentation">
+                            <a href="#location" aria-controls="location" role="tab" data-toggle="tab">Localización</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#others" aria-controls="others" role="tab" data-toggle="tab">Otras propiedades</a>
+                        </li>
+                    </ul>
+                
+                    <!-- Tab panes -->
+                    <div class="tab-content" id="itemAttribution">
+
+                        <div role="tabpanel" class="tab-pane active" id="attributes">
+                          <h3 class="propTitle">Identidad nº</h3><span class="propContent">2064126</span>
+                          <h3 class="propTitle">Clasificación Local</h3><span class="propContent">Curso natural de agua (5.1)</span>
+                          <h3 class="propTitle">Identificador geográfico</h3>
+                          <ul>
+                            <li class="propContent">Donominación: <span class="pull-right">Río Ebro</span></li>
+                            
+                            <li class="propContent">Idioma: <img class="pull-right idioma_spa"><span class="pull-right">spa </span></li>
+
+                            <li class="propContent">Fuente: <span class="pull-right">MFOMENTO.IGN.NGCE</span></li>
+                            <li class="propContent">Estatus: <span class="pull-right">Oficial</span></li>
+                          </ul>
+                          <h3 class="propTitle">Nombre extendido</h3>
+                          <ul>
+                            <li class="propContent">Nombre: <span class="pull-right">l'Ebre</span></li>
+                            <li class="propContent">Idioma: <span class="pull-right">spa</span></li>
+                            <li class="propContent">Fuente: <span class="pull-right">MFOMENTO.IGN.NGCE</span></li>
+                            <li class="propContent">Estatus: <span class="pull-right">Oficial</span></li>
+                          </ul>
+                          <h3 class="propTitle">Nombre recomendado</h3>
+                          <ul>
+                            <li class="propContent">Denominación: <span class="pull-right">l'Ebre</span></li>
+                            <li class="propContent">Alternativo: <span class="pull-right">spa</span></li>
+                            <li class="propContent">Fuente: <span class="pull-right">MFOMENTO.IGN.NGCE</span></li>
+                          </ul>
+                        </div>  <!-- END PANEL ATTRIBUTES -->
+
+                        <div role="tabpanel" class="tab-pane" id="naming">
+                          <h3 class="propSubTitle">Nombre alternativo 2</h4>
+                          <ul>
+                            <li class="propSubContent">Denominación: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Idioma: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Fuente: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Estatus: <span class="pull-right">Lorem Ipsum</span></li>
+                          </ul>
+
+                          <h3 class="propSubTitle">Nombre alternativo 3</h3>
+                          <ul>
+                            <li class="propSubContent">Denominación: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Idioma: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Fuente: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Estatus: <span class="pull-right">Lorem Ipsum</span></li>
+                          </ul>
+
+                          <h3 class="propSubTitle">Nombre variante 1</h3>
+                          <ul>
+                            <li class="propSubContent">Denominación: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Idioma: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Fuente: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Estatus: <span class="pull-right">Lorem Ipsum</span></li>
+                          </ul>
+
+                          <h3 class="propSubTitle">Nombre variante 2</h3>
+                          <ul>
+                            <li class="propSubContent">Denominación: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Idioma: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Fuente: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Estatus: <span class="pull-right">Lorem Ipsum</span></li>
+                          </ul>
+
+                          <h3 class="propSubTitle">Nombre variante 3</h3>
+                          <ul>
+                            <li class="propSubContent">Denominación: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Idioma: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Fuente: <span class="pull-right">Lorem Ipsum</span></li>
+                            <li class="propSubContent">Estatus: <span class="pull-right">Lorem Ipsum</span></li>
+                          </ul>
+
+                        </div>  <!-- END PANEL NAMING -->
+
+                        <div role="tabpanel" class="tab-pane" id="location">
+                          <h3 class="propTitle">Geometría</h3>
+                          <ul>
+                            <li class="propContent">Geográficas (epsg:4258): <span class="pull-right">0.860290397000085 40.7177124350001</span>
+                            </li>
+                            <li class="propContent">UTM (epsg:25831): <span class="pull-right">319275.23 4509623.13</span></li>
+                          </ul>
+                          <h3 class="propTitle">Provincias</h3>
+                          <p class="propContent">
+                            01011,01022,01028,01031
+                          </p>
+                          <h3 class="propTitle">Códigos INE asociados</h3>
+                          <p class="propContent">
+                            01011,01022,01028,01031,01033,01043,01055,01062,01902, 09014,09054,09102,09134,09217,09219,09238,09347,09394,09409,09412,09416,09903, 
+                            09905,22112,25020,26002,26007,26008, 26011,26019, 26033, 26034,26036,26046,26064, 26068,26071,26089, 26117,26125,26129,26142,26154,31015,31032,31042,31057,31062,31070,31078,
+                             31106,31107,31108,31157,31165,31169,31208,31215,31223,31232,31249,31251,34032,39027,39032,39059,39065,39093,39094,50008,50012,50013, 50017,50019,50053, 50062,50064,
+                             50074,50083,50092,50101, 50105,50115,50118,50119,50147,50165,50191,50193,50199,50203,50208,50217,50222,50223,50240,50247,50252,50262,50272,50278,50285,50296,50297
+                          </p>
+                          <h3 class="propTitle">Hoja MTN25</h3><span class="propContent">0523c3</span>
+                        </div> <!-- END PANEL LOCATION -->
+
+                        <div role="tabpanel" class="tab-pane" id="others">
+                          <h3 class="propTitle">Tema INSPIRE</h3><span class="propContent">https://inspire.ec.europa.eu/codelist/NamedPlaceTypeValue/hydrography</span>
+
+                        </div>
+                      
+                    </div>
                   </div>
-                </div>
-                <br/>
-                <button id="showListResults" type="button" class="btn btn-xs btn-primary pull-right" >Volver lista resultados</button>
 
-            </div> <!--END CONTAINER: atributosEntity -->
+                <br/>
+                <button id="showListResults" type="button" class="btn btn-xs btn-primary pull-right" >Ver resultados</button>
+                <br/><br/><br/>
+
+
+
+                </div>
+
+
+
 
             <div class="col-lg-7 col-md-12" id="mapCanvas">
                  <div class="infoLayersclass" tabindex="0">
@@ -493,7 +562,8 @@
 <footer class="footer">
     <div class="container">
         <p class="muted credit">
-            <a href="http://www.develmap.com" target="_blank" title="DEVELMAP SL"><img src="img/develmap.png"/></a>Web developed by <a href="http://www.develmap.com">DEVELMAP Consulting</a>.
+                    <a href="http://www.develmap.com" target="_blank" title="DEVELMAP SL"><img src="img/develmap.png"/></a> 
+                    Web developed by <a href="http://www.develmap.com">DEVELMAP Consulting</a>.
         </p>
     </div>
 </footer>
