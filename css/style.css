@@ -372,7 +372,10 @@ img.no-normalizado{
     margin:auto;
     height:750px;/*730px;*/
 }
-
+#mapLienzo{		
+    margin:auto;
+    height:700px;/*730px;*/
+}
 
 
 .ol-zoomslider {

@@ -230,17 +230,38 @@ const getClassEstatus= (estatus)=>{
 
 }
 
+document.getElementById("develOne").addEventListener("click", () => {
+    alert("Hola");
+});
+
+
 
 const showResultsetList = (resultsRequest) => {
 
   //Pintamos el geoJSON en el mapa
-  var format = new ol.format.GeoJSON();
-  resultNGBE_lyr.getSource().clear();
-  resultNGBE_lyr.getSource().addFeatures(
-    format.readFeatures(resultsRequest, {
-      featureProjection: "EPSG:3857",
-    })
-  );
+//   var format = new ol.format.GeoJSON();
+//   resultNGBE_lyr.getSource().clear();
+//   resultNGBE_lyr.getSource().addFeatures(
+//     format.readFeatures(resultsRequest, {
+//       featureProjection: "EPSG:3857",
+//     })
+//   );
+
+  resultNGBE_lyr = new M.layer.GeoJSON(
+    {
+        name: "Resultados", 
+        source: resultsRequest,
+        extract: true
+    }
+    );
+    resultNGBE_lyr.setZIndex(100);
+    //resultNGBE_lyr.addFeatures(resultsRequest.features);
+    mapAPICNIG.addLayers(resultNGBE_lyr);
+
+
+
+
+
 
   $("#searchingBar").hide();
   $("#atributosEntity").hide();
@@ -259,6 +280,7 @@ const showResultsetList = (resultsRequest) => {
       dataLon: resultsRequest.features[i].geometry.coordinates[0],
       dataLat: resultsRequest.features[i].geometry.coordinates[1],
     });
+    console.log(resultsRequest.features[i]);
   }
 
   tabulatorResults.clearFilter();

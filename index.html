@@ -8,11 +8,12 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 <!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="https://componentes.cnig.es/api-core/assets/css/apiign.ol.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/openlayers/3.15.1/ol.css" type="text/css">
 <link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" href="css/bootstrap/tabulator_bootstrap3.css">
 
 <link rel="stylesheet" href="css/ol3/ol3-layerswitcher.css" type="text/css">    
@@ -378,8 +379,8 @@
                         </h4>
                     </div>
                     <div id="sidebar-fifth" class="panel-body panel-collapse collapse">
-                        <button id="showStandardListResults" type="button" class="btn btn-xs btn-secondary pull-right">Ver Lista standard</button>
-                        <button id="showTabulatorResults" type="button" class="btn btn-xs btn-secondary pull-right">Ver Tabulator</button>
+                        <button id="develOne" type="button" class="btn btn-xs btn-secondary pull-right">Desarrollo 1</button>
+                        <button id="develTwo" type="button" class="btn btn-xs btn-secondary pull-right">Desarrollo 2</button>
                     
                     </div>
                 </div>                
@@ -473,11 +474,14 @@
 
             </div> <!--END CONTAINER: atributosEntity -->
 
-            <div class="col-lg-7 col-md-12" id="mapCanvas">
+            <!--<div class="col-lg-7 col-md-12" id="mapCanvas">
                  <div class="infoLayersclass" tabindex="0">
                     <span id="hoverDescript"></span><i title="Deslice el cursor por encima de los resultados" class="fa fa-info-circle" aria-hidden="true"></i>
                 </div>
-            </div>
+            </div>-->
+            <div class="col-lg-7 col-md-12" id="mapLienzo">
+
+            </div>              
         </div>
         
 
@@ -497,11 +501,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="js/typeahead/typeahead.js"></script>
+<!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/3.15.1/ol.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.6/proj4.js" type="text/javascript"></script> 
 <script src="js/ol3/ol3-layerswitcher.js" type="text/javascript"></script>
 <script src="js/ol3/ol3-develmap.js" type="text/javascript"></script>
 <script src="js/ol3/ol3-develmap-sources.js" type="text/javascript"></script>
+-->
+<script type="text/javascript" src="https://componentes.cnig.es/api-core/js/apiign.ol.min.js"></script>
+<script type="text/javascript" src="https://componentes.cnig.es/api-core/js/configuration.js"></script>
+
 <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
 
 <script src="js/app-gazetteer.js" type="text/javascript"></script>

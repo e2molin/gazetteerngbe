@@ -1,5 +1,8 @@
 var mobileMode=false;
 var map;
+
+var  mapAPICNIG = null;
+
 var resultNGBE_lyr=null; // Capa para almacenar resultados de las búsquedas
 var projection = ol.proj.get('EPSG:3857');
 var tabulatorResults;
@@ -63,7 +66,7 @@ document.getElementById("showPresentacion").addEventListener("click", () => {
     document.getElementById("presentacion").style.display = "block";
 });
 
-document.getElementById("showTabulatorResults").addEventListener("click", () => {
+/*document.getElementById("showTabulatorResults").addEventListener("click", () => {
     document.getElementById("atributosEntityList").style.display = "none";
     document.getElementById("atributosEntity").style.display = "none";
     document.getElementById("presentacion").style.display = "none";
@@ -75,7 +78,7 @@ document.getElementById("showTabulatorResults").addEventListener("click", () => 
     document.getElementById("atributosEntity").style.display = "none";
     document.getElementById("presentacion").style.display = "none";
     document.getElementById("tabulatorEntityList").style.display = "none";
-});
+});*/
 
 const  basicMap = () => {
 
@@ -185,69 +188,77 @@ const  basicMap = () => {
 
 function apicnigBasicMap(){
 
-const mapAPICNIG = M.map({
-    container: 'mapLienzo',
-    controls: ['backgroundlayers','panzoom', 'scaleline', 'rotate' , 'location'],
-    zoom: 5,
-    maxZoom: 22,
-    minZoom: 4,
-    projection: "EPSG:3857*m",
-    center: {
-        x: -712300,
-        y: 4310700,
-        draw: false  //Dibuja un punto en el lugar de la coordenada
-    },
-});
-
-
-mapAPICNIG.addLayers(new M.layer.GeoJSON({
-    name: "capaJson",
-    /*url: 'http://10.67.33.45:8088/datos/geojson/punto_m.geojson',*/
-    url: 'http://localhost/apibadasidv4/public/nomenclator/json/listngbeINSPIRE/name/magallanes',
-    /*source: {
-    "type": "FeatureCollection",
-    "totalFeatures": 9,
-    "features": [{
-        "type": "Feature",
-        "geometry": {
-        "type": "Point",
-        "coordinates": [
-        -5.404296,
-        36.970703
-        ]
+    mapAPICNIG = new M.map({
+        container: 'mapLienzo',
+        controls: ['backgroundlayers', 'scaleline', 'rotate' , 'location'],
+        zoom: 5,
+        maxZoom: 22,
+        minZoom: 4,
+        projection: "EPSG:3857*m",
+        center: {
+            x: -712300,
+            y: 4310700,
+            draw: false  //Dibuja un punto en el lugar de la coordenada
         },
-        "properties": {
-        "identidad": 2413825,
-        "tipo": "Curso natural de agua (5.1)",
-        "dictiongbe": 5.1,
-        "nombre": "Arroyo de Magallanes"
-        }
-        },
+    });
+
+    // var layer = new M.layer.GeoJSON(
+    //     {
+    //         name: "Provincias", 
+    //         url: "http://geostematicos-sigc.juntadeandalucia.es/geoserver/tematicos/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=tematicos:Provincias&maxFeatures=50&outputFormat=application/json",
+
+    //     }
+    // );
+
+    return;
+    let puntosresult = {
+        "type": "FeatureCollection",
+        "features": [{
+            "type": "Feature",
+            "geometry": {
+            "type": "Point",
+            "coordinates": [
+            -5.404296,
+            36.970703
+            ]
+            },
+            "properties": {
+            "identidad": 2413825,
+            "tipo": "Curso natural de agua (5.1)",
+            "dictiongbe": 5.1,
+            "nombre": "Arroyo de Magallanes"
+            }
+            },
+            {
+            "type": "Feature",
+            "geometry": {
+            "type": "Point",
+            "coordinates": [
+            -6.224976,
+            36.892702
+            ]
+            },
+            "properties": {
+            "identidad": 2412230,
+            "tipo": "Curso artificial de agua (5.3)",
+            "dictiongbe": 5.3,
+            "nombre": "Caño de Magallanes"
+            }
+            },]
+    };
+
+    resultNGBE_lyr = new M.layer.GeoJSON(
         {
-        "type": "Feature",
-        "geometry": {
-        "type": "Point",
-        "coordinates": [
-        -6.224976,
-        36.892702
-        ]
-        },
-        "properties": {
-        "identidad": 2412230,
-        "tipo": "Curso artificial de agua (5.3)",
-        "dictiongbe": 5.3,
-        "nombre": "Caño de Magallanes"
+            name: "Provincias", 
+            /*url: "http://geostematicos-sigc.juntadeandalucia.es/geoserver/tematicos/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=tematicos:Provincias&maxFeatures=50&outputFormat=application/json",*/
+            source: puntosresult,
+            extract: true
         }
-        },]
-},*/
-extract:true
-}));
+    );
+    resultNGBE_lyr.setZIndex(100);
+    mapAPICNIG.addLayers(resultNGBE_lyr);
 
-// var layer = new M.layer.GeoJSON(
-//     {name: "Provincias", 
-//      source: "http://localhost/apibadasidv4/public/nomenclator/json/listngbeINSPIRE/name/magallanes?"});
 
-//      mapAPICNIG.addLayers(layer);
 
 }
 
@@ -296,8 +307,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     
     // Lanzar mapa
-    basicMap();
-    //apicnigBasicMap();
+    //basicMap();
+    apicnigBasicMap();
 
     //initialize table
     const dictioIcon = (cell, formatterParams, onRendered)=>{ //plain text value
