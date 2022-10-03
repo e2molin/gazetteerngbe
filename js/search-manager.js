@@ -1,6 +1,204 @@
+/**
+ * 
+ * @param {*} cadena 
+ * @returns 
+ */
 
+const isEmptyNullString = (cadena) => {
+  if (cadena === undefined || cadena === null) {
+    return true;
+  } else {
+    if (cadena === "") {
+      return true;
+    }
+  }
+  return false;
+};
+
+
+const fixNullValue = (value) => {
+  return value === undefined || value === null
+    ? '<em>No definido <i class="fa fa-question-circle" aria-hidden="true"></i></em>'
+    : value;
+};
+
+
+
+/**
+ * Procedimiento para las búsquedas por hoja MTN25
+ * @returns 
+ */
+const searchByHojaMTN = () => {
+
+    let userNumMTN = $("#mtnselect").val();
+    let numMTN;
+    if (isEmptyNullString(userNumMTN)){
+        return;
+    }
+
+    // Obtenemos de la cadena seleccionada la hoja de búsqueda
+    if (userNumMTN.slice(userNumMTN.length-8,userNumMTN.length-7)==='-'){
+        numMTN=userNumMTN.slice(userNumMTN.length-6,userNumMTN.length)
+    }
+    // Detección de hojas BIS
+    if (userNumMTN.slice(userNumMTN.length-9,userNumMTN.length-8)==='-'){
+        numMTN=userNumMTN.slice(userNumMTN.length-7,userNumMTN.length)
+    }
+
+    let codProv= $("#provinCbo").find(":selected").val();
+    let codDictio= $("#codDictio").find(":selected").val();
+    let urlRequest = mtn25SearchServer + numMTN + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "") + (codProv != "00" ? "codProv=" + codProv + "&" : "");
+
+    $("#presentacion").hide();  
+    $("#tabulatorEntityList").hide();
+    $("#atributosEntity").hide();
+    $("#searchingBar").show();
+    $("#spinner_searchid").show();
+
+    $.ajax({
+        url: urlRequest,
+        dataType: 'json',
+        success: function(resultsRequest){
+                            showResultsetList(resultsRequest);
+        },
+        error: function(e){
+                console.log(e.responseText);
+        }
+    });
+
+}
+
+
+/**
+ * Procedimiento para las búsquedas por municipio
+ * @returns 
+ */
+const searchByMuni = ()=>{
+
+    let nameMuni = $("#muniselect").val();
+    let codDictio= $("#codDictio").find(":selected").val();
+    if (nameMuni==""){
+        console.log("Nada que buscar");
+        return;
+    }else{
+        console.log("Buscar por municipio: " + nameMuni);
+    }
+
+    let codMuni = nameMuni.substring(nameMuni.length-6,nameMuni.length-1);
+    let urlRequest = ineSearchServer + codMuni + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "");
+
+    $("#presentacion").hide();  
+    $("#tabulatorEntityList").hide();
+    $("#atributosEntity").hide();
+    $("#searchingBar").show();
+    $("#spinner_searchid").show();
+
+    $.ajax({
+            url: urlRequest,
+            dataType: 'json',
+            success: function(resultsRequest){
+                                //Pintamos el geoJSON en el mapa
+                                showResultsetList(resultsRequest);
+            },
+            error: function(e){
+                    console.log(e.responseText);
+            }
+    });
+}
+
+
+const searchByName = () =>{
+
+    let nameEnti = $("#searchByNameparam").val();
+    let codProv= $("#provinCbo").find(":selected").val();
+    let codDictio= $("#codDictio").find(":selected").val();
+    let urlRequest = nameSearchServer + nameEnti + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "") + (codProv != "00" ? "codProv=" + codProv + "&" : "");
+
+    $("#presentacion").hide();  
+    $("#tabulatorEntityList").hide();
+    $("#atributosEntity").hide();
+    $("#searchingBar").show();
+    $("#spinner_searchid").show();
+
+    $.ajax({
+        url: urlRequest,
+        dataType: 'json',
+        success: function(resultsRequest){
+                            //Pintamos el geoJSOn en el mapa
+                            showResultsetList(resultsRequest);
+        },
+        error: function(e){
+                console.log(e.responseText);
+        }
+    });
+
+};
+
+
+const searchByView = () =>{
+
+    let extentMap = ol.proj.transformExtent(map.getView().calculateExtent(map.getSize()), 'EPSG:3857', 'EPSG:4326');
+    let urlRequest = bboxSearchServer + "lonmin=" + extentMap[0] + "&latmin=" + extentMap[1] + "&lonmax=" + extentMap[2] + "&latmax=" + extentMap[3];
+    if (map.getView().getZoom()<13){
+        alert("El entorno es demasiado grande. Reduzca el nivel de zoom al menos hasta 1:68.000");
+        return;
+    }
+    $("#presentacion").hide();  
+    $("#tabulatorEntityList").hide();
+    $("#atributosEntity").hide();
+    $("#searchingBar").show();
+    $("#spinner_searchspatial").show();
+    $.ajax({
+        url: urlRequest,
+        dataType: 'json',
+        success: function(resultsRequest){
+                            //Pintamos el geoJSON en el mapa
+                            showResultsetList(resultsRequest);
+
+        },
+        error: function(e){
+                console.log(e.responseText);
+        }
+    });
+
+};
+
+
+
+const searchById = () => {
+  let idEnti = parseInt($("#searchByIdparam").val());
+  if (idEnti === 0) {
+    return;
+  }
+
+  $("#presentacion").hide();
+  $("#tabulatorEntityList").hide();
+  $("#atributosEntity").hide();
+  $("#searchingBar").show();
+  $("#spinner_searchid").show();
+
+  $.ajax({
+    url: urlSearchListById + idEnti,
+    dataType: "json",
+    success: function (resultsRequest) {
+      //Pintamos el geoJSOn en el mapa
+      console.log(resultsRequest);
+      showResultsetList(resultsRequest);
+    },
+    error: function (e) {
+      console.log("Fallo " + e.responseText);
+    },
+  });
+};
+
+
+/**
+ * Helpers para pner bandera junto al idioma
+ * @param {*} idioma 
+ * @returns 
+ */
 const getClassIdioma= (idioma)=>{
-    
+    return "";
     if (idioma === undefined || idioma === null) {
         return "";
     } else if (idioma === "gal") {
@@ -11,6 +209,11 @@ const getClassIdioma= (idioma)=>{
 
 }
 
+/**
+ * Helper para colocar la simbología del estatus de la entidad
+ * @param {*} estatus 
+ * @returns 
+ */
 const getClassEstatus= (estatus)=>{
     
     if (estatus === undefined || estatus === null) {
@@ -27,16 +230,10 @@ const getClassEstatus= (estatus)=>{
 
 }
 
-const fixNullValue = (value) => {
-
-    return (value === undefined || value === null ? '<em>No definido <i class="fa fa-question-circle" aria-hidden="true"></i></em>' : value);
-
-}
 
 const showResultsetList = (resultsRequest) => {
-  console.log("showResultsetList");
 
-  //Pintamos el geoJSOn en el mapa
+  //Pintamos el geoJSON en el mapa
   var format = new ol.format.GeoJSON();
   resultNGBE_lyr.getSource().clear();
   resultNGBE_lyr.getSource().addFeatures(
@@ -48,10 +245,11 @@ const showResultsetList = (resultsRequest) => {
   $("#searchingBar").hide();
   $("#atributosEntity").hide();
   $("#spinner_searchid").show();
+
   document.getElementById("filter-value").value=``;
   document.getElementById("numResultsFilter").textContent = ``;
 
-  var tableData = [];
+  let tableData = [];
   for (let i = 0; i < resultsRequest.features.length; i++) {
     tableData.push({
       dictiongbe: resultsRequest.features[i].properties.dictiongbe,
@@ -74,7 +272,7 @@ const showResultsetList = (resultsRequest) => {
 };
 
 
-function mostrarInfoByNumEnti(idEnti,showBtnResults,panningEntity){
+const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
     
     var attributeDisplay="";
     $("#spinner_searchid").show();
@@ -281,217 +479,43 @@ function mostrarInfoByNumEnti(idEnti,showBtnResults,panningEntity){
 
 }
 
-    
-    
 
-
-
-
-
-/*-------------------------------------------------------------------
-Búsqueda por número de entidad
--------------------------------------------------------------------*/
-$("#searchById").on("click", function(event) {
-
-    console.info("searchById v2");
-    //var nameMuni = $("#muniselect").val();
-    var idEnti = parseInt($("#searchByIdparam").val());
-    if (idEnti===0){
-        console.log("Nada que buscar");
-        return;
-    }else{
-        console.log("Buscar por id: " + idEnti);
-    }
-
-    
-    $("#presentacion").hide();  
-    $("#tabulatorEntityList").hide();
-    $("#atributosEntity").hide();
-    $("#searchingBar").show();
-    $("#spinner_searchid").show();
-
-    $.ajax({
-            /*url: 'apinomen2/public/listngbe/json/id/' + idEnti,
-            url: 'apinomen2/public/entityngbe/json/id/' + idEnti,*/
-            url: urlSearchListById + idEnti,            
-            dataType: 'json',
-            success: function(resultsRequest){
-                                //Pintamos el geoJSOn en el mapa
-                                console.log(resultsRequest);
-                                showResultsetList(resultsRequest);
-            },
-            error: function(e){
-                    console.log("Fallo " + e.responseText);
-            }
-    });
-
+/**
+ * Definición Eventos del UI
+ */
+document.getElementById("searchByName").addEventListener("click", (e) => {
+  searchByName();
 });
 
-/*-------------------------------------------------------------------
-Búsqueda por entorno de la vista del mapa
--------------------------------------------------------------------*/
-$("#searchByView").on("click", function(event) {
-
-        var extentMap = ol.proj.transformExtent(map.getView().calculateExtent(map.getSize()), 'EPSG:3857', 'EPSG:4326');
-        //var urlRequest = "apinomen2/public/listngbe/json/bbox?lonmin=" + extentMap[0] + "&latmin=" + extentMap[1] + "&lonmax=" + extentMap[2] + "&latmax=" + extentMap[3];
-        let urlRequest = bboxSearchServer + "lonmin=" + extentMap[0] + "&latmin=" + extentMap[1] + "&lonmax=" + extentMap[2] + "&latmax=" + extentMap[3];
-        console.log("searchByView: " + extentMap);
-        if (map.getView().getZoom()<13){
-            alert("El entorno es demasiado grande. Reduzca el nivel de zoom al menos hasta 1:68.000");
-            return;
-        }
-        $("#presentacion").hide();  
-        $("#tabulatorEntityList").hide();
-        $("#atributosEntity").hide();
-        $("#searchingBar").show();
-        $("#spinner_searchspatial").show();
-        $.ajax({
-            url: urlRequest,
-            dataType: 'json',
-            success: function(resultsRequest){
-                                //Pintamos el geoJSON en el mapa
-                                showResultsetList(resultsRequest);
-
-            },
-            error: function(e){
-                    console.log(e.responseText);
-            }
-        });
-
+document.getElementById("searchByView").addEventListener("click", (e) => {
+  searchByView();
 });
 
-/*-------------------------------------------------------------------
-Búsqueda por municipio seleccionado
--------------------------------------------------------------------*/
-function searchByMuni(){
-
-    console.info("searchByName");
-    let nameMuni = $("#muniselect").val();
-    let codDictio= $("#codDictio").find(":selected").val();
-    if (nameMuni==""){
-        console.log("Nada que buscar");
-        return;
-    }else{
-        console.log("Buscar por municipio: " + nameMuni);
-    }
-
-    let codMuni = nameMuni.substring(nameMuni.length-6,nameMuni.length-1);
-    let urlRequest = ineSearchServer + codMuni + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "");
-
-    $("#presentacion").hide();  
-    $("#tabulatorEntityList").hide();
-    $("#atributosEntity").hide();
-    $("#searchingBar").show();
-    $("#spinner_searchid").show();
-
-    $.ajax({
-            url: urlRequest,
-            dataType: 'json',
-            success: function(resultsRequest){
-                                //Pintamos el geoJSON en el mapa
-                                showResultsetList(resultsRequest);
-            },
-            error: function(e){
-                    console.log(e.responseText);
-            }
-    });
-}
-
-/*-------------------------------------------------------------------
-Búsqueda por distribuidor MTN25
--------------------------------------------------------------------*/
-$("#searchByMTN").on("click", function(event) {
-    console.info("searchByMTN");
-    let numMTN = $("#searchByMTNparam").val();
-    let codProv= $("#provinCbo").find(":selected").val();
-    let codDictio= $("#codDictio").find(":selected").val();
-
-    let urlRequest = mtn25SearchServer + numMTN + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "") + (codProv != "00" ? "codProv=" + codProv + "&" : "");
-
-    $("#presentacion").hide();  
-    $("#tabulatorEntityList").hide();
-    $("#atributosEntity").hide();
-    $("#searchingBar").show();
-    $("#spinner_searchid").show();
-
-    console.log(urlRequest);
-
-    $.ajax({
-        url: urlRequest,
-        dataType: 'json',
-        success: function(resultsRequest){
-                            showResultsetList(resultsRequest);
-        },
-        error: function(e){
-                console.log(e.responseText);
-        }
-    });
-
+document.getElementById("searchById").addEventListener("click", (e) => {
+    searchById();
 });
 
-/*-------------------------------------------------------------------
-Búsqueda por nombre del topónimo
--------------------------------------------------------------------*/
-$("#searchByName").on("click", function(event) {
-        console.info("searchByName");
-        let nameEnti = $("#searchByNameparam").val();
-        let codProv= $("#provinCbo").find(":selected").val();
-        let codDictio= $("#codDictio").find(":selected").val();
+document.getElementById("muniselect").addEventListener("keyup", (event) => {
+  if (event.key === "Enter") {
+    searchByMuni();
+  }
+});
 
-        let urlRequest = nameSearchServer + nameEnti + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "") + (codProv != "00" ? "codProv=" + codProv + "&" : "");
+document.getElementById("mtnselect").addEventListener("keyup", (event) => {
+  if (event.key === "Enter") {
+    searchByHojaMTN();
+  }
+});
 
-        $("#presentacion").hide();  
-        $("#tabulatorEntityList").hide();
-        $("#atributosEntity").hide();
-        $("#searchingBar").show();
-        $("#spinner_searchid").show();
+document.getElementById("searchByHojaMTN").addEventListener("click", (e) => {
+    searchByHojaMTN();
+});
 
-        $.ajax({
-            url: urlRequest,
-            dataType: 'json',
-            success: function(resultsRequest){
-                                //Pintamos el geoJSOn en el mapa
-                                showResultsetList(resultsRequest);
-            },
-            error: function(e){
-                    console.log(e.responseText);
-            }
-        });
-    
+document.getElementById("searchByMuni").addEventListener("click", (e) => {
+    searchByMuni();
 });
 
 
-
-$("#muniselect").keyup(function (e) {
-    if (e.keyCode == 13) {
-        searchByMuni();
-    }
-});
-$("#searchByMuni").on("click", function(event) {
-        searchByMuni();
-});
-
-
-/*-------------------------------------------------------------------
-Prepara los datos para la búsqueda de municipios
--------------------------------------------------------------------*/
-$(document).ready(function() {
-		$('#muniselect').typeahead({
-		  name: 'combomunis',
-          prefetch : urlHojaMTNSearcher
-		});
-		$('#mtnselect').typeahead({
-            name: 'combomtn',
-            prefetch : urlHojaMTNSearcher
-          });
-
-        console.log("Paso");
-        console.log(urlMunisSearcher);
-        console.log(urlHojaMTNSearcher);
-        $("#deslintable").hide();
-        $("#alertnosel").hide();
-        $("#alertnoselMTN").hide();
-});
 
 
 

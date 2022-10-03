@@ -23,7 +23,7 @@ header{
 /*-----------------------------------*/
 #topnavbar{
     margin:0px;
-    background: url("img/background-header.png") no-repeat center scroll;
+    background: url("../img/background-header.png") no-repeat center scroll;
     background-color: #364b5f;
 
 }
@@ -75,7 +75,7 @@ header{
 
 /*Dispositivos pantalla PC*/
 @media(min-width:1024px) {
-    .typeahead-devs, .tt-hint,.combomunis,.combomtn  {
+    .typeahead-devs, .tt-hint,.combomunis, .combomtn  {
         border: 2px solid #CCCCCC;/*#CCCCCC*/
         border-radius: 4px 4px 4px 4px;
         font-size: 11px;
@@ -86,7 +86,7 @@ header{
         width: 180px;
     }
     .tt-dropdown-menu {
-      width: 210px;
+      width: 270px;
       margin-top: 5px;
       padding: 8px 12px;
       background-color: #fff;
@@ -280,61 +280,61 @@ p.propContent {
 
 
 img.idioma_spa{
-    content: url("img/flag-es.svg");
+    content: url("../img/flag-es.svg");
     width:20px; 
     margin-left:5px; 
 }
 
 img.idioma_cat{
-    content: url("img/flag-cat.svg");
+    content: url("../img/flag-cat.svg");
     width:20px; 
     margin-left:5px; 
 }
 
 img.idioma_glg{
-    content: url("img/flag-gal.svg");
+    content: url("../img/flag-gal.svg");
     width:20px; 
     margin-left:5px; 
 }
 
 img.idioma_oci{
-    content: url("img/flag-oci.svg");
+    content: url("../img/flag-oci.svg");
     width:20px; 
     margin-left:5px; 
 }
 
 img.idioma_eus{
-    content: url("img/flag-eus.svg");
+    content: url("../img/flag-eus.svg");
     width:20px; 
     margin-left:5px; 
 }
 
 img.idioma_ara{
-    content: url("img/flag-ara.svg");
+    content: url("../img/flag-ara.svg");
     width:20px; 
     margin-left:5px; 
 }
 
 img.idioma_ast{
-    content: url("img/flag-ast.svg");
+    content: url("../img/flag-ast.svg");
     width:20px; 
     margin-left:5px; 
 }
 
 img.oficial{
-    content: url("img/stamp-svgrepo-com.svg");
+    content: url("../img/stamp-svgrepo-com.svg");
     width:14px; 
     margin-left:5px; 
 }
 
 img.normalizado{
-    content: url("img/thumbs-up-solid.svg");
+    content: url("../img/thumbs-up-solid.svg");
     width:14px; 
     margin-left:5px; 
 }
 
 img.no-normalizado{
-    content: url("img/thumbs-down-solid.svg");
+    content: url("../img/thumbs-down-solid.svg");
     width:14px; 
     margin-left:5px; 
 }
@@ -370,8 +370,10 @@ img.no-normalizado{
 
 #mapCanvas{		
     margin:auto;
-    height:730px;
+    height:750px;/*730px;*/
 }
+
+
 
 .ol-zoomslider {
             top: 7em;

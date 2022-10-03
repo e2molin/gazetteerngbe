@@ -8,7 +8,6 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 <!-- Bootstrap core CSS -->
-<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
 <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
@@ -124,7 +123,7 @@
                         <small>Topónimos de un municipio</small><br/><br/>
                         <form method="POST" action="../apibadasid/siddae/getDocSIDDAEByINE.php" onsubmit="return valida(this)">
                             <!--<div class="input-group">-->
-                            <input type="text" id="muniselect" name="muniselect" class="combomunis" placeholder="Introduce un municipio y pulsa buscar"><br/><br/>
+                            <input type="text" id="muniselect" name="muniselect" class="combomunis" placeholder="Municipio y pulsa buscar"><br/><br/>
                             <!--</div>-->
                             <span id="alertnosel" class="label label-danger">Selecciona municipio</span>
                             <button id="searchByMuni" class="btn btn-secondary btn-sm center-block" type="button">Buscar <i class="fa fa-search"></i></button>
@@ -135,7 +134,7 @@
                         <small>Topónimos de una Hoja MTN25</small><br/><br/>
                         <form method="POST" action="../apibadasid/siddae/getDocSIDDAEByINE.php" onsubmit="return valida(this)">
                             <!--<div class="input-group">-->
-                            <input type="text" id="mtnselect" name="mtnselect" class="combomtn" placeholder="Introduce una hoja MTN y pulsa buscar"><br/><br/>
+                            <input type="text" id="mtnselect" name="mtnselect" class="combomtn" placeholder="Hoja MTN y pulsa buscar. 0559c1.."><br/><br/>
                             <!--</div>-->
                             <span id="alertnoselMTN" class="label label-danger">Selecciona una hoja MTN25</span>
                             <button id="searchByHojaMTN" class="btn btn-secondary btn-sm center-block" type="button">Buscar <i class="fa fa-search"></i></button>
@@ -160,13 +159,14 @@
                         </div>
                         <br/>
                         <!--Buscar por hoja MTN25-->
+                        <!--
                         <div class="input-group">
                             <input type="text" class="form-control input-sm" id="searchByMTNparam" placeholder="Hoja MTN25, 0559c1...">
                             <span class="input-group-btn">
                                 <button id="searchByMTN" class="btn btn-secondary btn-sm" type="button"><i class="fa fa-search"></i></button>
                             </span>
                         </div> 
-                        
+                        -->
                         <!--Buscar por hoja MTN25-->
                         <!--
                         <div class="input-group">
@@ -241,9 +241,6 @@
                             <option value="6.2.4">Otro relieve costero (6.2.4)</option>
                             <option value="6.3">Relieve submarino (6.3)</option>
                         </select>                        
-                        
-                                                
-                        
                         
                         <br/>Buscar en...
                         <select id="provinCbo" class="form-control">
@@ -480,7 +477,6 @@
                  <div class="infoLayersclass" tabindex="0">
                     <span id="hoverDescript"></span><i title="Deslice el cursor por encima de los resultados" class="fa fa-info-circle" aria-hidden="true"></i>
                 </div>
-                
             </div>
         </div>
         
@@ -507,8 +503,13 @@
 <script src="js/ol3/ol3-develmap.js" type="text/javascript"></script>
 <script src="js/ol3/ol3-develmap-sources.js" type="text/javascript"></script>
 <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
+
 <script src="js/app-gazetteer.js" type="text/javascript"></script>
-<script src="js/search-manager.js" type="text/javascript"></script>   
+<script src="js/search-manager.js" type="text/javascript"></script>
+
+
+
+
 <script>
     
     

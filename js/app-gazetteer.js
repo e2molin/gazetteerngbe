@@ -1,6 +1,6 @@
 var mobileMode=false;
 var map;
-var resultNGBE_lyr=null;                        //Capa para almacenar resultados de las búsquedas
+var resultNGBE_lyr=null; // Capa para almacenar resultados de las búsquedas
 var projection = ol.proj.get('EPSG:3857');
 var tabulatorResults;
 var tabulatorHisto;
@@ -32,16 +32,16 @@ const urlSearchHistoEntityById = `${domainRoot}public/nomenclator/json/entityngb
 /*
 Funciones básicas
 */
-String.prototype.beginsWith = function (string) {
+String.prototype.beginsWith = (string) => {
     return(this.indexOf(string) === 0);
 };
 
-function replaceAllOcurrences(str, find, replace) {
+const replaceAllOcurrences = (str, find, replace) => {
     return (str.toString().indexOf(find)===-1 ? str.toString() :  str.toString().replace(new RegExp(find, 'g'), replace));
 }
 
-function getFloatNum(valorNumero) {
-    if (valorNumero=="") {
+const getFloatNum = (valorNumero) => {
+    if (valorNumero==="") {
       return 0;
     }
     if (isNaN(valorNumero)) {
@@ -57,32 +57,29 @@ function getFloatNum(valorNumero) {
 /*Botoneras ------------------------------*/
 /*----------------------------------------*/
 
-
-$("#showPresentacion").on("click", function(event) {
-        $("#tabulatorEntityList").hide();
-        $("#atributosEntity").hide();
-        $("#presentacion").show();
+document.getElementById("showPresentacion").addEventListener("click", () => {
+    document.getElementById("tabulatorEntityList").style.display = "none";
+    document.getElementById("atributosEntity").style.display = "none";
+    document.getElementById("presentacion").style.display = "block";
 });
 
-$("#showTabulatorResults").on("click", function(event) {
-    $("#atributosEntityList").hide();
-    $("#atributosEntity").hide();
-    $("#presentacion").hide();
-    $("#tabulatorEntityList").show();
-});
-$("#showStandardListResults").on("click", function(event) {
-    $("#atributosEntityList").show();
-    $("#atributosEntity").hide();
-    $("#presentacion").hide();
-    $("#tabulatorEntityList").hide();
+document.getElementById("showTabulatorResults").addEventListener("click", () => {
+    document.getElementById("atributosEntityList").style.display = "none";
+    document.getElementById("atributosEntity").style.display = "none";
+    document.getElementById("presentacion").style.display = "none";
+    document.getElementById("tabulatorEntityList").style.display = "block";
 });
 
+document.getElementById("showTabulatorResults").addEventListener("click", () => {
+    document.getElementById("atributosEntityList").style.display = "show";
+    document.getElementById("atributosEntity").style.display = "none";
+    document.getElementById("presentacion").style.display = "none";
+    document.getElementById("tabulatorEntityList").style.display = "none";
+});
 
-
-function basicMap(){
+const  basicMap = () => {
 
     loadBasicIGN(true);//Cargamos raster Base IGN apagados excepto la capa por defecto
-    //loadBasicOSM(false);//Cargamos raster Overlays OSM apagados
 
     map = new ol.Map({
             layers: [primeraEdiBase_lyr,elevaciones_lyr,ignBaseWMTS_lyr,rasterMTN_lyr,pnoaWMTS_lyr,minutasCarto_lyr],
@@ -185,6 +182,78 @@ function basicMap(){
     
 }
 
+
+function apicnigBasicMap(){
+
+const mapAPICNIG = M.map({
+    container: 'mapLienzo',
+    controls: ['backgroundlayers','panzoom', 'scaleline', 'rotate' , 'location'],
+    zoom: 5,
+    maxZoom: 22,
+    minZoom: 4,
+    projection: "EPSG:3857*m",
+    center: {
+        x: -712300,
+        y: 4310700,
+        draw: false  //Dibuja un punto en el lugar de la coordenada
+    },
+});
+
+
+mapAPICNIG.addLayers(new M.layer.GeoJSON({
+    name: "capaJson",
+    /*url: 'http://10.67.33.45:8088/datos/geojson/punto_m.geojson',*/
+    url: 'http://localhost/apibadasidv4/public/nomenclator/json/listngbeINSPIRE/name/magallanes',
+    /*source: {
+    "type": "FeatureCollection",
+    "totalFeatures": 9,
+    "features": [{
+        "type": "Feature",
+        "geometry": {
+        "type": "Point",
+        "coordinates": [
+        -5.404296,
+        36.970703
+        ]
+        },
+        "properties": {
+        "identidad": 2413825,
+        "tipo": "Curso natural de agua (5.1)",
+        "dictiongbe": 5.1,
+        "nombre": "Arroyo de Magallanes"
+        }
+        },
+        {
+        "type": "Feature",
+        "geometry": {
+        "type": "Point",
+        "coordinates": [
+        -6.224976,
+        36.892702
+        ]
+        },
+        "properties": {
+        "identidad": 2412230,
+        "tipo": "Curso artificial de agua (5.3)",
+        "dictiongbe": 5.3,
+        "nombre": "Caño de Magallanes"
+        }
+        },]
+},*/
+extract:true
+}));
+
+// var layer = new M.layer.GeoJSON(
+//     {name: "Provincias", 
+//      source: "http://localhost/apibadasidv4/public/nomenclator/json/listngbeINSPIRE/name/magallanes?"});
+
+//      mapAPICNIG.addLayers(layer);
+
+}
+
+
+
+
 $(window).resize(setDivVisibility);
 function setDivVisibility(){
     //console.log("Resize W/H:" + $(window).width() + "/" + $(window).height());
@@ -203,7 +272,7 @@ function setDivVisibility(){
 
 
 
-$(document).ready(function() {
+document.addEventListener("DOMContentLoaded", function(event) { 
     console.log("Arranque W/H:" + $(window).width() + "/" + $(window).height());
     if (($(window).width()) < '768'){  
         mobileMode=true;
@@ -224,7 +293,11 @@ $(document).ready(function() {
     $("#searchByIdparam").val("");
     
     console.log(mobileMode);
+
+    
+    // Lanzar mapa
     basicMap();
+    //apicnigBasicMap();
 
     //initialize table
     const dictioIcon = (cell, formatterParams, onRendered)=>{ //plain text value
@@ -309,6 +382,23 @@ $(document).ready(function() {
     document.getElementById("download-html").addEventListener("click", function(){
         tabulatorResults.download("html", "data.html", {style:true});
     })
+
+    $('#muniselect').typeahead({
+        name: 'combomunis',
+        prefetch : urlMunisSearcher
+      });
+      $('#mtnselect').typeahead({
+          name: 'combomtn',
+          prefetch : urlHojaMTNSearcher
+        });
+
+    document.getElementById("alertnosel").style.display = "none";
+    document.getElementById("alertnoselMTN").style.display = "none";
+      /*$("#deslintable").hide();*/
+    /*  $("#alertnosel").hide();*/
+      /*$("#alertnoselMTN").hide();*/
+
+    
 
     
 });

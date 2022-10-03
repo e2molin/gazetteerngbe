@@ -290,20 +290,29 @@ function loadBasicIGN(visibilityDefault){
     primeraEdiBase_lyr.set("alias","MTN50 1ª edición");
     baseIGNList.push(primeraEdiBase_lyr);
     
-    elevaciones_lyr=new ol.layer.Tile({
-                    title: 'MDT',
-                    type: 'base',
-                    visible: false,			  
-                    extent: projectionExtent,
-                    opacity: 1.0,
-                    source: new ol.source.XYZ({
-										attributions: [attributionPNOA],
-                                        url: 'http://www.ign.es/wmts/mdt?request=getTile&layer=Relieve&TileMatrixSet=GoogleMapsCompatible&TileMatrix={z}&TileCol={x}&TileRow={y}&format=image/jpeg'
-										//url: './php/tesel-pnoa-mr.php?z={z}&x={x}&y={y}'
-							})
+    elevaciones_lyr = new ol.layer.Tile({
+      title: "LiDAR",
+      type: "base",
+      visible: false,
+      opacity: 1.0,
+      source: new ol.source.WMTS({
+        attributions: [attributionPNOA],
+        url: "https://wmts-mapa-lidar.idee.es/lidar",
+        layer: "EL.GridCoverageDSM",
+        matrixSet: "EPSG:3857",
+        format: "image/png",
+        projection: projection,
+        tileGrid: new ol.tilegrid.WMTS({
+          origin: ol.extent.getTopLeft(projectionExtent),
+          resolutions: resolutions,
+          matrixIds: matrixIds,
+        }),
+        style: "default",
+      }),
     });
-    elevaciones_lyr.set("keyname","ignmdt");
-    elevaciones_lyr.set("alias","Imagen");
+
+    elevaciones_lyr.set("keyname", "ignmdt");
+    elevaciones_lyr.set("alias", "Imagen");
     baseIGNList.push(elevaciones_lyr);
     
     wmsSourceMinutas = new ol.source.TileWMS({

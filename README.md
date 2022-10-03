@@ -53,3 +53,46 @@ https://fontawesome.com/v4/icons/
                     <div role="tabpanel" class="tab-pane" id="othersAttrib"></div>
                     <div role="tabpanel" class="tab-pane" id="historialAttrib"></div>
                 </div></div></div>
+
+
+## localStorage
+
+Así obtenemos todas las claves almacenadas en `localStorage`
+
+```javascript
+
+for (var i = 0; i < localStorage.length; i++) {   
+    key = localStorage.key(i);
+    console.log(key)
+
+}
+
+// Así obtenemos el valor a sociado a una clave
+value = localStorage.getItem(key);
+
+// Así eliminamos la almacenada en una determinada clave
+localStorage.removeItem(key); 
+
+```
+
+En nuestro caso, la librería **typeahead** almacena en el localStorage los arrays con los valores para mostrar en el autonumérico. Para el caso del municipio, el HTML y el Jacascript son:;
+
+```html
+<input type="text" id="muniselect" name="muniselect" class="combomunis" placeholder="Introduce un municipio y pulsa buscar">
+```
+
+```javascript
+$('#muniselect').typeahead({
+name: 'combomunis',
+prefetch : 'http://localhost/apibadasidv4/public/autoridades/municipios'
+});
+```
+
+Esto genera una clave en el **localStorage** llamada *__combomunis__itemHash* que almacena los valores retornados por la llamada a la API BADASID. Para borara de la caché estos valores, podemos usar:
+
+```javascript
+localStorage.clear(); /* Borra todo lo allacenado en localStorage */ 
+localStorage.removeItem('__combomunis__itemHash'); /* Borra úncaimente valores de la clave */
+```
+
+
