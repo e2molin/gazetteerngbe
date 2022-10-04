@@ -232,9 +232,18 @@ const getClassEstatus= (estatus)=>{
 }
 
 document.getElementById("develOne").addEventListener("click", () => {
+
   
   mapAPICNIG.setZoom(10);
-  
+  mapAPICNIG.setCenter([-421609,4924260]);
+  const formatter = new M.format.WKT();
+
+  const wktEj = "POINT (-3.787385 40.400135)";
+  console.log(formatter.read(wktEj, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' }).getGeometry());
+  //console.log(formatter.read(wktEj, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' }).getGeometry());
+  mapAPICNIG.setCenter([-421609,4924260]);
+
+
 });
 
 
