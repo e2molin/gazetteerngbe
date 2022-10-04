@@ -7,6 +7,8 @@ var resultNGBE_lyr=null; // Capa para almacenar resultados de las búsquedas
 var projection = ol.proj.get('EPSG:3857');
 var tabulatorResults;
 var tabulatorHisto;
+var lstIndex=[]; // Almacena los índices de los elementos sobre los que se ha hecho clic sobre el mapa.
+
 
 /**
  * APIBADASID Calls
@@ -80,113 +82,14 @@ document.getElementById("showTabulatorResults").addEventListener("click", () => 
     document.getElementById("tabulatorEntityList").style.display = "none";
 });*/
 
-const  basicMap = () => {
 
-    loadBasicIGN(true);//Cargamos raster Base IGN apagados excepto la capa por defecto
-
-    map = new ol.Map({
-            layers: [primeraEdiBase_lyr,elevaciones_lyr,ignBaseWMTS_lyr,rasterMTN_lyr,pnoaWMTS_lyr,minutasCarto_lyr],
-            target: document.getElementById('mapCanvas'),
-            logo: false,/*Con esto quitamos el logo de OpenLayers del control de atributos*/
-            controls: ol.control.defaults({
-                        zoom: ( mobileMode == true ) ? false : true,
-                        attribution: ( mobileMode == true ) ? false : true,
-						attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
-						                    collapsible: true,
-                                            tipLabel: 'Créditos',
-                                            label:'C'   /*Texto del botón, por defecto es C*/
-			                             })
-		  }).extend(
-                  ( mobileMode == true ) ? [] : []),
-		  view: new ol.View({
-              projection: 'EPSG:3857', 
-              center: ol.proj.transform([-7, 38], 'EPSG:4326', 'EPSG:3857'),
-              zoom: 5,minZoom: 4, maxZoom: 19
-		  })
-    });
-    
-    //Esta capa almacena los resultados que se muestran
-    resultNGBE_lyr = new ol.layer.Vector({
-                                    title: 'Resultados',
-                                    source: new ol.source.Vector(),
-                                    style: customNGBEStyle
-    });     
-    resultNGBE_lyr.getSource().on("change", function () {
-            switch (resultNGBE_lyr.getSource().getState()) {
-                case "ready":
-                    console.log("Resultados geoJSON cargados: " + resultNGBE_lyr.getSource().getFeatures().length);
-                    break;
-                case "loading":
-                    console.log("Cargando resultados en geoJSON");
-                    break;
-                default:
-                    //$("#ajaxSpinnerImage").hide();
-            }
-        });          
-    map.addLayer(resultNGBE_lyr);  
-
-    
-/*Controles */
-    var layerSwitcher = new ol.control.LayerSwitcher({
-        tipLabel: 'Capas disponibles' // Optional label for button
-    });
-    map.addControl(layerSwitcher);
-    
-    var myScaleLine = new ol.control.ScaleLine()
-    map.addControl(myScaleLine);   
-    console.log("Terminado");
-
-    var myRotateControl = new ol.control.Rotate()
-    map.addControl(myRotateControl);    
-
-    var mousePositionControl = new ol.control.MousePosition({
-        className:'ol-mouse-position',                      //Es la clase que define el formato de la etiqueta que contiene las coordendas que se muestran. Valor por defecto
-        coordinateFormat: function(coordinate) {
-            if (mobileMode==false){
-                return ol.coordinate.format(coordinate, dvmGetEscalaNormalizada(map.getView().getZoom()) + '. WGS84 ({x}, {y})', 4);    
-            } else {
-                return ol.coordinate.format(ol.proj.transform(map.getView().getCenter(), 'EPSG:3857', 'EPSG:4326'), dvmGetEscalaNormalizada(map.getView().getZoom()) + '. Centro WGS84 ({x}, {y})', 4);
-            }
-        },
-        projection:"EPSG:4326",                              //Proyección en que se muestran los datos 
-        //target: document.getElementById('mouse-position'), //Contenedor donde se almacenan las coordenadas si estÃ¡ fuera del mapa
-        undefinedHTML: '&nbsp;'                            //Valor mostrado cuando no se calculan coordendas.
-    });
-    map.addControl(mousePositionControl); 
-    
-    //Declaración de eventos de mapa
-    map.on('pointermove', function(evt) {
-        //onPointerHover(evt);
-        $("#hoverDescript").hide();
-        if (evt.dragging) {return;}
-        var pixelHover = map.getEventPixel(evt.originalEvent);
-        map.forEachFeatureAtPixel(pixelHover, function(feature, layer) {
-                $("#hoverDescript").html(feature.get('nombre'));
-                $("#hoverDescript").show();
-        });
-        var hit = map.hasFeatureAtPixel(pixelHover);
-        map.getTarget().style.cursor = hit ? 'pointer' : '';
-    }); 
-       
-    
-    map.on('singleclick', function(evt) {
-            var pixelClic = map.getEventPixel(evt.originalEvent);
-            map.forEachFeatureAtPixel(pixelClic, function(feature, layer) {
-                //console.log(layer);
-                //console.log(feature.get('identidad'));
-                mostrarInfoByNumEnti(feature.get('identidad'),true,false);
-                $("#atributosEntity").show();
-                $("#atributosEntityList").hide();                
-                return;
-            });
-    });        
-    
-    
-    
+const cleanTabulatorResultsFilter = () => {
+    document.getElementById("filter-value").value=``;
+    document.getElementById("numResultsFilter").textContent = ``;
+    tabulatorResults.clearFilter();
 }
 
-
-function apicnigBasicMap(){
+const createAPICNIGMap = () => {
 
     mapAPICNIG = new M.map({
         container: 'mapLienzo',
@@ -201,64 +104,6 @@ function apicnigBasicMap(){
             draw: false  //Dibuja un punto en el lugar de la coordenada
         },
     });
-
-    // var layer = new M.layer.GeoJSON(
-    //     {
-    //         name: "Provincias", 
-    //         url: "http://geostematicos-sigc.juntadeandalucia.es/geoserver/tematicos/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=tematicos:Provincias&maxFeatures=50&outputFormat=application/json",
-
-    //     }
-    // );
-
-    return;
-    let puntosresult = {
-        "type": "FeatureCollection",
-        "features": [{
-            "type": "Feature",
-            "geometry": {
-            "type": "Point",
-            "coordinates": [
-            -5.404296,
-            36.970703
-            ]
-            },
-            "properties": {
-            "identidad": 2413825,
-            "tipo": "Curso natural de agua (5.1)",
-            "dictiongbe": 5.1,
-            "nombre": "Arroyo de Magallanes"
-            }
-            },
-            {
-            "type": "Feature",
-            "geometry": {
-            "type": "Point",
-            "coordinates": [
-            -6.224976,
-            36.892702
-            ]
-            },
-            "properties": {
-            "identidad": 2412230,
-            "tipo": "Curso artificial de agua (5.3)",
-            "dictiongbe": 5.3,
-            "nombre": "Caño de Magallanes"
-            }
-            },]
-    };
-
-    resultNGBE_lyr = new M.layer.GeoJSON(
-        {
-            name: "Provincias", 
-            /*url: "http://geostematicos-sigc.juntadeandalucia.es/geoserver/tematicos/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=tematicos:Provincias&maxFeatures=50&outputFormat=application/json",*/
-            source: puntosresult,
-            extract: true
-        }
-    );
-    resultNGBE_lyr.setZIndex(100);
-    mapAPICNIG.addLayers(resultNGBE_lyr);
-
-
 
 }
 
@@ -303,12 +148,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
     $("#mtnselect").val("");
     $("#searchByIdparam").val("");
     
-    console.log(mobileMode);
-
-    
+       
     // Lanzar mapa
     //basicMap();
-    apicnigBasicMap();
+    createAPICNIGMap();
 
     //initialize table
     const dictioIcon = (cell, formatterParams, onRendered)=>{ //plain text value
@@ -321,20 +164,45 @@ document.addEventListener("DOMContentLoaded", function(event) {
         return "<i class='fa fa-info-circle'></i>";
     };
 
+    const centrarVistaSobreToponimo = (longitud,latitud,zoomLevel,mensaje)=>{
+	
+        console.log("centrarVistaToponimo.Longitud:" + longitud);
+        console.log("centrarVistaToponimo.Latitud:" + latitud);
+        removePointInfoLayer(mapOL3);
+        addPointInfo(mapOL3,parseFloat(longitud),parseFloat(latitud),mensaje);
+        var panning=new ol.View({
+              center: ol.proj.transform([parseFloat(longitud), parseFloat(latitud)], 'EPSG:4326', 'EPSG:3857'),
+              zoom: zoomLevel,
+              minZoom: 4,
+              maxZoom: 18        
+            });
+        mapOL3.setView(panning);
+        console.log("Efectuado");
+    }
+    
+
+
+
     const getInfoResult = (e, cell)=>{
         mostrarInfoByNumEnti(cell.getRow().getData().identidad,true);
-        $("#atributosEntity").show();
-        $("#atributosEntityList").hide();
-        $("#tabulatorEntityList").hide();
+        document.getElementById("tabulatorEntityList").style.display = "none";
+        document.getElementById("atributosEntity").style.display = "block";
     }
 
     const zoomToResultPosition=(e,cell)=>{
-        centrarVistaToponimo(map,cell.getRow().getData().dataLon,cell.getRow().getData().dataLat,map.getView().getZoom(),"");                                    
+        centrarVistaSobreToponimo(cell.getRow().getData().dataLon,cell.getRow().getData().dataLat,map.getView().getZoom(),"");                                    
     }
 
     const updateFilter = () => {
+      // Como usamos filtros Add, eliminamos cualquier versión del filtro por nombres que haya
+      tabulatorResults.getFilters().forEach((tabFilter) => {
+        if (tabFilter.field === "nombre") {
+          tabulatorResults.removeFilter("nombre", "like", tabFilter.value);
+        }
+      });
       let filterValue = document.getElementById("filter-value").value;
-      tabulatorResults.setFilter("nombre", "like", filterValue);
+      if (isEmptyNullString(filterValue)){return;}
+      tabulatorResults.addFilter("nombre", "like", filterValue);
       let numResultadosFiltrados = tabulatorResults.rowManager.activeRowsCount;
       if (numResultadosFiltrados != tabulatorResults.rowManager.rows.length) {
         document.getElementById(
@@ -343,6 +211,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       } else {
         document.getElementById("numResultsFilter").textContent = ``;
       }
+      console.log(tabulatorResults.getFilters());
     };
 
     tabulatorResults = new Tabulator("#example-table", {
@@ -394,6 +263,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
         tabulatorResults.download("html", "data.html", {style:true});
     })
 
+    document.getElementById("zoom-mapResults").addEventListener("click", function(){
+        mapAPICNIG.setBbox(resultNGBE_lyr.getFeaturesExtent());
+    })
+
+
+    
+
     $('#muniselect').typeahead({
         name: 'combomunis',
         prefetch : urlMunisSearcher
@@ -405,11 +281,5 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     document.getElementById("alertnosel").style.display = "none";
     document.getElementById("alertnoselMTN").style.display = "none";
-      /*$("#deslintable").hide();*/
-    /*  $("#alertnosel").hide();*/
-      /*$("#alertnoselMTN").hide();*/
-
-    
-
     
 });

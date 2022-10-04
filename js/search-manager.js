@@ -193,7 +193,8 @@ const searchById = () => {
 
 
 /**
- * Helpers para pner bandera junto al idioma
+ * Helpers para poner bandera junto al idioma
+ * Desactivado por problemas políticos
  * @param {*} idioma 
  * @returns 
  */
@@ -231,42 +232,82 @@ const getClassEstatus= (estatus)=>{
 }
 
 document.getElementById("develOne").addEventListener("click", () => {
-    alert("Hola");
+  
+  mapAPICNIG.setZoom(10);
+  
 });
 
 
 
 const showResultsetList = (resultsRequest) => {
 
-  //Pintamos el geoJSON en el mapa
-//   var format = new ol.format.GeoJSON();
-//   resultNGBE_lyr.getSource().clear();
-//   resultNGBE_lyr.getSource().addFeatures(
-//     format.readFeatures(resultsRequest, {
-//       featureProjection: "EPSG:3857",
-//     })
-//   );
+  // Pintamos el geoJSON en el mapa
 
-  resultNGBE_lyr = new M.layer.GeoJSON(
-    {
-        name: "Resultados", 
-        source: resultsRequest,
-        extract: true
+  // Borro la capa de resultados si existe
+  mapAPICNIG.getLayers().forEach((lyr) => {
+    if (lyr.getImpl().name==='resultNGBE'){
+      mapAPICNIG.removeLayers(lyr);
     }
-    );
-    resultNGBE_lyr.setZIndex(100);
-    //resultNGBE_lyr.addFeatures(resultsRequest.features);
+  });
+  
+  // Creo la nueva capa de resultados a partir de la informaicón recibida
+  resultNGBE_lyr = new M.layer.GeoJSON({
+        name: "resultNGBE", 
+        source: resultsRequest,
+        extract: false // Así no sale el popup al hacer clic sobre un elemento
+  });
+  resultNGBE_lyr.setZIndex(115);
+
+  // Fijamos estilo en función del icono
+  resultNGBE_lyr.setStyle(new M.style.Point({
+      radius: 10,
+      icon: {
+        src: (feature) => {
+          const type = feature.getAttribute('dictiongbe');
+          if (!isEmptyNullString(type)) {
+            return `img/icons/${type}.png`;
+          } else {
+            return `img/icons/0.0.0.png`;
+          }
+        },
+        snaptopixel: true,
+      },
+    }));
+
+
+    // Al hacer clic sobre un elemento
+    resultNGBE_lyr.on(M.evt.SELECT_FEATURES, function(features) {
+      if (features.length===1){
+        mostrarInfoByNumEnti(features[0].getAttribute('identidad'),true,false);
+        document.getElementById("tabulatorEntityList").style.display = "none";
+        document.getElementById("atributosEntity").style.display = "block";
+      }else if (features.length>=1){
+        lstIndex = [];
+        cleanTabulatorResultsFilter();
+        features.forEach((feature,index) => {
+          lstIndex.push(feature.getAttribute('identidad'));
+        })
+        tabulatorResults.setFilter("identidad", "in", lstIndex);
+      }else{
+        cleanTabulatorResultsFilter();
+      }
+    });
+
+    // Añadimos la capa al mapa
     mapAPICNIG.addLayers(resultNGBE_lyr);
 
+    resultNGBE_lyr.on(M.evt.LOAD, () => {
 
+      mapAPICNIG.setBbox(resultNGBE_lyr.getFeaturesExtent());
+      mapAPICNIG.getLayers().forEach((lyr) => {
 
+      });
+    });
 
-
-
-  $("#searchingBar").hide();
-  $("#atributosEntity").hide();
-  $("#spinner_searchid").show();
-
+  document.getElementById("searchingBar").style.display = "none";
+  document.getElementById("atributosEntity").style.display = "none";
+  document.getElementById("spinner_searchid").style.display = "block";
+  document.getElementById("spinner_searchspatial").style.display = "block";
   document.getElementById("filter-value").value=``;
   document.getElementById("numResultsFilter").textContent = ``;
 
@@ -280,17 +321,16 @@ const showResultsetList = (resultsRequest) => {
       dataLon: resultsRequest.features[i].geometry.coordinates[0],
       dataLat: resultsRequest.features[i].geometry.coordinates[1],
     });
-    console.log(resultsRequest.features[i]);
   }
 
   tabulatorResults.clearFilter();
   tabulatorResults.setData(tableData);
 
   document.getElementById("numResults").textContent=resultsRequest.features.length;
+  document.getElementById("tabulatorEntityList").style.display = "block";
+  document.getElementById("spinner_searchspatial").style.display = "none";
+  document.getElementById("spinner_searchid").style.display = "none";
 
-  $("#tabulatorEntityList").show();
-  $("#spinner_searchspatial").hide();
-  $("#spinner_searchid").hide();
 };
 
 
@@ -482,8 +522,6 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                         console.log(e.responseText);
                     }
     });
-
-    console.log("Petición de histórico");
     
     $.ajax({
         url: urlSearchHistoEntityById + idEnti,
@@ -537,6 +575,9 @@ document.getElementById("searchByMuni").addEventListener("click", (e) => {
     searchByMuni();
 });
 
+document.getElementById("clean-filter").addEventListener("click", (e) => {
+  cleanTabulatorResultsFilter();
+});
 
 
 
