@@ -240,8 +240,23 @@ document.getElementById("develOne").addEventListener("click", () => {
 
   const wktEj = "POINT (-3.787385 40.400135)";
   console.log(formatter.read(wktEj, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' }).getGeometry());
-  //console.log(formatter.read(wktEj, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' }).getGeometry());
-  mapAPICNIG.setCenter([-421609,4924260]);
+
+  console.log(formatter.read(wktEj, { 
+    dataProjection: 'EPSG:4326', 
+    featureProjection: 'EPSG:3857' 
+  }).getGeoJSON());
+
+  let coordinates_epsg3857 = formatter.read(wktEj, { 
+                                    dataProjection: 'EPSG:4326', 
+                                    featureProjection: 'EPSG:3857' 
+                                  }).getGeoJSON().geometry.coordinates;
+  
+  console.log(coordinates_epsg3857);
+
+
+  console.log(formatter.read(wktEj, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' }));
+  
+  mapAPICNIG.setCenter([-421609, 4924260]);
 
 
 });
@@ -297,8 +312,12 @@ const showResultsetList = (resultsRequest) => {
           lstIndex.push(feature.getAttribute('identidad'));
         })
         tabulatorResults.setFilter("identidad", "in", lstIndex);
+        document.getElementById("tabulatorEntityList").style.display = "block";
+        document.getElementById("atributosEntity").style.display = "none";
       }else{
         cleanTabulatorResultsFilter();
+        document.getElementById("tabulatorEntityList").style.display = "block";
+        document.getElementById("atributosEntity").style.display = "none";
       }
     });
 
@@ -348,7 +367,7 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
     var attributeDisplay="";
     $("#spinner_searchid").show();
     //Tratamiento de parámetros opcionales
-    panningEntity = (typeof panningEntity === 'undefined') ? true : panningEntity;
+    panningEntity = (typeof panningEntity === 'undefined') ? false : panningEntity;
     console.log("Hacer panning:" + panningEntity);
     if (showBtnResults == false) {
         attributeDisplay="display:none;"
@@ -514,12 +533,9 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                 let othersAttribContainer = document.getElementById('othersAttrib');
                 othersAttribContainer.innerHTML = othersAttribTemplate;                
 
-                if (panningEntity==true){
-                    //map.getView().getZoom()
-                                centrarVistaToponimo(map,
-                                     resultsRequest.features[0].properties.long_etrs89_regcan95,
-                                     resultsRequest.features[0].properties.lat_etrs89_regcan95,
-                                     15,resultsRequest.features[0].properties.identificador_geografico);
+                if (panningEntity===true){
+                                    centrarVistaSobreToponimo(resultsRequest.features[0].properties.long_etrs89_regcan95,
+                                                              resultsRequest.features[0].properties.lat_etrs89_regcan95,15);
                 }
                 $("#showListResults").on("click", function(event) {
                                         $("#atributosEntity").hide();

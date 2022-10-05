@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-		<title>Gazetteer NGBE</title>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="">
-		<meta name="author" content="">
-<!-- Bootstrap core CSS -->
-<link type="text/css" rel="stylesheet" href="https://componentes.cnig.es/api-core/assets/css/apiign.ol.min.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/openlayers/3.15.1/ol.css" type="text/css">
-<link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
-<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
-<link rel="stylesheet" href="css/bootstrap/tabulator_bootstrap3.css">
+    <title>Gazetteer NGBE</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Open+Sans'>
 
-<link rel="stylesheet" href="css/ol3/ol3-layerswitcher.css" type="text/css">    
-<link rel="stylesheet" href="css/style.css">        
+    <link rel="stylesheet" href="https://componentes.cnig.es/api-core/assets/css/apiign.ol.min.css">
+    <link rel="stylesheet" href="https://componentes.cnig.es/api-core/plugins/backimglayer/backimglayer.ol.min.css">
+    <link rel="stylesheet" href="https://componentes.cnig.es/api-core/plugins/measurebar/measurebar.ol.min.css">
+    <link rel="stylesheet" href="https://componentes.cnig.es/api-core/plugins/infocoordinates/infocoordinates.ol.min.css">
+    <link rel="stylesheet" href="https://componentes.cnig.es/api-core/plugins/mousesrs/mousesrs.ol.min.css">
+    <link rel="stylesheet" href="https://componentes.cnig.es/api-core/plugins/fulltoc/fulltoc.ol.min.css">
+    <link rel="stylesheet" href="https://componentes.cnig.es/api-core/plugins/ignsearchlocator/ignsearchlocator.ol.min.css">
 
-<link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css">
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap/tabulator_bootstrap3.css">
+    <link rel="stylesheet" href="css/style.css">        
+    <link rel="shortcut icon" href="favicon.ico">
 
 </head>
 <body>
@@ -41,20 +44,18 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="img/permalink.png"/> <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <ul class="list-inline" style="width:200px;">
-                            <li><a href="#" target="_blank" title=""><img src="img/mail.png"/></a></li>
-                            <li><a href="#" target="_blank" title=""><img src="img/twitter.png"/></a></li>
-                            <li><a href="#" target="_blank" title=""><img src="img/youtube.png"/></a></li>
-                            <li><a href="#" target="_blank" title=""><img src="img/facebook.png"/></a></li>
-                            <li><a href="#" target="_blank" title=""><img src="img/rss.png"/></a></li>
+                        <ul class="list-inline" style="width:280px; margin-left:5px;">
+                            <li><a target="_blank" href="https://twitter.com/IGNSpain?" style="float:right;"><img src="img/twitter.png" title="IGN Twitter" alt="IGN Twitter"></a></li>                         
+                            <li><a target="_blank" href="https://www.facebook.com/IGNSpain/" style="float:right;"><img src="img/facebook.png" title="IGN Facebook" alt="IGN Facebook"></a></li>
+                            <li><a target="_blank" href="https://www.pinterest.es/IGNSpain/" style="float:right;"><img src="img/pinterest.png" title="IGN Pinterest" alt="IGN Pinterest"></a></li>
+                            <li><a target="_blank" href="https://www.instagram.com/ignspain/" style="float:right;"><img src="img/instagram.png" title="IGN Instagram" alt="IGN Instagram"></a></li>
+                            <li><a target="_blank" href="https://www.ign.es/web/ign/portal/rcc-nomenclator-nacional" style="float:right;"><img src="img/website.png" title="IGN Web sección Nomenclátor" alt="IGN Web sección Nomenclátor"></a></li>
+                            <li><a target="_blank" href="https://www.youtube.com/user/IGNSpain" style="float:right;"><img src="img/youtube.png" title="IGN Youtube" alt="IGN Youtube"></a></li>
+                            <li><a target="_blank" href="mailto:toponimia.ign@mitma.es" style="float:right;"><img src="img/mail.png" title="Correo Toponimia" alt="Correo Toponimia"></a></li>
                         </ul>
                     </ul>
-                    </li>
-                    <!--
-                    <li><a href="#">Menú 1</a></li>
-                    <li><a href="#">Menú 2</a></li>
-                    -->
-                </ul>
+                </li>
+            </ul>
         </div>
         
       </div>
@@ -62,7 +63,7 @@
 
     
     
-<div class="container-fluid" style="margin-top:75px;">
+<main class="container-fluid" style="margin-top:75px;">
     <nav id="sidebar-container" class="navbar sidebar col-lg-2 col-md-3 col-sm-3" role="navigation">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar" aria-expanded="false" aria-controls="navbar">
@@ -95,7 +96,7 @@
                     </div>
                     <div id="sidebar-second" class="list-group panel-collapse collapse">
                         <ul class="list-group">
-                            <li class="list-group-item"><a id="searchByView" href="#">Topónimos en la vista</a></li>
+                            <li class="list-group-item"><a id="searchByView" href="#"><i class="fa fa-globe" aria-hidden="true"></i> Topónimos en la vista</a></li>
                             <!--
                             <li class="list-group-item">
                                 <a href="#">Topónimos en el centro</a>
@@ -495,17 +496,14 @@
 
             </div>              
         </div>
-        
+    </div>  
+</main> 
 
-</div>      
-    
-
-</div> 
 <!--Footer-->        
 <footer class="footer">
     <div class="container">
         <p class="muted credit">
-            <a href="http://www.develmap.com" target="_blank" title="DEVELMAP SL"><img src="img/develmap.png"/></a>Web developed by <a href="http://www.develmap.com">DEVELMAP Consulting</a>.
+            <a href="https://www.develmap.com" target="_blank" title="DEVELMAP SL"><img src="img/develmap.png"/></a>Web developed by <a href="https://www.develmap.com">DEVELMAP Consulting</a>.
         </p>
     </div>
 </footer>
@@ -513,18 +511,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="js/typeahead/typeahead.js"></script>
-<!--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/3.15.1/ol.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.6/proj4.js" type="text/javascript"></script> 
-<script src="js/ol3/ol3-layerswitcher.js" type="text/javascript"></script>
-<script src="js/ol3/ol3-develmap.js" type="text/javascript"></script>
-<script src="js/ol3/ol3-develmap-sources.js" type="text/javascript"></script>
--->
 <script type="text/javascript" src="https://componentes.cnig.es/api-core/js/apiign.ol.min.js"></script>
 <script type="text/javascript" src="https://componentes.cnig.es/api-core/js/configuration.js"></script>
+<script type="text/javascript" src="https://componentes.cnig.es/api-core/plugins/backimglayer/backimglayer.ol.min.js"></script>
+<script type="text/javascript" src="https://componentes.cnig.es/api-core/plugins/measurebar/measurebar.ol.min.js"></script>
+<script type="text/javascript" src="https://componentes.cnig.es/api-core/plugins/infocoordinates/infocoordinates.ol.min.js"></script>
+<script type="text/javascript" src="https://componentes.cnig.es/api-core/plugins/mousesrs/mousesrs.ol.min.js"></script>
+<script type="text/javascript" src="https://componentes.cnig.es/api-core/plugins/fulltoc/fulltoc.ol.min.js"></script>
+<script type="text/javascript" src="https://componentes.cnig.es/api-core/plugins/ignsearchlocator/ignsearchlocator.ol.min.js"></script>
 
 <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
-
 <script src="js/app-gazetteer.js" type="text/javascript"></script>
 <script src="js/search-manager.js" type="text/javascript"></script>
 

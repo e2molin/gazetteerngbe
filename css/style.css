@@ -376,53 +376,11 @@ img.no-normalizado{
     margin:auto;
     height:730px;/*730px;*/
 }
-
-
-.ol-zoomslider {
-            top: 7em;
+/*
+Ajustes del contenedor del control Mouse
+*/
+.m-control.m-container.m-mousesrs-container{
+    left:350px;
+    top:700px;
+    height:25px;
 }
-
-.infoLayersclass {
-            position:absolute; 
-            bottom: 6.5em;
-            right: 22px;
-            min-width: 0px;
-            font-size: 10px;
-            background-color: slategrey;
-			border-radius: 4px;    
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
-            color: white;
-            padding: 3px;
-            z-index:16; 
-}
-
-@media(min-width:768px) {
-    .ol-mouse-position {
-            top: auto;
-            bottom: 3.5em;
-            min-width: 0px;
-            font-size: 10px;
-            background-color: slategrey;
-			border-radius: 4px;    
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
-            color: white;
-            padding: 6px;
-    }
-
-}
-
-@media(max-width:767px) { 
-    .ol-mouse-position {
-            top: auto;
-            bottom: 0.5em;
-            min-width: 0px;
-            font-size: 11px;
-            background-color: slategrey;
-			border-radius: 4px;    
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
-            color: white;
-            padding: 2px;
-    }
-}
-
-

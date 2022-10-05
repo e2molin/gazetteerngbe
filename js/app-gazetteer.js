@@ -1,10 +1,6 @@
 var mobileMode=false;
-var map;
-
 var  mapAPICNIG = null;
-
 var resultNGBE_lyr=null; // Capa para almacenar resultados de las búsquedas
-var projection = ol.proj.get('EPSG:3857');
 var tabulatorResults;
 var tabulatorHisto;
 var lstIndex=[]; // Almacena los índices de los elementos sobre los que se ha hecho clic sobre el mapa.
@@ -13,11 +9,10 @@ var lstIndex=[]; // Almacena los índices de los elementos sobre los que se ha h
 /**
  * APIBADASID Calls
  */
-
  
 const domainProduction = "http://10.13.90.93/apibadasidv4/";
 const domainDeveloper = "http://localhost/apibadasidv4/";
-const modoDeveloper = true;
+const modoDeveloper = false;
 const domainRoot = modoDeveloper === true ? domainDeveloper:domainProduction;
 
 const urlMunisSearcher = `${domainRoot}public/autoridades/municipios`;//'http://localhost/apibadasidv4/public/autoridades/municipios';
@@ -29,8 +24,6 @@ const mtn25SearchServer = `${domainRoot}public/nomenclator/json/listngbe/mtn25/`
 const nameSearchServer  = `${domainRoot}public/nomenclator/json/listngbeINSPIRE/name/`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbeINSPIRE/name/'
 const urlSearchListById = `${domainRoot}public/nomenclator/json/listngbe/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/id/'
 const urlSearchHistoEntityById = `${domainRoot}public/nomenclator/json/entityngbehisto/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/entityngbehisto/id/'
-
-
 
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -68,32 +61,207 @@ document.getElementById("showPresentacion").addEventListener("click", () => {
     document.getElementById("presentacion").style.display = "block";
 });
 
-/*document.getElementById("showTabulatorResults").addEventListener("click", () => {
-    document.getElementById("atributosEntityList").style.display = "none";
-    document.getElementById("atributosEntity").style.display = "none";
-    document.getElementById("presentacion").style.display = "none";
-    document.getElementById("tabulatorEntityList").style.display = "block";
-});
-
-document.getElementById("showTabulatorResults").addEventListener("click", () => {
-    document.getElementById("atributosEntityList").style.display = "show";
-    document.getElementById("atributosEntity").style.display = "none";
-    document.getElementById("presentacion").style.display = "none";
-    document.getElementById("tabulatorEntityList").style.display = "none";
-});*/
-
-
 const cleanTabulatorResultsFilter = () => {
     document.getElementById("filter-value").value=``;
     document.getElementById("numResultsFilter").textContent = ``;
     tabulatorResults.clearFilter();
 }
 
+const getConfiguredBaseLayersPlugin = () => {
+
+    const objWMTSMapa = new M.layer.WMTS({
+        url: 'https://www.ign.es/wmts/mapa-raster',
+        name: 'MTN',
+        matrixSet: 'GoogleMapsCompatible',
+        legend: 'Mapa MTN',
+        transparent: false,
+        displayInLayerSwitcher: false,
+        queryable: false,
+        visible: true,
+        format: 'image/jpeg',
+    });
+
+    const objTMSIGNBase = new M.layer.XYZ({
+        url: 'https://tms-ign-base.idee.es/1.0.0/IGNBaseTodo/{z}/{x}/{-y}.jpeg',
+        projection: 'EPSG:3857',
+        transparent: false,
+        displayInLayerSwitcher: false,
+        queryable: false,
+        visible: true,
+        maxZoom: 19,
+    });
+      
+    const objTMSPNOA = new M.layer.XYZ({
+        url: 'https://tms-pnoa-ma.idee.es/1.0.0/pnoa-ma/{z}/{x}/{-y}.jpeg',
+        projection: 'EPSG:3857',
+        transparent: false,
+        displayInLayerSwitcher: false,
+        queryable: false,
+        visible: true,
+        maxZoom: 19,
+    });
+
+    const objWMTSLidar = new M.layer.WMTS({
+        url: 'https://wmts-mapa-lidar.idee.es/lidar',
+        name: 'EL.GridCoverageDSM',
+        matrixSet: 'GoogleMapsCompatible',
+        legend: 'Modelo Digital de Superficies LiDAR',
+        transparent: true,
+        displayInLayerSwitcher: false,
+        queryable: false,
+        visible: false,
+        format: 'image/png',
+    });
+      
+    const objTMSIGNBaseSoloTextos = new M.layer.XYZ({
+        url: 'https://tms-ign-base.idee.es/1.0.0/IGNBaseOrto/{z}/{x}/{-y}.png',
+        projection: 'EPSG:3857',
+        transparent: false,
+        displayInLayerSwitcher: false,
+        queryable: false,
+        visible: true,
+        maxZoom: 19,
+    });
+
+    const objWMTSMTN501Edi = new M.layer.WMTS({
+        url: 'https://www.ign.es/wmts/primera-edicion-mtn?',
+        name: 'mtn50-edicion1',
+        legend: 'MTN50 1Edi',
+        matrixSet: 'GoogleMapsCompatible',
+        transparent: false,
+        displayInLayerSwitcher: false,
+        queryable: false,
+        visible: true,
+        format: 'image/jpeg',
+    });
+
+    const objWMTSMTN251Edi = new M.layer.WMTS({
+        url: 'https://www.ign.es/wmts/primera-edicion-mtn?',
+        name: 'mtn25-edicion1',
+        legend: 'MTN25 1Edi',
+        matrixSet: 'GoogleMapsCompatible',
+        transparent: false,
+        displayInLayerSwitcher: false,
+        queryable: false,
+        visible: true,
+        format: 'image/jpeg',
+    });
+
+    const objWMTSMTNMinutas = new M.layer.WMTS({
+        url: 'https://www.ign.es/wmts/primera-edicion-mtn?',
+        name: 'catastrones',
+        legend: 'Minutas MTN',
+        matrixSet: 'GoogleMapsCompatible',
+        transparent: false,
+        displayInLayerSwitcher: false,
+        queryable: false,
+        visible: true,
+        format: 'image/jpeg',
+    });
+
+    const objWMSPlanimetrias = new M.layer.WMS({
+        url: 'https://www.ign.es/wms/minutas-cartograficas?',
+        name: 'Minutas',
+        legend: 'Planimetrías',
+        tiled: false,
+        visibility: true,
+    }, {})
+
+    const objWMSMTNTradicional = new M.layer.WMS({
+        url: 'http://10.67.33.132/wms10-inspire/mapa-raster?',
+        name: 'mtn_rasterizado',
+        legend: 'Tradicional',
+        tiled: true,
+        visibility: true,
+    }, {})
+
+    return new M.plugin.BackImgLayer({
+      position: 'TR',
+      layerId: 0,
+      layerVisibility: true,
+      collapsed: true,
+      collapsible: true,
+      columnsNumber: 5,
+      layerOpts: [
+        // Mapa MTN
+        {
+          id: 'MAPAMTN',
+          title: 'Mapa MTN',
+          preview: 'img/previewrastermtn.png',
+          layers: [objWMTSMapa],
+        },
+  
+        {
+          id: 'mapa',
+          preview: 'img/previewcallejero.png',
+          title: 'Mapa base',
+          layers: [objTMSIGNBase],
+        },
+        {
+          id: 'imagen',
+          title: 'PNOA',
+          preview: 'img/previewpnoa.png',
+          layers: [objTMSPNOA],
+        },
+        {
+          id: 'hibrido',
+          title: 'PNOA Híbrido',
+          preview: 'img/previewpnoahibrido.png',
+          layers: [objTMSPNOA,objTMSIGNBaseSoloTextos],
+        },
+        // LiDAR Híbrido
+        {
+          id: 'lidar-hibrido',
+          title: 'LiDAR Híbrido',
+          preview:  'img/previewlidarhibrido.png',
+          layers: [objWMTSLidar,objTMSIGNBaseSoloTextos],
+        },
+        // LiDAR Híbrido
+        {
+            id: 'mtntradicional',
+            title: 'MTN Tradicional',
+            preview:  'img/previewmtntradicional.png',
+            layers: [objWMSMTNTradicional],
+        },
+        //  MTN25 1Edi
+        {
+          id: 'MTN251Edi',
+          preview: 'img/previewmtn25old.png',
+          title: 'MTN25 1Edi',
+          layers: [objWMTSMTN251Edi],
+        },
+        //  MTN50 1Edi
+        {
+          id: 'MTN501Edi',
+          preview: 'img/previewmtn50old.png',
+          title: 'MTN50 1Edi',
+          layers: [objWMTSMTN501Edi],
+        },
+        //  Minutas
+        {
+            id: 'minutasmtn',
+            preview: 'img/previewminutas.png',
+            title: 'Minutas MTN',
+            layers: [objWMTSMTNMinutas],
+        },
+        //  Planimetrías
+        {
+            id: 'planimetrias',
+            preview: 'img/previewplanimetrias.png',
+            title: 'Planimetrías',
+            layers: [objWMSPlanimetrias],
+        },
+      ],
+    });
+  }
+
 const createAPICNIGMap = () => {
+
+    M.proxy(false);
 
     mapAPICNIG = new M.map({
         container: 'mapLienzo',
-        controls: ['backgroundlayers', 'scaleline', 'rotate' , 'location'],
+        controls: [ 'scale', 'rotate' , 'location'],
         zoom: 5,
         maxZoom: 22,
         minZoom: 4,
@@ -104,6 +272,41 @@ const createAPICNIGMap = () => {
             draw: false  //Dibuja un punto en el lugar de la coordenada
         },
     });
+
+    /**
+     * Definición de botones
+     */
+     mapAPICNIG.addPlugin(getConfiguredBaseLayersPlugin());
+
+     mapAPICNIG.addPlugin(new M.plugin.MeasureBar({
+                                position: 'TL'
+     }));
+     mapAPICNIG.addPlugin(new M.plugin.Infocoordinates({
+        position: 'TL'
+    }));
+
+    mapAPICNIG.addPlugin(new M.plugin.MouseSRS({
+        tooltip: "Muestra coordenadas",
+        srs: "EPSG:4326",
+        label: "WGS84",
+        precision: 4,
+        geoDecimalDigits: 3,
+        utmDecimalDigits: 2,
+        activeZ: false
+    }));
+
+    mapAPICNIG.addPlugin(new M.plugin.FullTOC({
+      position: 'TR',
+      collapsed: true,
+    }));
+
+    mapAPICNIG.addPlugin(new M.plugin.IGNSearchLocator({
+      position: 'TL',
+      collapsible: true,
+      isCollapsed: true,
+    }));
+
+
 
 }
 
@@ -118,6 +321,11 @@ function setDivVisibility(){
     } else {  
          mobileMode=false;
     } 
+
+
+
+
+
     console.log($("#codDictio").css("width"));
     $("#muniselect").css("width", $("#codDictio").css("width"));
     $("#mtnselect").css("width", $("#codDictio").css("width"));
@@ -126,15 +334,11 @@ function setDivVisibility(){
     
  }
 
-
-
 document.addEventListener("DOMContentLoaded", function(event) { 
-    console.log("Arranque W/H:" + $(window).width() + "/" + $(window).height());
-    if (($(window).width()) < '768'){  
-        mobileMode=true;
-    } else {  
 
-    }
+    console.log(`Arranque W/H: ${window.innerWidth} / ${window.innerHeight}`);
+    console.log(`${window.innerWidth<768 ? 'Mobile' : 'desktop'}`)
+
     //Resizing inicial
     $("#muniselect").css("width", $("#sidebar-container").width()-35);
     $("#mtnselect").css("width", $("#sidebar-container").width()-35);
@@ -164,24 +368,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
         return "<i class='fa fa-info-circle'></i>";
     };
 
-    const centrarVistaSobreToponimo = (longitud,latitud,zoomLevel,mensaje)=>{
+    const centrarVistaSobreToponimo = (longitud,latitud,zoomLevel)=>{
 	
-        console.log("centrarVistaToponimo.Longitud:" + longitud);
-        console.log("centrarVistaToponimo.Latitud:" + latitud);
-        removePointInfoLayer(mapOL3);
-        addPointInfo(mapOL3,parseFloat(longitud),parseFloat(latitud),mensaje);
-        var panning=new ol.View({
-              center: ol.proj.transform([parseFloat(longitud), parseFloat(latitud)], 'EPSG:4326', 'EPSG:3857'),
-              zoom: zoomLevel,
-              minZoom: 4,
-              maxZoom: 18        
-            });
-        mapOL3.setView(panning);
-        console.log("Efectuado");
+        const formatter = new M.format.WKT();
+        const wktEj = `POINT (${longitud} ${latitud})`;
+        let coordinates_epsg3857 = formatter.read(wktEj, { 
+            dataProjection: 'EPSG:4326', 
+            featureProjection: 'EPSG:3857' 
+            }).getGeoJSON().geometry.coordinates;
+
+        mapAPICNIG.setZoom(zoomLevel);
+        mapAPICNIG.setCenter(coordinates_epsg3857);
+
     }
-    
-
-
 
     const getInfoResult = (e, cell)=>{
         mostrarInfoByNumEnti(cell.getRow().getData().identidad,true);
@@ -190,7 +389,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     const zoomToResultPosition=(e,cell)=>{
-        centrarVistaSobreToponimo(cell.getRow().getData().dataLon,cell.getRow().getData().dataLat,map.getView().getZoom(),"");                                    
+        centrarVistaSobreToponimo(cell.getRow().getData().dataLon,cell.getRow().getData().dataLat,16);                                    
     }
 
     const updateFilter = () => {
