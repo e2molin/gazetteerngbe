@@ -2,60 +2,6 @@
 
 ![](img/jumbotron.png)
 
-" cat"
-"1"
-"arg"
-"ast"
-"car"
-"cat"
-"cay"
-"eus"
-"euss"
-"gal"
-"glg"
-"mul"
-"oci"
-"Oficial"
-"soa"
-"spa"
-"spa/arg"
-"spa/eus"
-"und"
-"val"
-
-
-https://fontawesome.com/v4/icons/
-
-    $cadSQL = "SELECT id,union_sep2013.codigo_ngbe as codigo_ngbe,id_autonum_union_sep2013,objectid,".
-            "identificador_geografico,fuente_idg,idioma_idg,estatus_idg,".
-            "nombre_extendido,fuente_extendido,idioma_extendido,estatus_extendido,".
-            "nombre_alternativo_2,fuente_alternativo_2,idioma_alternativo_2,estatus_alternativo_2,".
-            "nombre_alternativo_3,fuente_alternativo_3,idioma_alternativo_3,estatus_alternativo_3,".
-            "nombre_variante_1,fuente_variante_1,idioma_variante_1,estatus_variante_1,".
-            "nombre_variante_2,fuente_variante_2,idioma_variante_2,estatus_variante_2,".
-            "nombre_variante_3,fuente_variante_3,idioma_variante_3,estatus_variante_3,".
-            "ig_recomendado,fuente_ig_recomendada,alternativo_recomendado,".
-            "otras_denominaciones,fuente_otras_denominaciones,".
-            "forma_no_recomendada,fuente_fnr,forma_erronea,provincias_nombre,supraautonomico,".
-            "long_etrs89_regcan95,lat_etrs89_regcan95, hojamtn_25,codigo_ine,x_utm_etrs89_regcan95,y_utm_etrs89_regcan95,huso_etrs89_regcan95,".
-			"ttggss,observaciones,texto_previo_btn,orden_comodo,relacion,tratamiento,"
-            "diccionario.name_inspire as name_inspire,diccionario.nombre_mostrado as tipo_mostrado,".
-            "public.ST_AsGeoJSON(public.ST_Transform((the_geom),3857),6) AS geojson FROM ngbe_elaboracion.union_sep2013 ".
-            "LEFT JOIN ngbe_cnig.diccionario ON diccionario.codigo_ngbe=union_sep2013.codigo_ngbe ".
-            "WHERE id=".$idEntidad;
-
-
-
-
-                 <!-- Tab panes -->
-                  <div class="tab-content" id="itemAttribution">
-                    <div role="tabpanel" class="tab-pane active" id="generalAttrib"></div>
-                    <div role="tabpanel" class="tab-pane" id="namingAttrib"></div>
-                    <div role="tabpanel" class="tab-pane" id="locationAttrib"></div>
-                    <div role="tabpanel" class="tab-pane" id="othersAttrib"></div>
-                    <div role="tabpanel" class="tab-pane" id="historialAttrib"></div>
-                </div></div></div>
-
 
 ## localStorage
 
@@ -97,8 +43,7 @@ localStorage.clear(); /* Borra todo lo allacenado en localStorage */
 localStorage.removeItem('__combomunis__itemHash'); /* Borra úncaimente valores de la clave */
 ```
 
-## Lista de Nomencátores
-
+## Lista de Nomenclátores
 
 ### Aragón:
 
@@ -109,22 +54,33 @@ localStorage.removeItem('__combomunis__itemHash'); /* Borra úncaimente valores 
 
 * Nomenclátor: http://www.ideandalucia.es/nomenclator/buscador.jsp?lang=esp
 * Visor: http://www.ideandalucia.es/visor/
-Asturias:
-Nomenclátor:
-Visor: https://sigvisor.asturias.es/SITPA/?webmap=e0dded03df464437acca9632c5c4fae7&locale=es
-Canarias:
-Nomenclátor:
-Visor: https://visor.grafcan.es/visorweb/
-Cantabria:
-Nomenclátor:
-Visor: https://mapas.cantabria.es/
-Castilla La Mancha:
-Nomenclátor: nombres geográficos WFS http://geoservicios.castillalamancha.es/arcgis/rest/services/WFS/Nombres_Geograficos_WFS/MapServer?f=jsapi
-Visores: el segundo es el de recuperación de nombres geográficos. https://castillalamancha.maps.arcgis.com/apps/webappviewer/index.html?id=a8ef467d6441455d8e08c9d343908cb6
-https://castillalamancha.maps.arcgis.com/apps/webappviewer/index.html?id=64fb9f236c9b4217a13ad10c82cb39df
-Castilla y León:
-Nomenclátor:
-Visor: https://idecyl.jcyl.es/vcig/
+
+### Asturias:
+
+* Nomenclátor:
+* Visor: https://sigvisor.asturias.es/SITPA/?webmap=e0dded03df464437acca9632c5c4fae7&locale=es
+
+> https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?SingleLine=Oviedo, Asturias, Principado de Asturias, ESP&f=json&outSR={"wkid":25830,"latestWkid":25830}&outFields=*&maxLocations=6
+
+### Canarias:
+
+* Nomenclátor:
+* Visor: https://visor.grafcan.es/visorweb/
+
+### Cantabria:
+
+* Nomenclátor:
+* Visor: https://mapas.cantabria.es/
+ 
+### Castilla La Mancha:
+
+* Nomenclátor: nombres geográficos WFS http://geoservicios.castillalamancha.es/arcgis/rest/services/WFS/Nombres_Geograficos_WFS/MapServer?f=jsapi
+* Visores: https://castillalamancha.maps.arcgis.com/home/index.html
+
+### Castilla y León:
+
+* Nomenclátor:
+* Visor: https://idecyl.jcyl.es/vcig/
 
 ### Catalunya:
 
@@ -204,23 +160,30 @@ Nomenclátor: el primero del Gobierno Vasco, el segundo de la Real Academia de l
 > https://www.euskadi.eus/app/nomenclator-geografico-cae/pozonagusia/oficial/consultanomenclator/top-**mallutz**
 
 
-Otros:
-Instituto Hidrográfico de la Marina:
-http://ideihm.covam.es/visor.html
+### Instituto Hidrográfico de la Marina
 
-Confederaciones hidrográficas (pongo solo algunos ejemplos, los más utilizados):
-Duero:
-http://www.mirame.chduero.es/DMADuero_09_Viewer/viewerShow.do?action=showViewer&showLayers=11-31-307
-Ebro:
-http://ide-ebro.chebro.es/Default.vm
-Guadalquivir:
-https://idechg.chguadalquivir.es/nodo/Nomenclator/index.html
-Guadiana:
-https://www.chguadiana.es/visorCHG/
-Júcar
-https://aps.chj.es/siajucar/
-Segura:
-https://www.chsegura.es/portalchsic/apps/webappviewer/index.html?id=db44c41d2c7448409e9c4bab590e3828&codif=&nombre=Publico
-Tajo:
-http://visor.chtajo.es/VisorCHT/
+* http://ideihm.covam.es/visor.html
+
+### Confederaciones hidrográficas
+
+#### Duero:
+* http://www.mirame.chduero.es/DMADuero_09_Viewer/viewerShow.do?action=showViewer&showLayers=11-31-307
+
+#### Ebro:
+* http://ide-ebro.chebro.es/Default.vm
+
+#### Guadalquivir:
+* https://idechg.chguadalquivir.es/nodo/Nomenclator/index.html
+
+#### Guadiana:
+* https://www.chguadiana.es/visorCHG/
+
+#### Júcar
+* https://aps.chj.es/siajucar/
+
+#### Segura:
+* https://www.chsegura.es/portalchsic/apps/webappviewer/index.html?id=db44c41d2c7448409e9c4bab590e3828&codif=&nombre=Publico
+
+#### Tajo:
+* http://visor.chtajo.es/VisorCHT/
 

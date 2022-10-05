@@ -1,15 +1,16 @@
 var mobileMode=false;
-var  mapAPICNIG = null;
+var mapAPICNIG = null;
 var resultNGBE_lyr=null; // Capa para almacenar resultados de las búsquedas
 var tabulatorResults;
 var tabulatorHisto;
 var lstIndex=[]; // Almacena los índices de los elementos sobre los que se ha hecho clic sobre el mapa.
 
-
+const appTitle= "Gazetteer NGBE";
+const appURLCanonical = "http://sapignmad200.ign.fomento.es/runtime/gazetteerngbe/index.html"
 /**
  * APIBADASID Calls
  */
- 
+
 const domainProduction = "http://10.13.90.93/apibadasidv4/";
 const domainDeveloper = "http://localhost/apibadasidv4/";
 const modoDeveloper = false;
@@ -24,6 +25,9 @@ const mtn25SearchServer = `${domainRoot}public/nomenclator/json/listngbe/mtn25/`
 const nameSearchServer  = `${domainRoot}public/nomenclator/json/listngbeINSPIRE/name/`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbeINSPIRE/name/'
 const urlSearchListById = `${domainRoot}public/nomenclator/json/listngbe/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/id/'
 const urlSearchHistoEntityById = `${domainRoot}public/nomenclator/json/entityngbehisto/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/entityngbehisto/id/'
+const urlBufferSearch = `${domainRoot}public/nomenclator/json/listngbe/buffer?`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/buffer?'
+
+
 
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -177,7 +181,7 @@ const getConfiguredBaseLayersPlugin = () => {
 
     return new M.plugin.BackImgLayer({
       position: 'TR',
-      layerId: 0,
+      layerId: 1,
       layerVisibility: true,
       collapsed: true,
       collapsible: true,
@@ -400,7 +404,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
       });
       let filterValue = document.getElementById("filter-value").value;
-      if (isEmptyNullString(filterValue)){return;}
+      if (isEmptyNullString(filterValue)){
+        filterValue=``;
+      }
       tabulatorResults.addFilter("nombre", "like", filterValue);
       let numResultadosFiltrados = tabulatorResults.rowManager.activeRowsCount;
       if (numResultadosFiltrados != tabulatorResults.rowManager.rows.length) {
@@ -472,13 +478,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
     $('#muniselect').typeahead({
         name: 'combomunis',
         prefetch : urlMunisSearcher
-      });
-      $('#mtnselect').typeahead({
+    });
+
+    $('#mtnselect').typeahead({
           name: 'combomtn',
           prefetch : urlHojaMTNSearcher
-        });
+    });
 
     document.getElementById("alertnosel").style.display = "none";
     document.getElementById("alertnoselMTN").style.display = "none";
+
+    // Detección del permalink de entidad
+    let paramSearch=window.location.search;
+    if (!isEmptyNullString(paramSearch)){
+      if (paramSearch.indexOf('?identidad=')>=0){
+        let idEntidadSearch = paramSearch.replace('?identidad=','');
+        console.log(`Permalink entidad ${paramSearch.replace('?identidad=','')}`);
+        document.getElementById("searchByIdparam").value=idEntidadSearch;
+        searchById();
+      }
+    }
     
 });

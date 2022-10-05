@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="https://componentes.cnig.es/api-core/plugins/ignsearchlocator/ignsearchlocator.ol.min.css">
 
     <link rel="stylesheet" href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css">
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap/tabulator_bootstrap3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/tabulator_bootstrap3.css">
     <link rel="stylesheet" href="css/style.css">        
     <link rel="shortcut icon" href="favicon.ico">
 
@@ -97,17 +97,18 @@
                     <div id="sidebar-second" class="list-group panel-collapse collapse">
                         <ul class="list-group">
                             <li class="list-group-item"><a id="searchByView" href="#"><i class="fa fa-globe" aria-hidden="true"></i> Topónimos en la vista</a></li>
-                            <!--
+                            
                             <li class="list-group-item">
-                                <a href="#">Topónimos en el centro</a>
+                                <span style="font-size:14px"><i class="fa fa-globe" aria-hidden="true"></i> Topónimos en el centro del mapa<br/><br/></span>
+
                                 <div class="input-group">
-                                    <input type="text" class="form-control input-sm" id="searchByRadioparam" placeholder="Define radio de búsqueda">
+                                    <input type="number" class="form-control input-sm" id="searchByRadioparam" placeholder="Define radio de búsqueda (m)">
                                     <span class="input-group-btn">
                                         <button id="searchByRadio" class="btn btn-secondary btn-sm" type="button"><i class="fa fa-search"></i></button>
                                     </span>
                                 </div>                                
                             </li>
-                            -->
+                            
                         </ul>
 
                     </div>
@@ -146,7 +147,7 @@
 
                         <!--Buscar por identificador de la entidad-->
                         <div class="input-group">
-                            <input type="text" class="form-control input-sm" id="searchByIdparam" placeholder="Número entidad...">
+                            <input type="number" class="form-control input-sm" id="searchByIdparam" placeholder="Número entidad...">
                             <span class="input-group-btn">
                                 <button id="searchById" class="btn btn-secondary btn-sm" type="button"><i class="fa fa-search"></i></button>
                             </span>
@@ -160,25 +161,6 @@
                             </span>
                         </div>
                         <br/>
-                        <!--Buscar por hoja MTN25-->
-                        <!--
-                        <div class="input-group">
-                            <input type="text" class="form-control input-sm" id="searchByMTNparam" placeholder="Hoja MTN25, 0559c1...">
-                            <span class="input-group-btn">
-                                <button id="searchByMTN" class="btn btn-secondary btn-sm" type="button"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div> 
-                        -->
-                        <!--Buscar por hoja MTN25-->
-                        <!--
-                        <div class="input-group">
-                            <input type="text" class="form-control input-sm" id="searchByMTNparam" placeholder="Hoja MTN25, 0559c1...">
-                            <span class="input-group-btn">
-                                <button id="searchByMTN" class="btn btn-secondary btn-sm" type="button"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>                        
-                        -->
-                        
                         <br/>Filtrar por clase...
                         <select id="codDictio" class="form-control">
                             <option value="0.0">Ver todas las clases</option>
@@ -497,7 +479,31 @@
             </div>              
         </div>
     </div>  
-</main> 
+</main>
+
+
+<!-- Ventana modal para informaciones -->
+<div id="myMsgModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-md">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 id="modal-title" class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p id="modal-message">Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+  
+    </div>
+</div>
+
+
+
 
 <!--Footer-->        
 <footer class="footer">
@@ -508,8 +514,8 @@
     </div>
 </footer>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><!-- Antes 1.11.3-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><!-- Antes 3.3.6-->
 <script src="js/typeahead/typeahead.js"></script>
 <script type="text/javascript" src="https://componentes.cnig.es/api-core/js/apiign.ol.min.js"></script>
 <script type="text/javascript" src="https://componentes.cnig.es/api-core/js/configuration.js"></script>
