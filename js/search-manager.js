@@ -305,35 +305,35 @@ const getClassEstatus= (estatus)=>{
 
 }
 
-document.getElementById("develOne").addEventListener("click", () => {
+// document.getElementById("develOne").addEventListener("click", () => {
 
   
-  mapAPICNIG.setZoom(10);
-  mapAPICNIG.setCenter([-421609,4924260]);
-  const formatter = new M.format.WKT();
+//   mapAPICNIG.setZoom(10);
+//   mapAPICNIG.setCenter([-421609,4924260]);
+//   const formatter = new M.format.WKT();
 
-  const wktEj = "POINT (-3.787385 40.400135)";
-  console.log(formatter.read(wktEj, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' }).getGeometry());
+//   const wktEj = "POINT (-3.787385 40.400135)";
+//   console.log(formatter.read(wktEj, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' }).getGeometry());
 
-  console.log(formatter.read(wktEj, { 
-    dataProjection: 'EPSG:4326', 
-    featureProjection: 'EPSG:3857' 
-  }).getGeoJSON());
+//   console.log(formatter.read(wktEj, { 
+//     dataProjection: 'EPSG:4326', 
+//     featureProjection: 'EPSG:3857' 
+//   }).getGeoJSON());
 
-  let coordinates_epsg3857 = formatter.read(wktEj, { 
-                                    dataProjection: 'EPSG:4326', 
-                                    featureProjection: 'EPSG:3857' 
-                                  }).getGeoJSON().geometry.coordinates;
+//   let coordinates_epsg3857 = formatter.read(wktEj, { 
+//                                     dataProjection: 'EPSG:4326', 
+//                                     featureProjection: 'EPSG:3857' 
+//                                   }).getGeoJSON().geometry.coordinates;
   
-  console.log(coordinates_epsg3857);
+//   console.log(coordinates_epsg3857);
 
 
-  console.log(formatter.read(wktEj, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' }));
+//   console.log(formatter.read(wktEj, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' }));
   
-  mapAPICNIG.setCenter([-421609, 4924260]);
+//   mapAPICNIG.setCenter([-421609, 4924260]);
 
 
-});
+// });
 
 
 
@@ -647,17 +647,17 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
 /**
  * Definición Eventos del UI
  */
-document.getElementById("searchByName").addEventListener("click", (e) => {
-  searchByName();
-});
+// document.getElementById("searchByName").addEventListener("click", (e) => {
+//   searchByName();
+// });
 
-document.getElementById("searchByView").addEventListener("click", (e) => {
-  searchByView();
-});
+// document.getElementById("searchByView").addEventListener("click", (e) => {
+//   searchByView();
+// });
 
-document.getElementById("searchById").addEventListener("click", (e) => {
-    searchById();
-});
+// document.getElementById("searchById").addEventListener("click", (e) => {
+//     searchById();
+// });
 
 document.getElementById("muniselect").addEventListener("keyup", (event) => {
   if (event.key === "Enter") {
@@ -665,27 +665,27 @@ document.getElementById("muniselect").addEventListener("keyup", (event) => {
   }
 });
 
-document.getElementById("mtnselect").addEventListener("keyup", (event) => {
-  if (event.key === "Enter") {
-    searchByHojaMTN();
-  }
-});
+// document.getElementById("mtnselect").addEventListener("keyup", (event) => {
+//   if (event.key === "Enter") {
+//     searchByHojaMTN();
+//   }
+// });
 
-document.getElementById("searchByHojaMTN").addEventListener("click", (e) => {
-    searchByHojaMTN();
-});
+// document.getElementById("searchByHojaMTN").addEventListener("click", (e) => {
+//     searchByHojaMTN();
+// });
 
-document.getElementById("searchByMuni").addEventListener("click", (e) => {
-    searchByMuni();
-});
+// document.getElementById("searchByMuni").addEventListener("click", (e) => {
+//     searchByMuni();
+// });
 
-document.getElementById("clean-filter").addEventListener("click", (e) => {
-  cleanTabulatorResultsFilter();
-});
+// document.getElementById("clean-filter").addEventListener("click", (e) => {
+//   cleanTabulatorResultsFilter();
+// });
 
-document.getElementById("searchByRadio").addEventListener("click", (e) => {
-  searchByBuffer();
-});
+// document.getElementById("searchByRadio").addEventListener("click", (e) => {
+//   searchByBuffer();
+// });
 
 
 

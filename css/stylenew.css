@@ -1,0 +1,117 @@
+html{
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  background-color:#dbdbdb;
+  color: #000000;/*#5a5a5a;*/
+  font-size: 12px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+header{
+  margin-top:10px;
+}
+
+/*-----------------------------------*/
+/*Top navbar*/
+/*-----------------------------------*/
+#topnavbar{
+  background: url("../img/background-header.png") no-repeat center scroll;
+  background-color: #364b5f;
+}
+
+.navbar-brand{
+  color: #a5a5a5;
+   /*color: #000000;*/
+}
+
+/*-----------------------------------*/
+/*Sidebar*/
+/*-----------------------------------*/
+
+#sidebarMenu{
+  height: 95vh;
+  padding-top: 50px;
+}
+
+#sidebarMenu a{
+  text-decoration: none;
+  font-size: 1rem;
+  line-height: 1em;
+}
+
+#sidebarMenu .card {
+  margin-top:5px;
+}
+  
+/* 
+.typeahead-devs, .tt-hint,.combomunis, .combomtn  {
+  border: 2px solid #CCCCCC;
+  border-radius: 4px 4px 4px 4px;
+  font-size: 11px;
+  height: 25px;
+  line-height: 30px;
+  outline: medium none;
+  padding: 4px 4px;
+  width: 180px;
+}
+.tt-dropdown-menu {
+width: 270px;
+margin-top: 5px;
+padding: 8px 12px;
+background-color: #fff;
+border: 1px solid #ccc;
+border: 1px solid rgba(0, 0, 0, 0.2);
+border-radius: 4px 4px 4px 4px;
+font-size: 10px;
+color: #111;
+background-color: #F1F1F1;
+} */
+
+
+
+/*-------------------------*/
+/*Footer                   */
+/*-------------------------*/
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  padding-top: 5px;
+  width: 100%;
+  height: 40px;
+  background-color: #222;
+  color: #666;
+}
+
+.footer a {
+  color: #999;
+}
+.footer a:hover {
+  color: #efefef;
+}
+
+/*-------------------------*/
+/*Estilos de cartografía*/
+/*-------------------------*/
+
+#mapCanvas{		
+  margin:auto;
+  height:750px;/*730px;*/
+}
+#mapLienzo{		
+  margin:auto;
+  height:730px;/*730px;*/
+}
+/*
+Ajustes del contenedor del control Mouse
+*/
+.m-control.m-container.m-mousesrs-container{
+  left:350px;
+  top:700px;
+  height:25px;
+}
+
+
