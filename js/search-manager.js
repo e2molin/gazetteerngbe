@@ -51,11 +51,11 @@ const searchByHojaMTN = () => {
     let urlRequest = mtn25SearchServer + numMTN + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "") + (codProv != "00" ? "codProv=" + codProv + "&" : "");
 
 
-    document.getElementById("presentacion").style.display = "none";
-    document.getElementById("tabulatorEntityList").style.display = "none";
-    document.getElementById("atributosEntity").style.display = "none";
-    document.getElementById("searchingBar").style.display = "block";
-    document.getElementById("spinner_searchid").style.display = "block";
+    document.getElementById("presentacion").classList.add("d-none");
+    document.getElementById("tabulatorEntityList").classList.add("d-none");
+    document.getElementById("atributosEntity").classList.add("d-none");
+    document.getElementById("searchingBar").classList.remove("d-none");
+    document.getElementById("spinner_searchMTN").classList.remove("d-none");
     
     $.ajax({
         url: urlRequest,
@@ -80,20 +80,24 @@ const searchByMuni = ()=>{
     let nameMuni = $("#muniselect").val();
     let codDictio= $("#codDictio").find(":selected").val();
     if (nameMuni==""){
+        document.getElementById("alertnoselmuni").classList.remove("d-none");
         console.log("Nada que buscar");
         return;
     }else{
-        console.log("Buscar por municipio: " + nameMuni);
+      document.getElementById("alertnoselmuni").classList.add("d-none");
+      console.log("Buscar por municipio: " + nameMuni);
     }
 
     let codMuni = nameMuni.substring(nameMuni.length-6,nameMuni.length-1);
     let urlRequest = ineSearchServer + codMuni + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "");
 
-    document.getElementById("presentacion").style.display = "none";
-    document.getElementById("tabulatorEntityList").style.display = "none";
-    document.getElementById("atributosEntity").style.display = "none";
-    document.getElementById("searchingBar").style.display = "block";
-    document.getElementById("spinner_searchid").style.display = "block";
+    document.getElementById("presentacion").classList.add("d-none");
+    document.getElementById("tabulatorEntityList").classList.add("d-none");
+    document.getElementById("atributosEntity").classList.add("d-none");
+    document.getElementById("searchingBar").classList.remove("d-none");
+    document.getElementById("spinner_searchMuni").classList.remove("d-none");
+
+    console.log(urlRequest);
 
     $.ajax({
             url: urlRequest,
@@ -109,50 +113,60 @@ const searchByMuni = ()=>{
 }
 
 
-const searchByName = () =>{
+const searchByName = () => {
 
-    let nameEnti = $("#searchByNameparam").val();
-    let codProv= $("#provinCbo").find(":selected").val();
-    let codDictio= $("#codDictio").find(":selected").val();
-    let urlRequest = nameSearchServer + nameEnti + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "") + (codProv != "00" ? "codProv=" + codProv + "&" : "");
+  // let nameEnti = $("#searchByNameparam").val();
+  // let codProv = $("#provinCbo").find(":selected").val();
+  // let codDictio = $("#codDictio").find(":selected").val();
+  let nameEnti = document.getElementById("searchByNameparam").value;
+  let codProv = document.getElementById("provinCbo").value;
+  let codDictio = document.getElementById("codDictio").value;
 
-    document.getElementById("presentacion").style.display = "none";
-    document.getElementById("tabulatorEntityList").style.display = "none";
-    document.getElementById("atributosEntity").style.display = "none";
-    document.getElementById("searchingBar").style.display = "block";
-    document.getElementById("spinner_searchid").style.display = "block";
+  let urlRequest =
+    nameSearchServer +
+    nameEnti +
+    "?" +
+    (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "") +
+    (codProv != "00" ? "codProv=" + codProv + "&" : "");
 
-    $.ajax({
-        url: urlRequest,
-        dataType: 'json',
-        success: function(resultsRequest){
-                            //Pintamos el geoJSOn en el mapa
-                            showResultsetList(resultsRequest);
-        },
-        error: function(e){
-                console.log(e.responseText);
-        }
-    });
+  document.getElementById("presentacion").classList.add("d-none");
+  document.getElementById("tabulatorEntityList").classList.add("d-none");
+  document.getElementById("atributosEntity").classList.add("d-none");
+  document.getElementById("searchingBar").classList.remove("d-none");
+  document.getElementById("spinner_searchName").classList.remove("d-none");
+
+  $.ajax({
+    url: urlRequest,
+    dataType: "json",
+    success: function (resultsRequest) {
+      //Pintamos el geoJSOn en el mapa
+      showResultsetList(resultsRequest);
+    },
+    error: function (e) {
+      console.log(e.responseText);
+    },
+  });
+};
+
+const showModalMessage = (message, title) => {
+
+  title = typeof title === "undefined" ? appTitle : title;
+  document.getElementById("modal-title").textContent = `${title}`;
+  document.getElementById("modal-message").textContent = `${message}`;
+
+  const myModal = new bootstrap.Modal(document.getElementById('myMsgModal'), {keyboard: false})
+  myModal.show();
 
 };
 
-
-const showModalMessage = (message,title) =>{
-
-  // Se ha definido previamente un contenedor modal de Bootstrap 3 llamado myMsgModal
-  title = (typeof title === 'undefined') ? appTitle : title;
-  document.getElementById("modal-title").textContent = `${title}`;
-  document.getElementById("modal-message").textContent = `${message}`;
-  $("#myMsgModal").modal();
-
-}
-
-
 const searchByView = () => {
-
   const formatter = new M.format.WKT();
-  const bboxMin = `POINT (${mapAPICNIG.getBbox().x.min} ${mapAPICNIG.getBbox().y.min})`;
-  const bboxMax = `POINT (${mapAPICNIG.getBbox().x.max} ${mapAPICNIG.getBbox().y.max})`;
+  const bboxMin = `POINT (${mapAPICNIG.getBbox().x.min} ${
+    mapAPICNIG.getBbox().y.min
+  })`;
+  const bboxMax = `POINT (${mapAPICNIG.getBbox().x.max} ${
+    mapAPICNIG.getBbox().y.max
+  })`;
 
   let bboxMin_epsg4326 = formatter
     .read(bboxMin, {
@@ -168,7 +182,16 @@ const searchByView = () => {
     })
     .getGeoJSON().geometry.coordinates;
 
-  let urlRequest = bboxSearchServer + "lonmin=" + bboxMin_epsg4326[0] + "&latmin=" + bboxMin_epsg4326[1] + "&lonmax=" + bboxMax_epsg4326[0] +"&latmax=" + bboxMax_epsg4326[1];
+  let urlRequest =
+    bboxSearchServer +
+    "lonmin=" +
+    bboxMin_epsg4326[0] +
+    "&latmin=" +
+    bboxMin_epsg4326[1] +
+    "&lonmax=" +
+    bboxMax_epsg4326[0] +
+    "&latmax=" +
+    bboxMax_epsg4326[1];
 
   if (mapAPICNIG.getZoom() < 13) {
     showModalMessage(
@@ -176,11 +199,11 @@ const searchByView = () => {
     );
     return;
   }
-  document.getElementById("presentacion").style.display = "none";
-  document.getElementById("tabulatorEntityList").style.display = "none";
-  document.getElementById("atributosEntity").style.display = "none";
-  document.getElementById("searchingBar").style.display = "block";
-  document.getElementById("spinner_searchid").style.display = "block";
+  document.getElementById("presentacion").classList.add("d-none");
+  document.getElementById("tabulatorEntityList").classList.add("d-none");
+  document.getElementById("atributosEntity").classList.add("d-none");
+  document.getElementById("searchingBar").classList.remove("d-none");
+  document.getElementById("spinner_searchspatial").style.display = "block";
 
   $.ajax({
     url: urlRequest,
@@ -202,24 +225,20 @@ const searchByBuffer = () => {
   const centerMap = `POINT (${mapAPICNIG.getCenter().x} ${mapAPICNIG.getCenter().y})`;
 
   let center_epsg4326 = formatter.read(centerMap, {dataProjection: "EPSG:3857",featureProjection: "EPSG:4326",}).getGeoJSON().geometry.coordinates;
-
-
-  console.log(radioSearch);
-  console.log(center_epsg4326);
-
   let urlRequest = urlBufferSearch + "loncenter=" + center_epsg4326[0] + "&latcenter=" + center_epsg4326[1] + "&metersradio=" + radioSearch;
 
   if (radioSearch > 50000) {
+    console.log("RAdio excesivo");
     showModalMessage(
       "El radio de búsqueda es demasiado grande. Reduzca el radio por debajo de 50 Km"
     );
     return;
   }
-  document.getElementById("presentacion").style.display = "none";
-  document.getElementById("tabulatorEntityList").style.display = "none";
-  document.getElementById("atributosEntity").style.display = "none";
-  document.getElementById("searchingBar").style.display = "block";
-  document.getElementById("spinner_searchid").style.display = "block";
+  document.getElementById("presentacion").classList.add("d-none");
+  document.getElementById("tabulatorEntityList").classList.add("d-none");
+  document.getElementById("atributosEntity").classList.add("d-none");
+  document.getElementById("searchingBar").classList.remove("d-none");
+  document.getElementById("spinner_searchspatial").classList.remove("d-none");
 
   $.ajax({
     url: urlRequest,
@@ -239,17 +258,19 @@ const searchById = () => {
 
   let idEnti = parseInt(document.getElementById("searchByIdparam").value);
   if (idEnti === 0) {
+    document.getElementById("alertnoselid").classList.remove("d-none");
     return;
   }
   if (isNaN(idEnti)){
+    document.getElementById("alertnoselid").classList.remove("d-none");
     return;
   }
-
-  document.getElementById("presentacion").style.display = "none";
-  document.getElementById("tabulatorEntityList").style.display = "none";
-  document.getElementById("atributosEntity").style.display = "none";
-  document.getElementById("searchingBar").style.display = "block";
-  document.getElementById("spinner_searchid").style.display = "block";
+  
+  document.getElementById("presentacion").classList.add("d-none");
+  document.getElementById("tabulatorEntityList").classList.add("d-none");
+  document.getElementById("atributosEntity").classList.add("d-none");
+  document.getElementById("searchingBar").classList.remove("d-none");
+  document.getElementById("spinner_searchId").classList.remove("d-none");
 
   $.ajax({
     url: urlSearchListById + idEnti,
@@ -339,6 +360,7 @@ const getClassEstatus= (estatus)=>{
 
 const showResultsetList = (resultsRequest) => {
 
+
   // Pintamos el geoJSON en el mapa
 
   // Borro la capa de resultados si existe
@@ -377,8 +399,8 @@ const showResultsetList = (resultsRequest) => {
     resultNGBE_lyr.on(M.evt.SELECT_FEATURES, function(features) {
       if (features.length===1){
         mostrarInfoByNumEnti(features[0].getAttribute('identidad'),true,false);
-        document.getElementById("tabulatorEntityList").style.display = "none";
-        document.getElementById("atributosEntity").style.display = "block";
+        document.getElementById("tabulatorEntityList").classList.add("d-none");
+        document.getElementById("atributosEntity").classList.remove("d-none");
       }else if (features.length>=1){
         lstIndex = [];
         cleanTabulatorResultsFilter();
@@ -386,12 +408,12 @@ const showResultsetList = (resultsRequest) => {
           lstIndex.push(feature.getAttribute('identidad'));
         })
         tabulatorResults.setFilter("identidad", "in", lstIndex);
-        document.getElementById("tabulatorEntityList").style.display = "block";
-        document.getElementById("atributosEntity").style.display = "none";
+        document.getElementById("tabulatorEntityList").classList.remove("d-none");
+        document.getElementById("atributosEntity").classList.add("d-none");
       }else{
         cleanTabulatorResultsFilter();
-        document.getElementById("tabulatorEntityList").style.display = "block";
-        document.getElementById("atributosEntity").style.display = "none";
+        document.getElementById("tabulatorEntityList").classList.remove("d-none");
+        document.getElementById("atributosEntity").classList.add("d-none");
       }
     });
 
@@ -406,10 +428,8 @@ const showResultsetList = (resultsRequest) => {
       });
     });
 
-  document.getElementById("searchingBar").style.display = "none";
-  document.getElementById("atributosEntity").style.display = "none";
-  document.getElementById("spinner_searchid").style.display = "block";
-  document.getElementById("spinner_searchspatial").style.display = "block";
+  document.getElementById("searchingBar").classList.add("d-none");
+  document.getElementById("atributosEntity").classList.add("d-none");
   document.getElementById("filter-value").value=``;
   document.getElementById("numResultsFilter").textContent = ``;
 
@@ -429,9 +449,12 @@ const showResultsetList = (resultsRequest) => {
   tabulatorResults.setData(tableData);
 
   document.getElementById("numResults").textContent=resultsRequest.features.length;
-  document.getElementById("tabulatorEntityList").style.display = "block";
-  document.getElementById("spinner_searchspatial").style.display = "none";
-  document.getElementById("spinner_searchid").style.display = "none";
+  document.getElementById("tabulatorEntityList").classList.remove("d-none");
+  document.getElementById("spinner_searchspatial").classList.add("d-none");
+  document.getElementById("spinner_searchMuni").classList.add("d-none");
+  document.getElementById("spinner_searchMTN").classList.add("d-none");
+  document.getElementById("spinner_searchId").classList.add("d-none");
+  document.getElementById("spinner_searchName").classList.add("d-none");
 
 };
 
@@ -439,13 +462,13 @@ const showResultsetList = (resultsRequest) => {
 const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
     
     var attributeDisplay="";
-    $("#spinner_searchid").show();
+    //$("#spinner_searchid").show();
     //Tratamiento de parámetros opcionales
     panningEntity = (typeof panningEntity === 'undefined') ? false : panningEntity;
     console.log("Hacer panning:" + panningEntity);
-    if (showBtnResults == false) {
-        attributeDisplay="display:none;"
-    }
+    // if (showBtnResults == false) {
+    //     attributeDisplay="display:none;"
+    // }
     
     $.ajax({
         //url: 'apinomen2/public/entityngbe/json/id/' + idEnti,
@@ -647,45 +670,43 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
 /**
  * Definición Eventos del UI
  */
-// document.getElementById("searchByName").addEventListener("click", (e) => {
-//   searchByName();
-// });
+ document.getElementById("searchByName").addEventListener("click", (e) => {
+   searchByName();
+ });
 
-// document.getElementById("searchByView").addEventListener("click", (e) => {
-//   searchByView();
-// });
+ document.getElementById("searchByView").addEventListener("click", (e) => {
+   searchByView();
+ });
 
-// document.getElementById("searchById").addEventListener("click", (e) => {
-//     searchById();
-// });
+document.getElementById("searchById").addEventListener("click", (e) => {
+    document.getElementById("alertnoselid").classList.add("d-none");
+     searchById();
+});
 
 document.getElementById("muniselect").addEventListener("keyup", (event) => {
+  document.getElementById("alertnoselmuni").classList.add("d-none");
   if (event.key === "Enter") {
     searchByMuni();
   }
 });
 
-// document.getElementById("mtnselect").addEventListener("keyup", (event) => {
-//   if (event.key === "Enter") {
-//     searchByHojaMTN();
-//   }
-// });
+ document.getElementById("mtnselect").addEventListener("keyup", (event) => {
+   if (event.key === "Enter") {
+    searchByHojaMTN();
+   }
+ });
 
-// document.getElementById("searchByHojaMTN").addEventListener("click", (e) => {
-//     searchByHojaMTN();
-// });
+ document.getElementById("searchByMuni").addEventListener("click", (e) => {
+     searchByMuni();
+ });
 
-// document.getElementById("searchByMuni").addEventListener("click", (e) => {
-//     searchByMuni();
-// });
+//  document.getElementById("clean-filter").addEventListener("click", (e) => {
+//    cleanTabulatorResultsFilter();
+//  });
 
-// document.getElementById("clean-filter").addEventListener("click", (e) => {
-//   cleanTabulatorResultsFilter();
-// });
-
-// document.getElementById("searchByRadio").addEventListener("click", (e) => {
-//   searchByBuffer();
-// });
+ document.getElementById("searchByRadio").addEventListener("click", (e) => {
+   searchByBuffer();
+ });
 
 
 

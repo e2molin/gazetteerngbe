@@ -59,11 +59,11 @@ const getFloatNum = (valorNumero) => {
 /*Botoneras ------------------------------*/
 /*----------------------------------------*/
 
-// document.getElementById("showPresentacion").addEventListener("click", () => {
-//     document.getElementById("tabulatorEntityList").style.display = "none";
-//     document.getElementById("atributosEntity").style.display = "none";
-//     document.getElementById("presentacion").style.display = "block";
-// });
+document.getElementById("showPresentacion").addEventListener("click", () => {
+    document.getElementById("tabulatorEntityList").classList.add("d-none");
+    document.getElementById("atributosEntity").classList.add("d-none");
+    document.getElementById("presentacion").classList.remove("d-none");
+});
 
 const cleanTabulatorResultsFilter = () => {
     document.getElementById("filter-value").value=``;
@@ -86,69 +86,69 @@ const getConfiguredBaseLayersPlugin = () => {
     });
 
     const objTMSIGNBase = new M.layer.XYZ({
-        url: 'https://tms-ign-base.idee.es/1.0.0/IGNBaseTodo/{z}/{x}/{-y}.jpeg',
-        projection: 'EPSG:3857',
-        transparent: false,
-        displayInLayerSwitcher: false,
-        queryable: false,
-        visible: true,
-        maxZoom: 19,
+      url: "https://tms-ign-base.idee.es/1.0.0/IGNBaseTodo/{z}/{x}/{-y}.jpeg",
+      projection: "EPSG:3857",
+      transparent: false,
+      displayInLayerSwitcher: false,
+      queryable: false,
+      visible: true,
+      maxZoom: 19,
     });
-      
+
     const objTMSPNOA = new M.layer.XYZ({
-        url: 'https://tms-pnoa-ma.idee.es/1.0.0/pnoa-ma/{z}/{x}/{-y}.jpeg',
-        projection: 'EPSG:3857',
-        transparent: false,
-        displayInLayerSwitcher: false,
-        queryable: false,
-        visible: true,
-        maxZoom: 19,
+      url: "https://tms-pnoa-ma.idee.es/1.0.0/pnoa-ma/{z}/{x}/{-y}.jpeg",
+      projection: "EPSG:3857",
+      transparent: false,
+      displayInLayerSwitcher: false,
+      queryable: false,
+      visible: true,
+      maxZoom: 19,
     });
 
     const objWMTSLidar = new M.layer.WMTS({
-        url: 'https://wmts-mapa-lidar.idee.es/lidar',
-        name: 'EL.GridCoverageDSM',
-        matrixSet: 'GoogleMapsCompatible',
-        legend: 'Modelo Digital de Superficies LiDAR',
-        transparent: true,
-        displayInLayerSwitcher: false,
-        queryable: false,
-        visible: false,
-        format: 'image/png',
+      url: "https://wmts-mapa-lidar.idee.es/lidar",
+      name: "EL.GridCoverageDSM",
+      matrixSet: "GoogleMapsCompatible",
+      legend: "Modelo Digital de Superficies LiDAR",
+      transparent: true,
+      displayInLayerSwitcher: false,
+      queryable: false,
+      visible: false,
+      format: "image/png",
     });
-      
+
     const objTMSIGNBaseSoloTextos = new M.layer.XYZ({
-        url: 'https://tms-ign-base.idee.es/1.0.0/IGNBaseOrto/{z}/{x}/{-y}.png',
-        projection: 'EPSG:3857',
-        transparent: false,
-        displayInLayerSwitcher: false,
-        queryable: false,
-        visible: true,
-        maxZoom: 19,
+      url: "https://tms-ign-base.idee.es/1.0.0/IGNBaseOrto/{z}/{x}/{-y}.png",
+      projection: "EPSG:3857",
+      transparent: false,
+      displayInLayerSwitcher: false,
+      queryable: false,
+      visible: true,
+      maxZoom: 19,
     });
 
     const objWMTSMTN501Edi = new M.layer.WMTS({
-        url: 'https://www.ign.es/wmts/primera-edicion-mtn?',
-        name: 'mtn50-edicion1',
-        legend: 'MTN50 1Edi',
-        matrixSet: 'GoogleMapsCompatible',
-        transparent: false,
-        displayInLayerSwitcher: false,
-        queryable: false,
-        visible: true,
-        format: 'image/jpeg',
+      url: "https://www.ign.es/wmts/primera-edicion-mtn?",
+      name: "mtn50-edicion1",
+      legend: "MTN50 1Edi",
+      matrixSet: "GoogleMapsCompatible",
+      transparent: false,
+      displayInLayerSwitcher: false,
+      queryable: false,
+      visible: true,
+      format: "image/jpeg",
     });
 
     const objWMTSMTN251Edi = new M.layer.WMTS({
-        url: 'https://www.ign.es/wmts/primera-edicion-mtn?',
-        name: 'mtn25-edicion1',
-        legend: 'MTN25 1Edi',
-        matrixSet: 'GoogleMapsCompatible',
-        transparent: false,
-        displayInLayerSwitcher: false,
-        queryable: false,
-        visible: true,
-        format: 'image/jpeg',
+      url: "https://www.ign.es/wmts/primera-edicion-mtn?",
+      name: "mtn25-edicion1",
+      legend: "MTN25 1Edi",
+      matrixSet: "GoogleMapsCompatible",
+      transparent: false,
+      displayInLayerSwitcher: false,
+      queryable: false,
+      visible: true,
+      format: "image/jpeg",
     });
 
     const objWMTSMTNMinutas = new M.layer.WMTS({
@@ -314,58 +314,23 @@ const createAPICNIGMap = () => {
 
 }
 
+window.addEventListener('resize', () => {
 
+  if (window.innerWidth < '768'){  
+    mobileMode=true;
+  } else {  
+    mobileMode=false;
+  } 
 
+});
 
-$(window).resize(setDivVisibility);
-function setDivVisibility(){
-    //console.log("Resize W/H:" + $(window).width() + "/" + $(window).height());
-    if (($(window).width()) < '768'){  
-         mobileMode=true;
-    } else {  
-         mobileMode=false;
-    } 
-
-
-
-
-
-    console.log($("#codDictio").css("width"));
-    $("#muniselect").css("width", $("#codDictio").css("width"));
-    $("#mtnselect").css("width", $("#codDictio").css("width"));
-    $(".tt-dropdown-menu").css("width", $("#codDictio").css("width"));
-    $(".tt-hint").css("width", $("#codDictio").css("width"));
-    
- }
 
 document.addEventListener("DOMContentLoaded", function(event) { 
 
     console.log(`Arranque W/H: ${window.innerWidth} / ${window.innerHeight}`);
     console.log(`${window.innerWidth<768 ? 'Mobile' : 'desktop'}`)
-
-
-//     document.getElementById("tabulatorEntityList").style.display = "none";
-//     document.getElementById("atributosEntity").style.display = "none";
-//     document.getElementById("presentacion").style.display = "block";
-
-
-
-    //Resizing inicial
-    //$("#muniselect").css("width", $("#sidebar-container").width()-35);
-    //$("#mtnselect").css("width", $("#sidebar-container").width()-35);
-    //$(".tt-dropdown-menu").css("width", $("#sidebar-container").width()-35);    
-    //$(".tt-hint").css("width", $("#sidebar-container").width()-35);    
     
-    
-    $("#searchByMTNparam").val("");
-    $("#searchByNameparam").val("");
-    $("#muniselect").val("");
-    $("#mtnselect").val("");
-    $("#searchByIdparam").val("");
-    
-       
     // Lanzar mapa
-    //basicMap();
     createAPICNIGMap();
 
     //initialize table
@@ -395,8 +360,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     const getInfoResult = (e, cell)=>{
         mostrarInfoByNumEnti(cell.getRow().getData().identidad,true);
-        document.getElementById("tabulatorEntityList").style.display = "none";
-        document.getElementById("atributosEntity").style.display = "block";
+        document.getElementById("tabulatorEntityList").classList.add("d-none");
+        document.getElementById("atributosEntity").classList.remove("d-none");
+      
     }
 
     const zoomToResultPosition=(e,cell)=>{
@@ -466,15 +432,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById("download-csv").addEventListener("click", function(){
         tabulatorResults.download("csv", "data.csv");
     });
-
     document.getElementById("download-json").addEventListener("click", function(){
         tabulatorResults.download("json", "data.json");
     })
-
     document.getElementById("download-html").addEventListener("click", function(){
         tabulatorResults.download("html", "data.html", {style:true});
     })
-
     document.getElementById("zoom-mapResults").addEventListener("click", function(){
         mapAPICNIG.setBbox(resultNGBE_lyr.getFeaturesExtent());
     })
@@ -487,15 +450,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
         prefetch : urlMunisSearcher
     });
 
-    // $('#mtnselect').typeahead({
-    //       name: 'combomtn',
-    //       prefetch : urlHojaMTNSearcher
-    // });
+    $('#mtnselect').typeahead({
+          name: 'combomtn',
+          prefetch : urlHojaMTNSearcher
+    });
 
-    document.getElementById("alertnosel").style.display = "none";
-    //document.getElementById("alertnoselMTN").style.display = "none";
+    document.getElementById("tabulatorEntityList").classList.add("d-none");
+    document.getElementById("atributosEntity").classList.remove("d-none");
+    document.getElementById("presentacion").classList.add("d-none");
 
-    // Detección del permalink de entidad
+   // Detección del permalink de entidad
     // let paramSearch=window.location.search;
     // if (!isEmptyNullString(paramSearch)){
     //   if (paramSearch.indexOf('?identidad=')>=0){
@@ -507,8 +471,5 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // }
 
 
-    document.getElementById("tabulatorEntityList").style.display = "none";
-document.getElementById("atributosEntity").style.display = "none";
-document.getElementById("presentacion").style.display = "block";
     
 });
