@@ -187,3 +187,14 @@ Nomenclátor: el primero del Gobierno Vasco, el segundo de la Real Academia de l
 #### Tajo:
 * http://visor.chtajo.es/VisorCHT/
 
+
+
+@@@ Lo dejo
+Accediendo al diccio0nario completo
+
+SELECT 
+diccionario_codigo_ngbe.iddic,diccionario_codigo_ngbe.codigo_ngbe,
+diccionario_codigo_ngbe.categoria1,diccionario_codigo_ngbe.categoria2,diccionario_codigo_ngbe.categoria3,
+resumen, diccionario.*
+FROM ngbe_elaboracion.diccionario_codigo_ngbe 
+left join ngbe_cnig.diccionario  on diccionario_codigo_ngbe.codigo_ngbe=diccionario.codigo_ngbe

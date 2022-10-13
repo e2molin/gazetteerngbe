@@ -26,6 +26,16 @@ const fixNullValue = (value) => {
 };
 
 
+const showModalMessage = (message, title) => {
+
+  title = typeof title === "undefined" ? appTitle : title;
+  document.getElementById("modal-title").textContent = `${title}`;
+  document.getElementById("modal-message").textContent = `${message}`;
+
+  const myModal = new bootstrap.Modal(document.getElementById('myMsgModal'), {keyboard: false})
+  myModal.show();
+
+};
 
 /**
  * Procedimiento para las búsquedas por hoja MTN25
@@ -36,7 +46,7 @@ const searchByHojaMTN = () => {
     let userNumMTN = document.getElementById("mtnselect").value;
     let numMTN='';
     if (isEmptyNullString(userNumMTN)){
-      document.getElementById("mtnselect").classList.remove("d-none");
+      document.getElementById("alertnoselmtn").classList.remove("d-none");
       return;
     }
 
@@ -50,15 +60,15 @@ const searchByHojaMTN = () => {
     }
 
     if (isEmptyNullString(numMTN)){
-      document.getElementById("mtnselect").classList.remove("d-none");
+      document.getElementById("alertnoselmtn").classList.remove("d-none");
       return;
     }
 
     let codProv = document.getElementById("provinCbo").value;
     let codDictio = document.getElementById("codDictio").value;
     let urlRequest = mtn25SearchServer + numMTN + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "") + (codProv != "00" ? "codProv=" + codProv + "&" : "");
-    document.getElementById("mtnselect").classList.add("d-none");
-
+    
+    document.getElementById("alertnoselmtn").classList.add("d-none");
     document.getElementById("presentacion").classList.add("d-none");
     document.getElementById("tabulatorEntityList").classList.add("d-none");
     document.getElementById("atributosEntity").classList.add("d-none");
@@ -78,22 +88,21 @@ const searchByHojaMTN = () => {
 
 }
 
-
 /**
  * Procedimiento para las búsquedas por municipio
  * @returns 
  */
 const searchByMuni = ()=>{
 
-    let nameMuni = $("#muniselect").val();
-    let codDictio= $("#codDictio").find(":selected").val();
-    if (nameMuni==""){
+    //let nameMuni = $("#muniselect").val();
+    let nameMuni = document.getElementById("muniselect").value;
+    //let codDictio= $("#codDictio").find(":selected").val();
+    let codDictio = document.getElementById("codDictio").value;
+    if (isEmptyNullString(userNunameMunimMTN)){
         document.getElementById("alertnoselmuni").classList.remove("d-none");
-        console.log("Nada que buscar");
         return;
     }else{
-      document.getElementById("alertnoselmuni").classList.add("d-none");
-      console.log("Buscar por municipio: " + nameMuni);
+        document.getElementById("alertnoselmuni").classList.add("d-none");
     }
 
     let codMuni = nameMuni.substring(nameMuni.length-6,nameMuni.length-1);
@@ -120,7 +129,10 @@ const searchByMuni = ()=>{
     });
 }
 
-
+/**
+ * Procedimiento para las búsquedas por nombre
+ * @returns 
+ */
 const searchByName = () => {
 
 
@@ -160,16 +172,7 @@ const searchByName = () => {
   });
 };
 
-const showModalMessage = (message, title) => {
 
-  title = typeof title === "undefined" ? appTitle : title;
-  document.getElementById("modal-title").textContent = `${title}`;
-  document.getElementById("modal-message").textContent = `${message}`;
-
-  const myModal = new bootstrap.Modal(document.getElementById('myMsgModal'), {keyboard: false})
-  myModal.show();
-
-};
 
 const searchByView = () => {
   const formatter = new M.format.WKT();
@@ -301,7 +304,7 @@ const searchById = () => {
 
 /**
  * Helpers para poner bandera junto al idioma
- * Desactivado por problemas políticos
+ * Desactivado por problemas políticos. Siempre devuelve la cadena vacía (sin bandera)
  * @param {*} idioma 
  * @returns 
  */
@@ -408,12 +411,15 @@ const showResultsetList = (resultsRequest) => {
 
 
     // Al hacer clic sobre un elemento
-    resultNGBE_lyr.on(M.evt.SELECT_FEATURES, function(features) {
+    resultNGBE_lyr.on(M.evt.SELECT_FEATURES, (features) => {
+      console.log(features.length)
       if (features.length===1){
+        console.log("Entro1")
         mostrarInfoByNumEnti(features[0].getAttribute('identidad'),true,false);
         document.getElementById("tabulatorEntityList").classList.add("d-none");
         document.getElementById("atributosEntity").classList.remove("d-none");
-      }else if (features.length>=1){
+      }else if (features.length>1){
+        console.log("Entro2")
         lstIndex = [];
         cleanTabulatorResultsFilter();
         features.forEach((feature,index) => {
@@ -423,6 +429,7 @@ const showResultsetList = (resultsRequest) => {
         document.getElementById("tabulatorEntityList").classList.remove("d-none");
         document.getElementById("atributosEntity").classList.add("d-none");
       }else{
+        console.log("Entro3")
         cleanTabulatorResultsFilter();
         document.getElementById("tabulatorEntityList").classList.remove("d-none");
         document.getElementById("atributosEntity").classList.add("d-none");
@@ -681,24 +688,17 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
 /**
  * Definición Eventos del UI
  */
- document.getElementById("searchByName").addEventListener("click", (e) => {
-   searchByName();
- });
 
- document.getElementById("searchByNameparam").addEventListener("keyup", (event) => {
-  document.getElementById("alertnoselname").classList.add("d-none");
-  if (event.key === "Enter") {
-    searchByName();
-  }
+ document.getElementById("searchByRadio").addEventListener("click", (e) => {
+  searchByBuffer();
 });
 
- document.getElementById("searchByView").addEventListener("click", (e) => {
-   searchByView();
- });
+document.getElementById("searchByView").addEventListener("click", (e) => {
+  searchByView();
+});
 
-document.getElementById("searchById").addEventListener("click", (e) => {
-    document.getElementById("alertnoselid").classList.add("d-none");
-     searchById();
+document.getElementById("searchByMuni").addEventListener("click", (e) => {
+  searchByMuni();
 });
 
 document.getElementById("muniselect").addEventListener("keyup", (event) => {
@@ -708,21 +708,35 @@ document.getElementById("muniselect").addEventListener("keyup", (event) => {
   }
 });
 
+document.getElementById("searchByHojaMTN").addEventListener("click", (e) => {
+  searchByHojaMTN();
+});
+
  document.getElementById("mtnselect").addEventListener("keyup", (event) => {
+  document.getElementById("alertnoselmtn").classList.add("d-none");
    if (event.key === "Enter") {
     searchByHojaMTN();
    }
  });
 
- document.getElementById("searchByMuni").addEventListener("click", (e) => {
-     searchByMuni();
- });
+ document.getElementById("searchById").addEventListener("click", (e) => {
+  document.getElementById("alertnoselid").classList.add("d-none");
+   searchById();
+});
 
-  document.getElementById("clean-filter").addEventListener("click", (e) => {
+document.getElementById("searchByName").addEventListener("click", (e) => {
+  searchByName();
+});
+document.getElementById("searchByNameparam").addEventListener("keyup", (event) => {
+ document.getElementById("alertnoselname").classList.add("d-none");
+ if (event.key === "Enter") {
+   searchByName();
+ }
+});
+
+ 
+document.getElementById("clean-filter").addEventListener("click", (e) => {
     cleanTabulatorResultsFilter();
-  });
+});
 
- document.getElementById("searchByRadio").addEventListener("click", (e) => {
-   searchByBuffer();
- });
 

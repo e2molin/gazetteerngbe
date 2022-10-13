@@ -77,6 +77,11 @@ background-color: #F1F1F1;
 }
 
 
+.tabulator-row .tabulator-cell{
+  padding:0px;
+}
+
+
 /*-----------------------------------------*/
 /*Detalles de la entidad                   */
 /*-----------------------------------------*/

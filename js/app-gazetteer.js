@@ -424,6 +424,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         {title:"Antes", field:"oldvalue", hozAlign:"left"},
         {title:"Después", field:"newvalue", hozAlign:"left"},
         ],
+        rowFormatter:function(row, data){
+          //row - JQuery object for row
+          //data - the data for the row
+  
+          row.css({"height":"10px"});
+        },
     });
 
 
