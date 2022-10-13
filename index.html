@@ -1,14 +1,17 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <title>Gazetteer NGBE</title>
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.104.2">
+    <title>Sticky Footer Navbar Template · Bootstrap v5.2</title>
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Open+Sans'>    
+    
 
     <link rel="stylesheet" href="https://componentes.cnig.es/api-core/assets/css/apiign.ol.min.css">
     <link rel="stylesheet" href="https://componentes.cnig.es/api-core/plugins/backimglayer/backimglayer.ol.min.css">
@@ -19,503 +22,603 @@
     <link rel="stylesheet" href="https://componentes.cnig.es/api-core/plugins/ignsearchlocator/ignsearchlocator.ol.min.css">
 
     <link rel="stylesheet" href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/tabulator_bootstrap5.css">
-    <link rel="stylesheet" href="css/style.css">        
-    <link rel="shortcut icon" href="favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/tabulator_bootstrap5.min.css">
+    <link rel="stylesheet" href="css/stylenew.css">        
+    
 
-</head>
-<body>
-<header id="topnavbar" class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <img src="img/logoIGN.png">
-          <a class="navbar-brand" href="#"><img src="img/logoNGBE.png" style="float:left; width:48px; padding-right:2px; margin-top:-10px;"> Gazetteer</a>
-        </div>
-        
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="img/permalink.png"/> <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <ul class="list-inline" style="width:280px; margin-left:5px;">
-                            <li><a target="_blank" href="https://twitter.com/IGNSpain?" style="float:right;"><img src="img/twitter.png" title="IGN Twitter" alt="IGN Twitter"></a></li>                         
-                            <li><a target="_blank" href="https://www.facebook.com/IGNSpain/" style="float:right;"><img src="img/facebook.png" title="IGN Facebook" alt="IGN Facebook"></a></li>
-                            <li><a target="_blank" href="https://www.pinterest.es/IGNSpain/" style="float:right;"><img src="img/pinterest.png" title="IGN Pinterest" alt="IGN Pinterest"></a></li>
-                            <li><a target="_blank" href="https://www.instagram.com/ignspain/" style="float:right;"><img src="img/instagram.png" title="IGN Instagram" alt="IGN Instagram"></a></li>
-                            <li><a target="_blank" href="https://www.ign.es/web/ign/portal/rcc-nomenclator-nacional" style="float:right;"><img src="img/website.png" title="IGN Web sección Nomenclátor" alt="IGN Web sección Nomenclátor"></a></li>
-                            <li><a target="_blank" href="https://www.youtube.com/user/IGNSpain" style="float:right;"><img src="img/youtube.png" title="IGN Youtube" alt="IGN Youtube"></a></li>
-                            <li><a target="_blank" href="mailto:toponimia.ign@mitma.es" style="float:right;"><img src="img/mail.png" title="Correo Toponimia" alt="Correo Toponimia"></a></li>
-                        </ul>
-                    </ul>
-                </li>
+
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <!-- <link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+    <link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+    <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+    <meta name="theme-color" content="#712cf9"> -->
+
+
+    <style>
+      /* .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .b-example-divider {
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      } */
+    </style>
+
+    
+
+  </head>
+  <body class="d-flex flex-column h-100">
+    
+<header>
+  <!-- Fixed navbar -->
+  <nav id="topnavbar" class="navbar navbar-expand-md navbar-dark fixed-top">
+    <div class="container-fluid">
+
+      <a class="navbar-brand" href="#"><img src="img/logoNGBE.png" style="float:left; width:48px; padding-right:2px; margin-top:-10px;"> Gazetteer</a>
+      <img src="img/logoIGN.png">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+          <li class="nav-item col-6 col-lg-auto">
+            <a class="nav-link py-2 px-0 px-lg-2" href="https://twitter.com/getbootstrap" target="_blank" rel="noopener">
+              <img src="img/twitter.png" title="IGN Twitter" alt="IGN Twitter">
+              <small class="d-lg-none ms-2">Twitter</small>
+            </a>
+          </li>
+          <li class="nav-item col-6 col-lg-auto">
+            <a class="nav-link py-2 px-0 px-lg-2" href="https://www.facebook.com/IGNSpain/" target="_blank" rel="noopener">
+              <img src="img/facebook.png" title="IGN Facebook" alt="IGN Facebook">
+              <small class="d-lg-none ms-2">Twitter</small>
+            </a>
+          </li>          <li class="nav-item col-6 col-lg-auto">
+            <a class="nav-link py-2 px-0 px-lg-2" href="https://www.pinterest.es/IGNSpain/" target="_blank" rel="noopener">
+              <img src="img/pinterest.png" title="IGN Pinterest" alt="IGN Pinterest">
+              <small class="d-lg-none ms-2">Twitter</small>
+            </a>
+          </li>
+          <li class="nav-item col-6 col-lg-auto">
+            <a class="nav-link py-2 px-0 px-lg-2" href="https://www.instagram.com/ignspain/" target="_blank" rel="noopener">
+              <img src="img/instagram.png" title="IGN Instagram" alt="IGN Instagram">
+              <small class="d-lg-none ms-2">Twitter</small>
+            </a>
+          </li>
+          <li class="nav-item col-6 col-lg-auto">
+            <a class="nav-link py-2 px-0 px-lg-2" href="hhttps://www.ign.es/web/ign/portal/rcc-nomenclator-nacional" target="_blank" rel="noopener">
+              <img src="img/website.png" title="IGN Web sección Nomenclátor" alt="IGN Web sección Nomenclátor">
+              <small class="d-lg-none ms-2">Twitter</small>
+            </a>
+          </li>          
+          <li class="nav-item col-6 col-lg-auto">
+            <a class="nav-link py-2 px-0 px-lg-2" href="https://www.youtube.com/user/IGNSpain" target="_blank" rel="noopener">
+              <img src="img/youtube.png" title="IGN Youtube" alt="IGN Youtube">
+              <small class="d-lg-none ms-2">Twitter</small>
+            </a>
+          </li>          
+          <li class="nav-item col-6 col-lg-auto">
+            <a class="nav-link py-2 px-0 px-lg-2" href="mailto:toponimia.ign@mitma.es" target="_blank" rel="noopener">
+              <img src="img/mail.png" title="Correo Toponimia" alt="Correo Toponimia">
+              <small class="d-lg-none ms-2">Correo</small>
+            </a>
+          </li>
+          
+
+          <!-- Barra vertical navbar-->
+          <!-- <li class="nav-item py-1 col-12 col-lg-auto">
+            <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+            <hr class="d-lg-none text-white-50">
+          </li> -->
+          <!-- Botón de búsqueda -->
+          <!-- <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>          -->
+          <!-- Menu desplegable derecha -->
+          <!-- <li class="nav-item dropdown">
+            <button type="button" class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
+              <span class="d-lg-none" aria-hidden="true">Bootstrap</span><span class="visually-hidden">Bootstrap&nbsp;</span> v5.2 <span class="visually-hidden">(switch to other versions)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><h6 class="dropdown-header">v5 releases</h6></li>
+              <li><a class="dropdown-item current" aria-current="true" href="/">Latest (5.2.x)</a></li>
+              <li><a class="dropdown-item" href="https://getbootstrap.com/docs/5.1/">v5.1.3</a></li>
+              <li><a class="dropdown-item" href="https://getbootstrap.com/docs/5.0/">v5.0.2</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><h6 class="dropdown-header">Previous releases</h6></li>
+              <li><a class="dropdown-item" href="https://getbootstrap.com/docs/4.6/">v4.6.x</a></li>
+              <li><a class="dropdown-item" href="https://getbootstrap.com/docs/3.4/">v3.4.1</a></li>
             </ul>
-        </div>
-        
+          </li> -->
+
+        </ul>
+
+        <!-- <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form> -->
       </div>
+    </div>
+  </nav>
 </header>
 
-    
-    
-<main class="container-fluid" style="margin-top:75px;">
-    <nav id="sidebar-container" class="navbar sidebar col-lg-2 col-md-3 col-sm-3" role="navigation">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar" aria-expanded="false" aria-controls="navbar">
-            <i class="fa fa-th-large fa-lg" aria-hidden="true"></i>
-          </button>      
-        </div>
-        <div id="sidebar" class="navbar-collapse collapse">
-            <div class="panel-group" >
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a id="showPresentacion" data-toggle="collapse" data-parent="#sidebar" href="#sidebar-first">Presentación<i class="fa fa-home fa-lg pull-right"></i></a>
-                        </h4>
-                    </div>
-                    <!--
-                    <ul id="sidebar-first" class="list-group panel-collapse collapse">
-                        <li class="list-group-item"><a href="#">Tags<i class="fa  fa-tags pull-right"></i></a></li>
-                        <li class="list-group-item"><a href="#">Usuarios<i class="fa fa-user pull-right"></i></a></li>
-                        <li class="list-group-item"><a href="#">Libros<i class="fa fa-book pull-right"></i></a></li>
-                    </ul>
-                    -->
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#sidebar" href="#sidebar-second">Búsqueda espacial
-                            <i id="spinner_searchspatial" class="fa fa-spinner fa-pulse fa-lg fa-fw" style="display:none;"></i><span class="sr-only">Loading...</span>
-                            <i class="fa fa-map pull-right"></i></a>
-                        </h4>
-                    </div>
-                    <div id="sidebar-second" class="list-group panel-collapse collapse">
-                        <ul class="list-group">
-                            <li class="list-group-item"><a id="searchByView" href="#"><i class="fa fa-globe" aria-hidden="true"></i> Topónimos en la vista</a></li>
-                            
-                            <li class="list-group-item">
-                                <span style="font-size:14px"><i class="fa fa-globe" aria-hidden="true"></i> Topónimos en el centro del mapa<br/><br/></span>
+<!-- Begin page content -->
+<main class="flex-shrink-0">
+  <div class="container-fluid">
+    <div class="row">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-secondary sidebar collapse">
+        <div class="position-sticky pt-3 sidebar-sticky">
 
-                                <div class="input-group">
-                                    <input type="number" class="form-control input-sm" id="searchByRadioparam" placeholder="Define radio de búsqueda (m)">
-                                    <span class="input-group-btn">
-                                        <button id="searchByRadio" class="btn btn-secondary btn-sm" type="button"><i class="fa fa-search"></i></button>
-                                    </span>
-                                </div>                                
-                            </li>
-                            
-                        </ul>
-
-                    </div>
-                  
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#sidebar" href="#sidebar-third">Búsqueda textual
-                            <i id="spinner_searchid" class="fa fa-spinner fa-pulse fa-lg fa-fw" style="display:none;"></i><span class="sr-only">Loading...</span>
-                            <i class="fa fa-search pull-right"></i></a>
-                        </h4>
-                    </div>
-                    <div id="sidebar-third" class="panel-body panel-collapse collapse">
-                        <small>Topónimos de un municipio</small><br/><br/>
-                        <form method="POST" action="../apibadasid/siddae/getDocSIDDAEByINE.php" onsubmit="return valida(this)">
-                            <!--<div class="input-group">-->
-                            <input type="text" id="muniselect" name="muniselect" class="combomunis" placeholder="Municipio y pulsa buscar"><br/><br/>
-                            <!--</div>-->
-                            <span id="alertnosel" class="label label-danger">Selecciona municipio</span>
-                            <button id="searchByMuni" class="btn btn-secondary btn-sm center-block" type="button">Buscar <i class="fa fa-search"></i></button>
-                        </form>
-
-                        <br/>
-                        
-                        <small>Topónimos de una Hoja MTN25</small><br/><br/>
-                        <form method="POST" action="../apibadasid/siddae/getDocSIDDAEByINE.php" onsubmit="return valida(this)">
-                            <!--<div class="input-group">-->
-                            <input type="text" id="mtnselect" name="mtnselect" class="combomtn" placeholder="Hoja MTN y pulsa buscar. 0559c1.."><br/><br/>
-                            <!--</div>-->
-                            <span id="alertnoselMTN" class="label label-danger">Selecciona una hoja MTN25</span>
-                            <button id="searchByHojaMTN" class="btn btn-secondary btn-sm center-block" type="button">Buscar <i class="fa fa-search"></i></button>
-                        </form>
-
-                        <br/>                         
-
-                        <!--Buscar por identificador de la entidad-->
-                        <div class="input-group">
-                            <input type="number" class="form-control input-sm" id="searchByIdparam" placeholder="Número entidad...">
-                            <span class="input-group-btn">
-                                <button id="searchById" class="btn btn-secondary btn-sm" type="button"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                        <br/>
-                        <!--Buscar por nombre de la entidad-->
-                        <div class="input-group">
-                            <input type="text" class="form-control input-sm" id="searchByNameparam" placeholder="Nombre entidad...">
-                            <span class="input-group-btn">
-                                <button id="searchByName" class="btn btn-secondary btn-sm" type="button"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                        <br/>
-                        <br/>Filtrar por clase...
-                        <select id="codDictio" class="form-control">
-                            <option value="0.0">Ver todas las clases</option>
-                            <option value="1.0">Estado (1.0)</option>
-                            <option value="1.1.1">Comunidad autónoma (1.1.1)</option>
-                            <option value="1.1.2">Ciudad autónoma (1.1.2)</option>
-                            <option value="1.2">Provincia (1.2)</option>
-                            <option value="1.3">Municipio (1.3)</option>
-                            <option value="1.4">EATIM (1.4)</option>
-                            <option value="1.5">Isla administrativa (1.5)</option>
-                            <option value="1.6">Comarca administrativa (1.6)</option>
-                            <option value="1.7">Jurisdicción (1.7)</option>
-                            <option value="2.1.0">Capital de Estado (2.1.0)</option>
-                            <option value="2.1.1">Capital de autonomía (2.1.1)</option>
-                            <option value="2.1.2">Capital de provincia (2.1.2)</option>
-                            <option value="2.1.3">Capital de municipio (2.1.3)</option>
-                            <option value="2.1.4">Capital de EATIM (2.1.4)</option>
-                            <option value="2.1.5">Entidad colectiva (2.1.5)</option>
-                            <option value="2.1.6">Entidad menor de población (2.1.6)</option>
-                            <option value="2.1.7">Distrito municipal (2.1.7)</option>
-                            <option value="2.1.8">Barrio (2.1.8)</option>
-                            <option value="2.1.9">Entidad singular (2.1.9)</option>
-                            <option value="2.1.10">Núcleo de población (2.1.10)</option>
-                            <option value="2.2.1">Construcción/instalación abierta (2.2.1)</option>
-                            <option value="2.2.2">Edificación (2.2.2)</option>
-                            <option value="2.3.1">Vértice Geodésico (2.3.1)</option>
-                            <option value="2.3.2">Hitos de demarcación territorial (2.3.2)</option>
-                            <option value="2.3.3">Hitos en vías de comunicación (2.3.3)</option>
-                            <option value="3.1.1">Aeropuerto (3.1.1)</option>
-                            <option value="3.1.2">Aeródromo (3.1.2)</option>
-                            <option value="3.1.3">Pista de aviación y helipuerto (3.1.3)</option>
-                            <option value="3.2.1">Puerto (3.2.1)</option>
-                            <option value="3.2.2">Instalación portuaria (3.2.2)</option>
-                            <option value="3.2.3">Vía Martítima (3.2.3)</option>
-                            <option value="3.3.1">Carretera (3.3.1)</option>
-                            <option value="3.3.2">Camino y vía pecuaria (3.3.2)</option>
-                            <option value="3.3.3">Vía urbana (3.3.3)</option>
-                            <option value="3.3.4">Ferrocarril (3.3.4)</option>
-                            <option value="3.3.5">Infraestructuras terrestres (3.3.5)</option>
-                            <option value="4.1.1">Alineación montañosa (4.1.1)</option>
-                            <option value="4.1.2">Montaña (4.1.2)</option>
-                            <option value="4.1.3">Paso de montaña (4.1.3)</option>
-                            <option value="4.1.4">Llanura (4.1.4)</option>
-                            <option value="4.1.5">Depresión (4.1.5)</option>
-                            <option value="4.1.6">Vertientes (4.1.6)</option>
-                            <option value="4.2.1">Comarca geográfica (4.2.1)</option>
-                            <option value="4.2.2">Paraje (4.2.2)</option>
-                            <option value="4.2.3">Elemento puntual del paisaje (4.2.3)</option>
-                            <option value="4.3.1">Parque Nacional y Natural (4.3.1)</option>
-                            <option value="4.3.2">Espacio protegido restante (4.3.2)</option>
-                            <option value="5.1">Curso natural de agua (5.1)</option>"
-                            <option value="5.2">Masa de agua (5.2)</option>
-                            <option value="5.3">Curso artificial de agua (5.3)</option>
-                            <option value="5.4">Embalse (5.4)</option>
-                            <option value="5.5">Hidrónimo puntual (5.5)</option>
-                            <option value="5.6">Glaciares (5.6)</option>
-                            <option value="6.1.1">Mar (6.1.1)</option>
-                            <option value="6.1.2">Entrante y estrecho marítimo (6.1.2)</option>
-                            <option value="6.2.1">Saliente costero (6.2.1)</option>
-                            <option value="6.2.2">Playa (6.2.2)</option>
-                            <option value="6.2.3">Isla (6.2.3)</option>
-                            <option value="6.2.4">Otro relieve costero (6.2.4)</option>
-                            <option value="6.3">Relieve submarino (6.3)</option>
-                        </select>                        
-                        
-                        <br/>Buscar en...
-                        <select id="provinCbo" class="form-control">
-                            <option value="00">Todas las provincias</option>
-                            <option value="01">Álava</option>
-                            <option value="02">Albacete</option>
-                            <option value="03">Alicante</option>
-                            <option value="04">Almería</option>
-                            <option value="05">Ávila</option>
-                            <option value="06">Badajoz</option>
-                            <option value="07">Baleares</option>
-                            <option value="08">Barcelona</option>
-                            <option value="09">Burgos</option>
-                            <option value="10">Cáceres</option>
-                            <option value="11">Cádiz</option>
-                            <option value="12">Castellón</option>
-                            <option value="13">Ciudad Real</option>
-                            <option value="14">Córdoba</option>
-                            <option value="15">A Coruña</option>
-                            <option value="16">Cuenca</option>
-                            <option value="17">Girona</option>
-                            <option value="18">Granada</option>
-                            <option value="19">Guadalajara</option>
-                            <option value="20">Gipuzkoa</option>
-                            <option value="21">Huelva</option>
-                            <option value="22">Huesca</option>
-                            <option value="23">Jaén</option>
-                            <option value="24">León</option>
-                            <option value="25">Lleida</option>
-                            <option value="26">La rioja</option>
-                            <option value="27">Lugo</option>
-                            <option value="28">Madrid</option>
-                            <option value="29">Málaga</option>
-                            <option value="30">Murcia</option>
-                            <option value="31">Navarra</option>
-                            <option value="32">Ourense</option>
-                            <option value="33">Asturias</option>
-                            <option value="34">Palencia</option>
-                            <option value="35">Las Palmas</option>
-                            <option value="36">Pontevedra</option>
-                            <option value="37">Salamanca</option>
-                            <option value="38">Santa Cruz de Tenerife</option>
-                            <option value="39">Santander</option>
-                            <option value="40">Segovia</option>
-                            <option value="41">Sevilla</option>
-                            <option value="42">Soria</option>
-                            <option value="43">Tarragona</option>
-                            <option value="44">Teruel</option>
-                            <option value="45">Toledo</option>
-                            <option value="46">Valencia</option>
-                            <option value="47">Valladolid</option>
-                            <option value="48">Bizkaia</option>
-                            <option value="49">Zamora</option>
-                            <option value="50">Zaragoza</option>
-                            <option value="51">Ceuta</option>
-                            <option value="52">Melilla</option>                            
-                        </select>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#sidebar" href="#sidebar-forth">Leyenda
-                            <i class="fa fa-list pull-right"></i></a>
-                        </h4>
-                    </div>
-                    <div id="sidebar-forth" class="panel-body panel-collapse collapse">
-                        <img class="pull-left" style="width:48px;" src="img/icons/1.0-master.png" title="Estado (1.0)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/1.1.1-master.png" title="Comunidad autónoma (1.1.1)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/1.1.2-master.png" title="Ciudad con estatuto de autonomía (1.1.2)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/1.2-master.png" title="Provincia (1.2)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/1.3-master.png" title="Municipio (1.3)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/1.4-master.png" title="EATIM (1.4)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/1.5-master.png" title="Isla administrativa (1.5)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/1.6-master.png" title="Comarca administrativa (1.6)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/1.7-master.png" title="Jurisdicción (1.7)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.1.0-master.png" title="Capital de Estado (2.1.0)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.1.1-master.png" title="Capital de comunidad autónoma y ciudad con estatuto de autonomía (2.1.1)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.1.2-master.png" title="Capital de provincia (2.1.2)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.1.3-master.png" title="Capital de municipio (2.1.3)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.1.4-master.png" title="Capital de EATIM (2.1.4)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.1.5-master.png" title="Entidad colectiva (2.1.5)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.1.6-master.png" title="Entidad menor de población (2.1.6)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.1.7-master.png" title="Distrito municipal (2.1.7)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.1.8-master.png" title="Barrio (2.1.8)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.1.9-master.png" title="Entidad singular (2.1.9)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.1.10-master.png" title="Núcleos de población (2.1.10)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.2.1-master.png" title="Construcción/instalación abierta (2.2.1)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.2.2-master.png" title="Edificación (2.2.2)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.3.1-master.png" title="Vértice Geodésico (2.3.1)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.3.2-master.png" title="Hitos de demarcación territorial (2.3.2)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/2.3.3-master.png" title="Hitos en vías de comunicación (2.3.3)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/3.1.1-master.png" title="Aeropuerto (3.1.1)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/3.1.2-master.png" title="Aeródromo (3.1.2)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/3.1.3-master.png" title="Pista de aviación y helipuerto (3.1.3)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/3.2.1-master.png" title="Puerto (3.2.1)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/3.2.2-master.png" title="Instalación portuaria (3.2.2)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/3.2.3-master.png" title="Vía Martítima (3.2.3)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/3.3.1-master.png" title="Carretera (3.3.1)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/3.3.2-master.png" title="Camino y vía pecuaria (3.3.2)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/3.3.3-master.png" title="Vía urbana (3.3.3)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/3.3.4-master.png" title="Ferrocarril (3.3.4)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/3.3.5-master.png" title="Infraestructuras terrestres (3.3.5)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/4.1.1-master.png" title="Alineación montañosa (4.1.1)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/4.1.2-master.png" title="Montaña (4.1.2)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/4.1.3-master.png" title="Paso de montaña (4.1.3)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/4.1.4-master.png" title="Llanura (4.1.4)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/4.1.5-master.png" title="Depresión (4.1.5)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/4.1.6-master.png" title="Vertientes (4.1.6)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/4.2.1-master.png" title="Comarca geográfica (4.2.1)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/4.2.2-master.png" title="Paraje (4.2.2)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/4.2.3-master.png" title="Elemento puntual del paisaje (4.2.3)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/4.3.1-master.png" title="Parque Nacional y Natural (4.3.1)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/4.3.2-master.png" title="Espacio protegido restante (4.3.2)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/5.1-master.png" title="Curso natural de agua (5.1)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/5.2-master.png" title="Masa de agua (5.2)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/5.3-master.png" title="Curso artificial de agua (5.3)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/5.4-master.png" title="Embalse (5.4)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/5.5-master.png" title="Hidrónimo puntual (5.5)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/5.6-master.png" title="Glaciares (5.6)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/6.1.1-master.png" title="Mar (6.1.1)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/6.1.2-master.png" title="Entrante costero y estrecho marítimo (6.1.2)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/6.2.1-master.png" title="Saliente costero (6.2.1)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/6.2.2-master.png" title="Playa (6.2.2)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/6.2.3-master.png" title="Isla (6.2.3)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/6.2.4-master.png" title="Otro relieve costero (6.2.4)">
-                        <img class="pull-left" style="width:48px;" src="img/icons/6.3-master.png" title="Relieve submarino (6.3)">
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#sidebar" href="#sidebar-fifth">Developer
-                            <i class="fa fa-rebel pull-right"></i></a>
-                        </h4>
-                    </div>
-                    <div id="sidebar-fifth" class="panel-body panel-collapse collapse">
-                        <button id="develOne" type="button" class="btn btn-xs btn-secondary pull-right">Desarrollo 1</button>
-                        <button id="develTwo" type="button" class="btn btn-xs btn-secondary pull-right">Desarrollo 2</button>
-                    
-                    </div>
-                </div>                
+          <div class="card">
+            <div class="card-header">
+              <a id="showPresentacion" href="#" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Presentación <i class="fa fa-home float-end"></i>
+              </a>              
             </div>
-        </div>
-    </nav>
-    <div class="col-lg-10 col-md-9 col-sm-9">
-        <div id="panelBusquedas" class="row" >
-            <div class="col-lg-5 col-md-12" id="presentacion">
-                <h1><img src="img/logoNGBE.png" class="pull-right" style="width:64px; ">  Gazetteer NGBE</h1>
-                <h2><small>Nomenclátor Geográfico Básico de España</small></h2>
-                <img src="img/jumbotron2.png" class="img-responsive" alt="NGBE - Gazetteer"> 
-                <p class="text-justify">
-                    El <strong>Nomenclátor Geográfico Nacional</strong> se define como un registro dinámico de información que recoge las denominaciones oficiales referenciadas geográficamente que deben utilizarse en la cartografía oficial.
-                </p>
-                <p class="text-justify">
-                    Le corresponde a la Dirección General del Instituto Geográfico Nacional la aprobación del <strong>Nomenclátor Geográfico Básico de España</strong> cuya formación será realizada 
-                    por el <strong>Registro Central de Cartografía</strong>. Comprenderá todas las denominaciones oficiales georreferenciadas sobre cartografía topográfica a escala 1:25.000 y menores.
-                </p>
-                <p class="text-justify">
-                    La aplicación web permite localizar una denominación oficial por su nombre o número de entidad en el registro. 
-                    También podemos obtener las denominaciones asociadas a un municipio o a una hoja del MTN25. Se permiten definir filtros por clase y provincia. 
-                    Por último podemos localizar las denominaciones de la región visible del mapa. Si el resultado de la consulta es único, se muestra toda la información asociada a la denominación. 
-                    Si la búsqueda produce múltiples resultados, se mostrarán en un listado y se dibujarán sobre el mapa. Para ello, la capa <em>Resultados</em> tiene que estar visible.
-                </p>
-                <p class="text-justify">
-                    Como mapa de fondo disponemos de varios servicios proporcionados por el <strong>IGN</strong> y <strong>OpenStreetMap</strong>. 
-                    El mapa muestra las coordendas del cursor, y al pinchar sobre un topónimo resultado de la consulta se muestra su información asociada.
-                </p>
+            <!-- <div id="panel1" class="card-body collapse">
+              <h5 class="card-title">Special title treatment</h5>
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div> -->
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <a data-bs-toggle="collapse" href="#panel2" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Búsqueda espacial <i id="spinner_searchspatial" class="fa fa-spinner fa-pulse fa-x d-none"></i><span class="sr-only">Loading...</span> <i class="fa fa-map float-end"></i>
+              </a>              
+            </div>
+            <div id="panel2" class="card-body collapse">
+              <span style="font-size:0.95rem"><a id="searchByView" href="#"><i class="fa fa-globe" aria-hidden="true"></i> Topónimos en la vista</a></span>
+
+              <hr/>
+             
+              <span style="font-size:0.95rem"><i class="fa fa-globe" aria-hidden="true"></i> Topónimos en el centro del mapa<br/><br/></span>
+            
+              <div class="input-group input-group-sm mb-3">
+                <input type="number" class="form-control" id="searchByRadioparam" placeholder="Define radio de búsqueda (m)" aria-label="Define radio de búsqueda (m)" aria-describedby="searchByRadio">
+                <button id="searchByRadio" class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
+              </div>
 
             </div>
-            <div class="col-lg-5 col-md-12" id="searchingBar" style="display:none;">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-                        Buscando topónimos
-                    </div>
-                </div>                
-            </div>
-            <div class="col-lg-5 col-md-12" id="tabulatorEntityList" style="display:none;">
-                <!--Contenedor para los listados de resultados-->
-                <h2>Topónimos encontrados  <span id="numResults" class="badge badge-secondary">45</span> <small><span id="numResultsFilter" class="label label-primary">Filtrados: 12</span></small></h2>
-                <div class="input-group" style="margin-bottom:2px;">
-                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-filter"></i></span>
-                    <input id="filter-value" type="text" class="form-control" placeholder="Filtrar por" aria-describedby="basic-addon1">
-                    <span class="input-group-btn">
-                        <button id="clean-filter" class="btn btn-default" type="button" style="padding: 2px 12px;">
-                            <!-- <i class="fa fa-filter"></i> -->
-                            <span class="fa-stack fa-fw">
-                                <i class="fa fa-filter fa-stack-1x"></i>
-                                <i class="fa fa-ban fa-stack-2x text-danger"></i>
-                              </span>
-                        </button>
-                      </span>
-                </div>
-                <div id="example-table" style="height:65vh;"></div>
-                <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-primary" id="download-csv"><i class="fa fa-download"></i> Download CSV</button>
-                    <button type="button" class="btn btn-primary" id="download-json"><i class="fa fa-download"></i> Download JSON</button>
-                    <button type="button" class="btn btn-primary" id="download-html"><i class="fa fa-download"></i> Download HTML</button>
-                </div>
-                <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-primary" id="zoom-mapResults"><i class="fa fa-search-plus"></i> Zoom resultados</button>
-                </div>
-            </div>
+          </div>
 
-            <div class="col-lg-5 col-md-12" id="atributosEntity" style="display:none;">
-                <!-- Contenedor para el detalle de un topónimo -->
-                <h2 id="propNameEntity" class="titleSecond">Lorem apsum daoman e quaet es fretur d sadadm</h2>
-                <img id="propImageDictio" class="dictioTitleSecond" src="img/icons/5.1-master.png" title="Curso natural de agua (5.1)">
-
-                <div role="tabpanel" style="min-height:70vh">
-                  <ul class="nav nav-tabs nav-justified">
-                      <li role="presentation" class="headertab active">
-                          <a href="#generalAttrib" aria-controls="generalAttrib" role="tab" data-toggle="tab">General</a>
-                      </li>
-                      <li role="presentation" class="headertab">
-                        <a href="#namingAttrib" aria-controls="namingAttrib" role="tab" data-toggle="tab">Nombres <span class="label label-primary" id="numNombres"></span></a>
-                      </li>                        
-                      <li role="presentation" class="headertab">
-                          <a href="#locationAttrib" aria-controls="locationAttrib" role="tab" data-toggle="tab">Localización</a>
-                      </li>
-                      <li role="presentation" class="headertab">
-                          <a href="#othersAttrib" aria-controls="othersAttrib" role="tab" data-toggle="tab">Más info</a>
-                      </li>
-                      <li role="presentation" class="headertab">
-                        <a href="#historialAttrib" aria-controls="historialAttrib" role="tab" data-toggle="tab">Histórico <span class="label label-primary" id="numRegHisto"></span></a>
-                    </li>                      
-                  </ul>
-              
-                  <!-- Tab panes -->
-                  <div class="tab-content" id="itemAttribution">
-                    <div role="tabpanel" class="tab-pane active" id="generalAttrib"></div>
-                    <div role="tabpanel" class="tab-pane" id="namingAttrib"></div>
-                    <div role="tabpanel" class="tab-pane" id="locationAttrib"></div>
-                    <div role="tabpanel" class="tab-pane" id="othersAttrib"></div>
-                    <div role="tabpanel" class="tab-pane" id="historialAttrib">
-                        <div id="histodataTable" style="height:50vh;"></div>
-                    </div>                    
+          <div class="card">
+            <div class="card-header">
+              <a data-bs-toggle="collapse" href="#panel3" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Búsqueda textual <i class="fa fa-search float-end"></i>
+              </a>              
+            </div>
+            <div id="panel3" class="card-body">
+                  <div class="input-group col-sm-12 mb-2">
+                    <label for="muniselect" class="form-label">Topónimos de un municipio</label><i id="spinner_searchMuni" class="fa fa-spinner fa-pulse fa-2x fa-fw d-none"></i><span class="sr-only">Loading...</span>
+                    <input type="text" id="muniselect" name="muniselect" class="combomunis" placeholder="Municipio y pulsa buscar">
+                    <button id="searchByMuni" class="btn btn-primary btn-sm" type="button" id="button-addon2"><i class="fa fa-search"></i></button>
+                    <span id="alertnoselmuni" class="badge text-bg-warning d-none">Selecciona municipio</span>
                   </div>
-                </div>
-                <br/>
-                <button id="showListResults" type="button" class="btn btn-xs btn-primary pull-right" >Volver lista resultados</button>
 
-            </div> <!--END CONTAINER: atributosEntity -->
+                  <div class="input-group col-sm-12 mb-2">
+                    <label for="mtnselect" class="form-label">Topónimos de una Hoja MTN25</label><i id="spinner_searchMTN" class="fa fa-spinner fa-pulse fa-2x fa-fw d-none"></i><span class="sr-only">Loading...</span>
+                    <input type="text" id="mtnselect" name="mtnselect" class="combomtn" placeholder="Hoja MTN y pulsa buscar. 0559c1..">
+                    <button id="searchByHojaMTN" class="btn btn-primary btn-sm" type="button" id="button-addon2"><i class="fa fa-search"></i></button>
+                    <span id="alertnoselmtn" class="badge text-bg-warning d-none">Selecciona hoja MTN</span>
+                  </div>
+                  
+                  <div class="input-group col-sm-12 mb-2">
+                    <label for="searchByIdparam" class="form-label">Buscar por identificador de la entidad</label>
+                    <i id="spinner_searchId" class="fa fa-spinner fa-pulse fa-2x fa-fw d-none"></i><span class="sr-only">Loading...</span>
+                    <input type="number" class="dvm-input" id="searchByIdparam" placeholder="Identificador entidad...">
+                    <button id="searchById" class="btn btn-primary btn-sm" type="button"><i class="fa fa-search"></i></button>
+                    <span id="alertnoselid" class="badge text-bg-warning d-none">Introduzca un ID numérico</span>
+                  </div>
 
-            <!--<div class="col-lg-7 col-md-12" id="mapCanvas">
-                 <div class="infoLayersclass" tabindex="0">
-                    <span id="hoverDescript"></span><i title="Deslice el cursor por encima de los resultados" class="fa fa-info-circle" aria-hidden="true"></i>
-                </div>
-            </div>-->
-            <div class="col-lg-7 col-md-12" id="mapLienzo">
+                  <div class="input-group col-sm-12 mb-3">
+                    <label for="searchByNameparam" class="form-label">Buscar por nombre de la entidad</label>
+                    <i id="spinner_searchName" class="fa fa-spinner fa-pulse fa-2x fa-fw d-none"></i><span class="sr-only">Loading...</span>
+                    <input type="text" class="dvm-input" id="searchByNameparam" placeholder="Nombre entidad...">
+                    <button id="searchByName" class="btn btn-primary btn-sm" type="button"><i class="fa fa-search"></i></button>
+                    <span id="alertnoselname" class="badge text-bg-warning d-none">Introduzca un nombre</span>
+                  </div>
 
-            </div>              
+
+                  <label for="codDictio" class="form-label">Filtrar por clase …</label>
+                  <select id="codDictio" class="form-select form-select-sm  mb-2">
+                      <option value="0.0">Ver todas las clases</option>
+                      <option value="1.0">Estado (1.0)</option>
+                      <option value="1.1.1">Comunidad autónoma (1.1.1)</option>
+                      <option value="1.1.2">Ciudad autónoma (1.1.2)</option>
+                      <option value="1.2">Provincia (1.2)</option>
+                      <option value="1.3">Municipio (1.3)</option>
+                      <option value="1.4">EATIM (1.4)</option>
+                      <option value="1.5">Isla administrativa (1.5)</option>
+                      <option value="1.6">Comarca administrativa (1.6)</option>
+                      <option value="1.7">Jurisdicción (1.7)</option>
+                      <option value="2.1.0">Capital de Estado (2.1.0)</option>
+                      <option value="2.1.1">Capital de autonomía (2.1.1)</option>
+                      <option value="2.1.2">Capital de provincia (2.1.2)</option>
+                      <option value="2.1.3">Capital de municipio (2.1.3)</option>
+                      <option value="2.1.4">Capital de EATIM (2.1.4)</option>
+                      <option value="2.1.5">Entidad colectiva (2.1.5)</option>
+                      <option value="2.1.6">Entidad menor de población (2.1.6)</option>
+                      <option value="2.1.7">Distrito municipal (2.1.7)</option>
+                      <option value="2.1.8">Barrio (2.1.8)</option>
+                      <option value="2.1.9">Entidad singular (2.1.9)</option>
+                      <option value="2.1.10">Núcleo de población (2.1.10)</option>
+                      <option value="2.2.1">Construcción/instalación abierta (2.2.1)</option>
+                      <option value="2.2.2">Edificación (2.2.2)</option>
+                      <option value="2.3.1">Vértice Geodésico (2.3.1)</option>
+                      <option value="2.3.2">Hitos de demarcación territorial (2.3.2)</option>
+                      <option value="2.3.3">Hitos en vías de comunicación (2.3.3)</option>
+                      <option value="3.1.1">Aeropuerto (3.1.1)</option>
+                      <option value="3.1.2">Aeródromo (3.1.2)</option>
+                      <option value="3.1.3">Pista de aviación y helipuerto (3.1.3)</option>
+                      <option value="3.2.1">Puerto (3.2.1)</option>
+                      <option value="3.2.2">Instalación portuaria (3.2.2)</option>
+                      <option value="3.2.3">Vía Martítima (3.2.3)</option>
+                      <option value="3.3.1">Carretera (3.3.1)</option>
+                      <option value="3.3.2">Camino y vía pecuaria (3.3.2)</option>
+                      <option value="3.3.3">Vía urbana (3.3.3)</option>
+                      <option value="3.3.4">Ferrocarril (3.3.4)</option>
+                      <option value="3.3.5">Infraestructuras terrestres (3.3.5)</option>
+                      <option value="4.1.1">Alineación montañosa (4.1.1)</option>
+                      <option value="4.1.2">Montaña (4.1.2)</option>
+                      <option value="4.1.3">Paso de montaña (4.1.3)</option>
+                      <option value="4.1.4">Llanura (4.1.4)</option>
+                      <option value="4.1.5">Depresión (4.1.5)</option>
+                      <option value="4.1.6">Vertientes (4.1.6)</option>
+                      <option value="4.2.1">Comarca geográfica (4.2.1)</option>
+                      <option value="4.2.2">Paraje (4.2.2)</option>
+                      <option value="4.2.3">Elemento puntual del paisaje (4.2.3)</option>
+                      <option value="4.3.1">Parque Nacional y Natural (4.3.1)</option>
+                      <option value="4.3.2">Espacio protegido restante (4.3.2)</option>
+                      <option value="5.1">Curso natural de agua (5.1)</option>"
+                      <option value="5.2">Masa de agua (5.2)</option>
+                      <option value="5.3">Curso artificial de agua (5.3)</option>
+                      <option value="5.4">Embalse (5.4)</option>
+                      <option value="5.5">Hidrónimo puntual (5.5)</option>
+                      <option value="5.6">Glaciares (5.6)</option>
+                      <option value="6.1.1">Mar (6.1.1)</option>
+                      <option value="6.1.2">Entrante y estrecho marítimo (6.1.2)</option>
+                      <option value="6.2.1">Saliente costero (6.2.1)</option>
+                      <option value="6.2.2">Playa (6.2.2)</option>
+                      <option value="6.2.3">Isla (6.2.3)</option>
+                      <option value="6.2.4">Otro relieve costero (6.2.4)</option>
+                      <option value="6.3">Relieve submarino (6.3)</option>
+                  </select>                        
+                  
+                  <label for="provinCbo" class="form-label">Buscar en …</label>
+                  <select id="provinCbo" class="form-select form-select-sm">
+                      <option value="00">Todas las provincias</option>
+                      <option value="01">Álava</option>
+                      <option value="02">Albacete</option>
+                      <option value="03">Alicante</option>
+                      <option value="04">Almería</option>
+                      <option value="05">Ávila</option>
+                      <option value="06">Badajoz</option>
+                      <option value="07">Baleares</option>
+                      <option value="08">Barcelona</option>
+                      <option value="09">Burgos</option>
+                      <option value="10">Cáceres</option>
+                      <option value="11">Cádiz</option>
+                      <option value="12">Castellón</option>
+                      <option value="13">Ciudad Real</option>
+                      <option value="14">Córdoba</option>
+                      <option value="15">A Coruña</option>
+                      <option value="16">Cuenca</option>
+                      <option value="17">Girona</option>
+                      <option value="18">Granada</option>
+                      <option value="19">Guadalajara</option>
+                      <option value="20">Gipuzkoa</option>
+                      <option value="21">Huelva</option>
+                      <option value="22">Huesca</option>
+                      <option value="23">Jaén</option>
+                      <option value="24">León</option>
+                      <option value="25">Lleida</option>
+                      <option value="26">La rioja</option>
+                      <option value="27">Lugo</option>
+                      <option value="28">Madrid</option>
+                      <option value="29">Málaga</option>
+                      <option value="30">Murcia</option>
+                      <option value="31">Navarra</option>
+                      <option value="32">Ourense</option>
+                      <option value="33">Asturias</option>
+                      <option value="34">Palencia</option>
+                      <option value="35">Las Palmas</option>
+                      <option value="36">Pontevedra</option>
+                      <option value="37">Salamanca</option>
+                      <option value="38">Santa Cruz de Tenerife</option>
+                      <option value="39">Santander</option>
+                      <option value="40">Segovia</option>
+                      <option value="41">Sevilla</option>
+                      <option value="42">Soria</option>
+                      <option value="43">Tarragona</option>
+                      <option value="44">Teruel</option>
+                      <option value="45">Toledo</option>
+                      <option value="46">Valencia</option>
+                      <option value="47">Valladolid</option>
+                      <option value="48">Bizkaia</option>
+                      <option value="49">Zamora</option>
+                      <option value="50">Zaragoza</option>
+                      <option value="51">Ceuta</option>
+                      <option value="52">Melilla</option>                            
+                  </select>
+
+
+
+              
+
+            </div>
+          </div>
+          
+          
+          <div class="card">
+            <div class="card-header">
+              <a data-bs-toggle="collapse" href="#panel4" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Featured
+              </a>              
+            </div>
+            <div id="panel4" class="card-body collapse">
+              <h5 class="card-title">Special title treatment</h5>
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>          
+
+          <div class="card">
+            <div class="card-header">
+              <a data-bs-toggle="collapse" href="#panel5" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Featured
+              </a>              
+            </div>
+            <div id="panel5" class="card-body collapse">
+              <h5 class="card-title">Special title treatment</h5>
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>  
+
+
+          <!-- <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">
+                <span data-feather="home" class="align-text-bottom"></span>
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="file" class="align-text-bottom"></span>
+                Orders
+              </a>
+            </li>
+          </ul> -->
+
         </div>
-    </div>  
-</main>
+
+      </nav>
+      <main id="panel-resultados" class="col-md-3 col-lg-4 d-md-block bg-light">
+
+        <section class="col-lg-12 bg-light d-none" id="searchingBar">
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+              aria-label="Animated striped example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+              Realizando búsqueda</div>
+          </div>
+        </section>
+        <section class="col-lg-12 bg-light d-none" id="spinner_searchEntityData">
+          <i class="fa fa-spinner fa-pulse fa-2x fa-fw d-none"></i>
+        </section>
+
+        
 
 
-<!-- Ventana modal para informaciones -->
-<div id="myMsgModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-md">
+        <section class="col-lg-12 bg-light" id="presentacion">
+          <h1><img src="img/logoNGBE.png" class="pull-right" style="width:64px; ">  Gazetteer NGBE</h1>
+          <h2><small>Nomenclátor Geográfico Básico de España</small></h2>
+          <img src="img/jumbotron2.png" class="img-fluid" alt="NGBE - Gazetteer">
+          <hr class="border border-danger border-2 opacity-50">
+          <p class="lh-base" style="text-align: justify;">
+              El <strong>Nomenclátor Geográfico Nacional</strong> se define como un registro dinámico de información que recoge las denominaciones oficiales referenciadas geográficamente que deben utilizarse en la cartografía oficial.
+          </p>
+          <p class="text-justify">
+              Le corresponde a la Dirección General del Instituto Geográfico Nacional la aprobación del <strong>Nomenclátor Geográfico Básico de España</strong> cuya formación será realizada 
+              por el <strong>Registro Central de Cartografía</strong>. Comprenderá todas las denominaciones oficiales georreferenciadas sobre cartografía topográfica a escala 1:25.000 y menores.
+          </p>
+          <p class="text-justify">
+              La aplicación web permite localizar una denominación oficial por su nombre o número de entidad en el registro. 
+              También podemos obtener las denominaciones asociadas a un municipio o a una hoja del MTN25. Se permiten definir filtros por clase y provincia. 
+              Por último podemos localizar las denominaciones de la región visible del mapa. Si el resultado de la consulta es único, se muestra toda la información asociada a la denominación. 
+              Si la búsqueda produce múltiples resultados, se mostrarán en un listado y se dibujarán sobre el mapa. Para ello, la capa <em>Resultados</em> tiene que estar visible.
+          </p>
+          <p class="text-justify">
+              Como mapa de fondo disponemos de varios servicios proporcionados por el <strong>IGN</strong> y <strong>OpenStreetMap</strong>. 
+              El mapa muestra las coordendas del cursor, y al pinchar sobre un topónimo resultado de la consulta se muestra su información asociada.
+          </p>
+        </section>        
+        <section class="col-lg-12 bg-light d-none" id="tabulatorEntityList">
+          <!--Contenedor para los listados de resultados-->
+          <h3>Topónimos encontrados  <span id="numResults" class="badge bg-primary">45</span> <small><span id="numResultsFilter" class="badge bg-primary">Filtrados: 12</span></small></h3>
+  
+          <div class="input-group input-group-sm" style="margin-bottom:2px;">
+              <!-- <span class="input-group-addon" id="basic-addon1"><i class="fa fa-filter"></i></span> -->
+              <span class="input-group-text"><i class="fa fa-filter"></i></span>
+              <input id="filter-value" type="text" class="form-control" placeholder="Filtrar por" aria-describedby="basic-addon1">
+              <button id="clean-filter" class="btn btn-outline-secondary" type="button" id="button-addon2">
+                <span class="fa-stack fa-fw">
+                  <i class="fa fa-filter fa-stack-1x"></i>
+                  <i class="fa fa-ban fa-stack-2x text-danger"></i>
+                </span>
+              </button>
+          </div>
+          <div id="example-table" class="table table-sm" style="height:65vh;"></div>
+          <div class="btn-group btn-group-sm" role="group" aria-label="...">
+              <button type="button" class="btn btn-primary" id="download-csv"><i class="fa fa-download"></i> Download CSV</button>
+              <button type="button" class="btn btn-primary" id="download-json"><i class="fa fa-download"></i> Download JSON</button>
+              <button type="button" class="btn btn-primary" id="download-html"><i class="fa fa-download"></i> Download HTML</button>
+          </div>
+          <div class="btn-group btn-group-sm" role="group" aria-label="...">
+              <button type="button" class="btn btn-primary" id="zoom-mapResults"><i class="fa fa-search-plus"></i> Zoom resultados</button>
+          </div>
+        </section>
 
+        <div class="col-lg-12 bg-light d-none" id="atributosEntity">
+          <!-- Contenedor para el detalle de un topónimo -->
+          <div class="row mb-2">
+            <h3 id="propNameEntity" class="col-lg-10">Lorem apsum daoman e quaet es fretur d sadadm</h3>
+            <img id="propImageDictio" class="col-lg-2 " src="img/icons/5.1-master.png" title="Curso natural de agua (5.1)">
+          </div>
+          
+
+          <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general-tab-pane" type="button" role="tab" aria-controls="general-tab-pane" aria-selected="true">General</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link position-relative" id="naming-tab" data-bs-toggle="tab" data-bs-target="#naming-tab-pane" type="button" role="tab" aria-controls="naming-tab-pane" aria-selected="false">
+                Nombres <!--<span class="label label-primary" id="numNombres">5</span>-->
+                <span id="numNombres" class="badge rounded-pill bg-danger" id="numRegHisto">12</span>
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="locate-tab" data-bs-toggle="tab" data-bs-target="#locate-tab-pane" type="button" role="tab" aria-controls="locate-tab-pane" aria-selected="false">Localización</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link  position-relative" id="others-tab" data-bs-toggle="tab" data-bs-target="#others-tab-pane" type="button" role="tab" aria-controls="others-tab-pane" aria-selected="false">
+                Más info
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="historial-tab" data-bs-toggle="tab" data-bs-target="#historial-tab-pane" type="button" role="tab" aria-controls="historial-tab-pane" aria-selected="false">
+                Historico
+                <span id="numRegHisto" class="badge rounded-pill bg-danger" id="numRegHisto">12</span>
+              </button>
+            </li>            
+          </ul>
+          <div class="tab-content" id="myTabContent" style="min-height:70vh; margin-top: 5px;">
+            <div class="tab-pane fade show active" id="general-tab-pane" role="tabpanel" aria-labelledby="general-tab" tabindex="0"></div>
+            <div class="tab-pane fade" id="naming-tab-pane" role="tabpanel" aria-labelledby="naming-tab" tabindex="0"></div>
+            <div class="tab-pane fade" id="locate-tab-pane" role="tabpanel" aria-labelledby="locate-tab" tabindex="0"></div>
+            <div class="tab-pane fade" id="others-tab-pane" role="tabpanel" aria-labelledby="others-tab" tabindex="0"></div>
+            <div class="tab-pane fade" id="historial-tab-pane" role="tabpanel" aria-labelledby="historial-tab" tabindex="0">
+              <div id="histodataTable" class="table-responsive" style="max-height:60vh;"></div>
+            </div>
+          </div>
+          <button id="showListResults" type="button" class="btn btn-sm btn-primary pull-right" >Volver lista resultados</button>
+  
+        </div> <!--END CONTAINER: atributosEntity -->        
+  
+
+      </main>
+
+
+
+
+
+
+      <div id="mapLienzo" class="col-lg-6 col-md-3 bg-dark">
+
+
+      </div>
+
+
+
+    </div>
+
+
+    <!-- <h1 class="mt-5">Sticky footer with fixed navbar</h1>
+    <p class="lead">Pin a footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code class="small">padding-top: 60px;</code> on the <code class="small">main &gt; .container</code>.</p>
+    <p>Back to <a href="/docs/5.2/examples/sticky-footer/">the default sticky footer</a> minus the navbar.</p> -->
+
+
+
+
+
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myMsgModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 id="modal-title" class="modal-title">Modal Header</h4>
+          <h1 class="modal-title fs-5" id="modal-title">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <p id="modal-message">Some text in the modal.</p>
+        <div id="modal-message" class="modal-body">
+          ...
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
         </div>
       </div>
-  
     </div>
-</div>
+  </div>
 
 
 
 
-<!--Footer-->        
-<footer class="footer">
-    <div class="container">
-        <p class="muted credit">
-            <a href="https://www.develmap.com" target="_blank" title="DEVELMAP SL"><img src="img/develmap.png"/></a>Web developed by <a href="https://www.develmap.com">DEVELMAP Consulting</a>.
-        </p>
-    </div>
+</main>
+
+<footer class="footer mt-auto px-3 bg-dark">
+  <p class="text-muted credit">
+    <a href="https://www.develmap.com" target="_blank" title="DEVELMAP SL"><img src="img/develmap.png"/></a>Web developed by <a href="https://www.develmap.com">DEVELMAP Consulting</a>.
+  </p>
 </footer>
 
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><!-- Antes 1.11.3-->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><!-- Antes 3.3.6-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script src="js/typeahead/typeahead.js"></script>
 <script type="text/javascript" src="https://componentes.cnig.es/api-core/js/apiign.ol.min.js"></script>
 <script type="text/javascript" src="https://componentes.cnig.es/api-core/js/configuration.js"></script>
@@ -537,7 +640,13 @@
     
     
 </script>
-    
-    
-</body>
+
+
+
+
+
+
+
+
+  </body>
 </html>

@@ -3,7 +3,6 @@
  * @param {*} cadena 
  * @returns 
  */
-
 const isEmptyNullString = (cadena) => {
   if (cadena === undefined || cadena === null) {
     return true;
@@ -15,7 +14,11 @@ const isEmptyNullString = (cadena) => {
   return false;
 };
 
-
+/**
+ * 
+ * @param {*} value 
+ * @returns 
+ */
 const fixNullValue = (value) => {
   return value === undefined || value === null
     ? '<em>No definido <i class="fa fa-question-circle" aria-hidden="true"></i></em>'
@@ -30,11 +33,11 @@ const fixNullValue = (value) => {
  */
 const searchByHojaMTN = () => {
 
-
-    let userNumMTN = $("#mtnselect").val();
-    let numMTN;
+    let userNumMTN = document.getElementById("mtnselect").value;
+    let numMTN='';
     if (isEmptyNullString(userNumMTN)){
-        return;
+      document.getElementById("mtnselect").classList.remove("d-none");
+      return;
     }
 
     // Obtenemos de la cadena seleccionada la hoja de búsqueda
@@ -46,10 +49,15 @@ const searchByHojaMTN = () => {
         numMTN=userNumMTN.slice(userNumMTN.length-7,userNumMTN.length)
     }
 
-    let codProv= $("#provinCbo").find(":selected").val();
-    let codDictio= $("#codDictio").find(":selected").val();
-    let urlRequest = mtn25SearchServer + numMTN + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "") + (codProv != "00" ? "codProv=" + codProv + "&" : "");
+    if (isEmptyNullString(numMTN)){
+      document.getElementById("mtnselect").classList.remove("d-none");
+      return;
+    }
 
+    let codProv = document.getElementById("provinCbo").value;
+    let codDictio = document.getElementById("codDictio").value;
+    let urlRequest = mtn25SearchServer + numMTN + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "") + (codProv != "00" ? "codProv=" + codProv + "&" : "");
+    document.getElementById("mtnselect").classList.add("d-none");
 
     document.getElementById("presentacion").classList.add("d-none");
     document.getElementById("tabulatorEntityList").classList.add("d-none");
@@ -115,12 +123,16 @@ const searchByMuni = ()=>{
 
 const searchByName = () => {
 
-  // let nameEnti = $("#searchByNameparam").val();
-  // let codProv = $("#provinCbo").find(":selected").val();
-  // let codDictio = $("#codDictio").find(":selected").val();
+
   let nameEnti = document.getElementById("searchByNameparam").value;
   let codProv = document.getElementById("provinCbo").value;
   let codDictio = document.getElementById("codDictio").value;
+
+  if (isEmptyNullString(nameEnti)){
+    document.getElementById("alertnoselname").classList.remove("d-none");
+    return;
+  }
+
 
   let urlRequest =
     nameSearchServer +
@@ -461,14 +473,10 @@ const showResultsetList = (resultsRequest) => {
 
 const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
     
-    var attributeDisplay="";
-    //$("#spinner_searchid").show();
+    let attributeDisplay="";
+    document.getElementById("spinner_searchEntityData").classList.remove("d-none");
     //Tratamiento de parámetros opcionales
     panningEntity = (typeof panningEntity === 'undefined') ? false : panningEntity;
-    console.log("Hacer panning:" + panningEntity);
-    // if (showBtnResults == false) {
-    //     attributeDisplay="display:none;"
-    // }
     
     $.ajax({
         //url: 'apinomen2/public/entityngbe/json/id/' + idEnti,
@@ -513,25 +521,23 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
 
                 document.getElementById('numNombres').textContent = evalNumNombres;
 
-                let generalAttribTemplate  = `<h3 class="propTitle">General</h3>
+                let generalAttribTemplate  = `<h4 class="propTitle">General</h4>
                                         <ul>
                                         <li class="propContent">Identidad nº: <span class="pull-right">${itemSelected.properties.id}</span></li>
                                         <li class="propContent">Clasificación: <span class="pull-right">${itemSelected.properties.codigo_ngbe_text}</span></li>
                                         <li class="${itemSelected.properties.provincias_nombre.length>75 ? "propSubContent":"propContent"}">Provincias: <span class="pull-right">${replaceAllOcurrences(fixNullValue(itemSelected.properties.provincias_nombre),',',', ')}</span></li>
-                                        <li class="propSubContent">Permalink: 
-                                        <span class="pull-right">
-                                        <a href="${appURLCanonical}?identidad=${itemSelected.properties.id}" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i> ${appURLCanonical}?identidad=${itemSelected.properties.id}</a>
-                                        </span>
+                                        <li class="propContent">
+                                          Permalink: <span class="pull-right"><a href="${appURLCanonical}?identidad=${itemSelected.properties.id}" target="_blank">Enlace externo <i class="fa fa-external-link" aria-hidden="true"></i></a></span>
                                         </li>
                                         </ul>
-                                        <h3 class="propTitle">Identificador geográfico</h3>
+                                        <h4 class="propTitle">Identificador geográfico</h4>
                                         <ul>
                                         <li class="propContent">Denominación: <span class="pull-right">${itemSelected.properties.identificador_geografico}</span></li>
                                         <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_idg)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_idg)}</span></li>
                                         <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_idg)}</span></li>
                                         <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
                                         </ul>
-                                        <h3 class="propSubTitle">Nombre extendido</h3>
+                                        <h4 class="propSubTitle">Nombre extendido</h4>
                                         <ul>
                                         <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_extendido)}</span></li>
                                         <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_extendido)}</span></li>
@@ -539,7 +545,7 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                         <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
                                         </ul>
 
-                                        <h3 class="propSubTitle">Nombre alternativo 2</h3>
+                                        <h4 class="propSubTitle">Nombre alternativo 2</h4>
                                         <ul>
                                         <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_alternativo_2)}</span></li>
                                         <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_alternativo_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_alternativo_2)}</span></li>
@@ -547,7 +553,7 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                         <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_alternativo_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_alternativo_2)}</span></li>
                                         </ul>
 
-                                        <h3 class="propSubTitle">Nombre variante 1</h3>
+                                        <h4 class="propSubTitle">Nombre variante 1</h4>
                                         <ul>
                                         <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_1)}</span></li>
                                         <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_1)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_1)}</span></li>
@@ -556,7 +562,7 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                         </ul>`;
 
 
-                let namingAttribTemplate  = `<h3 class="propSubTitle">Nombre alternativo 3</h3>
+                let namingAttribTemplate  = `<h4 class="propSubTitle">Nombre alternativo 3</h4>
                                         <ul>
                                         <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_alternativo_3)}</span></li>
                                         <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_alternativo_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_alternativo_3)}</span></li>
@@ -565,7 +571,7 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                         </ul>
 
 
-                                        <h3 class="propSubTitle">Nombre variante 2</h3>
+                                        <h4 class="propSubTitle">Nombre variante 2</h4>
                                         <ul>
                                         <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_2)}</span></li>
                                         <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_2)}</span></li>
@@ -573,7 +579,7 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                         <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_2)}</span></li>
                                         </ul>
 
-                                        <h3 class="propSubTitle">Nombre variante 3</h3>
+                                        <h4 class="propSubTitle">Nombre variante 3</h4>
                                         <ul>
                                         <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_3)}</span></li>
                                         <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_3)}</span></li>
@@ -581,7 +587,7 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                         <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_3)}</span></li>
                                         </ul>
 
-                                        <h3 class="propSubTitle">Otras denominaciones</h3>
+                                        <h4 class="propSubTitle">Otras denominaciones</h4>
                                         <ul>
                                         <li class="propContent">Nombre recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.ig_recomendado)}</span></li>
                                         <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_ig_recomendada)}</span></li>
@@ -596,28 +602,32 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
 
 
 
-                let locationAttribTemplate  = `<h3 class="propTitle">Geometría</h3>
+                let locationAttribTemplate  = `<h4 class="propTitle">Geometría</h4>
                                         <ul>
                                         <li class="propContent">Geográficas (epsg:4258): <span class="pull-right">${fixNullValue(itemSelected.properties.long_etrs89_regcan95)} ${fixNullValue(itemSelected.properties.lat_etrs89_regcan95)}</span>
                                         </li>
                                         <li class="propContent">UTM (epsg:258${itemSelected.properties.huso_etrs89_regcan95}): <span class="pull-right">${fixNullValue(itemSelected.properties.x_utm_etrs89_regcan95)} ${fixNullValue(itemSelected.properties.y_utm_etrs89_regcan95)}</span></li>
                                         </ul>
-                                        <h3 class="propTitle">Provincias</h3>
+                                        <h4 class="propTitle">Provincias</h4>
                                         <p class="propContent">${replaceAllOcurrences(fixNullValue(itemSelected.properties.provincias_nombre),',',', ')}</p>
                                         <h3 class="propTitle">Códigos INE asociados</h3>
                                         <p class="propContent">${replaceAllOcurrences(fixNullValue(itemSelected.properties.codigo_ine),',',', ')}</p>
-                                        <h3 class="propTitle">Hoja MTN25</h3><span class="propContent">${itemSelected.properties.hojamtn_25}</span>`;
+                                        <h4 class="propTitle">Hoja MTN25</h4><span class="propContent">${itemSelected.properties.hojamtn_25}</span>`;
 
 
 
 
-                let othersAttribTemplate  = `<h3 class="propTitle">Tema INSPIRE</h3><span class="propContent">https://inspire.ec.europa.eu/codelist/NamedPlaceTypeValue/hydrography</span>
-                                        <h3 class="propTitle">Otras codificaciones</h3>
+                let othersAttribTemplate  = `<h4 class="propTitle">Tema INSPIRE</h4>
+                                        <span class="propContent">
+                                          https://inspire.ec.europa.eu/codelist/NamedPlaceTypeValue/hydrography
+                                          <a href="https://inspire.ec.europa.eu/codelist/NamedPlaceTypeValue/hydrography" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                                        </span>
+                                        <h4 class="propTitle">Otras codificaciones</h4>
                                         <ul>
                                             <li class="propContent">id_autonum_union_sep2013 <span class="pull-right">${fixNullValue(itemSelected.properties.id_autonum_union_sep2013)}</span></li>
                                             <li class="propContent">objectid <span class="pull-right">${fixNullValue(itemSelected.properties.objectid)}</span></li>
                                         </ul>
-                                        <h3 class="propTitle">Proceso de autocorrección</h3>
+                                        <h4 class="propTitle">Proceso de autocorrección</h4>
                                         <ul>
                                             <li class="propContent">Texto previo en BTN <span class="pull-right">${fixNullValue(itemSelected.properties.texto_previo_btn)}</span></li>
                                             <li class="propContent">Código TTGGSS <span class="pull-right">${fixNullValue(itemSelected.properties.ttggss)}</span></li>
@@ -626,13 +636,13 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                         </ul>
                                     </div>`;
                 
-                let generalAttribContainer = document.getElementById('generalAttrib');
+                let generalAttribContainer = document.getElementById('general-tab-pane');
                 generalAttribContainer.innerHTML = generalAttribTemplate;
-                let namingAttribContainer = document.getElementById('namingAttrib');
+                let namingAttribContainer = document.getElementById('naming-tab-pane');
                 namingAttribContainer.innerHTML = namingAttribTemplate;
-                let locationAttribContainer = document.getElementById('locationAttrib');
+                let locationAttribContainer = document.getElementById('locate-tab-pane');
                 locationAttribContainer.innerHTML = locationAttribTemplate;
-                let othersAttribContainer = document.getElementById('othersAttrib');
+                let othersAttribContainer = document.getElementById('others-tab-pane');
                 othersAttribContainer.innerHTML = othersAttribTemplate;                
 
                 if (panningEntity===true){
@@ -642,8 +652,12 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                 $("#showListResults").on("click", function(event) {
                                         $("#atributosEntity").hide();
                                         $("#tabulatorEntityList").show();                    
-                }); 
-                $("#spinner_searchid").hide();
+                });
+                document.getElementById("showListResults").addEventListener("click", () => {
+                  document.getElementById("tabulatorEntityList").classList.remove("d-none");
+                  document.getElementById("atributosEntity").classList.add("d-none");
+                });
+                document.getElementById("spinner_searchEntityData").classList.add("d-none");
             },
             error: function(e){
                         console.log(e.responseText);
@@ -662,10 +676,7 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                     console.log(e.responseText);
                 }
     });
-
-
 }
-
 
 /**
  * Definición Eventos del UI
@@ -673,6 +684,13 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
  document.getElementById("searchByName").addEventListener("click", (e) => {
    searchByName();
  });
+
+ document.getElementById("searchByNameparam").addEventListener("keyup", (event) => {
+  document.getElementById("alertnoselname").classList.add("d-none");
+  if (event.key === "Enter") {
+    searchByName();
+  }
+});
 
  document.getElementById("searchByView").addEventListener("click", (e) => {
    searchByView();
@@ -700,18 +718,11 @@ document.getElementById("muniselect").addEventListener("keyup", (event) => {
      searchByMuni();
  });
 
-//  document.getElementById("clean-filter").addEventListener("click", (e) => {
-//    cleanTabulatorResultsFilter();
-//  });
+  document.getElementById("clean-filter").addEventListener("click", (e) => {
+    cleanTabulatorResultsFilter();
+  });
 
  document.getElementById("searchByRadio").addEventListener("click", (e) => {
    searchByBuffer();
  });
-
-
-
-
-
-
-
 

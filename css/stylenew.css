@@ -87,7 +87,7 @@ background-color: #F1F1F1;
   border-bottom: 1px double #0b5b8e;
   padding-bottom: 5px;
   color: #176d9b;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 800;
   line-height: normal;
   margin-top: 15px;
@@ -114,10 +114,111 @@ background-color: #F1F1F1;
 }
 
 .dictioTitleSecond{
-  width:48px;
+  /*position: relative;
+  top: -100px; 
+  right: -570px;*/
+  max-width:48px;
+  max-height:48px;
+}
+
+.propTitle {
+  /*border-bottom: 1px dotted #389b17;*/
+  color: #176d9b;
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: normal;
+  margin-top: 5px;
+  text-transform: uppercase;
+}
+
+.propSubTitle{
+  color: #176d9b;
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: normal;
+  margin-top: 10px;
+  text-transform: uppercase;   
+}
+
+.propSubContent{
+  color: #6c6c6c;
+  font-size: 1rem;
+  line-height: normal;
+  margin-top: 5px;  
+}
+
+.propContent {
+  color: #6c6c6c;
+  font-size: 14px;
+  line-height: normal;
+  /*margin-top: 15px;*/
+}
+
+p.propContent {
+  color: #6c6c6c;
+  text-align: justify;
 }
 
 
+img.idioma_spa{
+  content: url("../img/flag-es.svg");
+  width:20px; 
+  margin-left:5px; 
+}
+
+img.idioma_cat{
+  content: url("../img/flag-cat.svg");
+  width:20px; 
+  margin-left:5px; 
+}
+
+img.idioma_glg{
+  content: url("../img/flag-gal.svg");
+  width:20px; 
+  margin-left:5px; 
+}
+
+img.idioma_oci{
+  content: url("../img/flag-oci.svg");
+  width:20px; 
+  margin-left:5px; 
+}
+
+img.idioma_eus{
+  content: url("../img/flag-eus.svg");
+  width:20px; 
+  margin-left:5px; 
+}
+
+img.idioma_ara{
+  content: url("../img/flag-ara.svg");
+  width:20px; 
+  margin-left:5px; 
+}
+
+img.idioma_ast{
+  content: url("../img/flag-ast.svg");
+  width:20px; 
+  margin-left:5px; 
+}
+
+img.oficial{
+  content: url("../img/stamp-svgrepo-com.svg");
+  width:14px; 
+  margin-left:5px; 
+}
+
+img.normalizado{
+  content: url("../img/thumbs-up-solid.svg");
+  width:14px; 
+  margin-left:5px; 
+}
+
+img.no-normalizado{
+  content: url("../img/thumbs-down-solid.svg");
+  width:14px; 
+  margin-left:5px; 
+}
 
 
 

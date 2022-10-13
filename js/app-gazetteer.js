@@ -456,19 +456,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
     document.getElementById("tabulatorEntityList").classList.add("d-none");
-    document.getElementById("atributosEntity").classList.remove("d-none");
-    document.getElementById("presentacion").classList.add("d-none");
+    document.getElementById("atributosEntity").classList.add("d-none");
+    document.getElementById("presentacion").classList.remove("d-none");
 
    // Detección del permalink de entidad
-    // let paramSearch=window.location.search;
-    // if (!isEmptyNullString(paramSearch)){
-    //   if (paramSearch.indexOf('?identidad=')>=0){
-    //     let idEntidadSearch = paramSearch.replace('?identidad=','');
-    //     console.log(`Permalink entidad ${paramSearch.replace('?identidad=','')}`);
-    //     document.getElementById("searchByIdparam").value=idEntidadSearch;
-    //     searchById();
-    //   }
-    // }
+    let paramSearch=window.location.search;
+    if (!isEmptyNullString(paramSearch)){
+      if (paramSearch.indexOf('?identidad=')>=0){
+        let idEntidadSearch = paramSearch.replace('?identidad=','');
+        console.log(`Permalink entidad ${paramSearch.replace('?identidad=','')}`);
+        document.getElementById("searchByIdparam").value=idEntidadSearch;
+        searchById();
+      }
+    }
 
 
     
