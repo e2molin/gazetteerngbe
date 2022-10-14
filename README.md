@@ -198,3 +198,10 @@ diccionario_codigo_ngbe.categoria1,diccionario_codigo_ngbe.categoria2,diccionari
 resumen, diccionario.*
 FROM ngbe_elaboracion.diccionario_codigo_ngbe 
 left join ngbe_cnig.diccionario  on diccionario_codigo_ngbe.codigo_ngbe=diccionario.codigo_ngbe
+
+
+# USo de fetch en peticiones API
+
+RApidapi.com
+
+https://www.youtube.com/watch?v=FJ-w0tf3d_w
