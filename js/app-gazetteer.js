@@ -65,6 +65,17 @@ document.getElementById("showPresentacion").addEventListener("click", () => {
     document.getElementById("presentacion").classList.remove("d-none");
 });
 
+document.getElementById("showLegend").addEventListener("click", () => {
+  
+  const myModal = new bootstrap.Modal(document.getElementById('modalDictio'), {keyboard: false})
+  myModal.show();
+
+});
+
+
+
+
+
 const cleanTabulatorResultsFilter = () => {
     document.getElementById("filter-value").value=``;
     document.getElementById("numResultsFilter").textContent = ``;

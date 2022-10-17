@@ -1,343 +1,239 @@
-/* 
-   GLOBAL STYLES
--------------------------------------------------- */
-/* Padding below the footer and lighter body text */
-
 html{
-    min-height: 100%;
-    position: relative;
+  min-height: 100%;
+  position: relative;
 }
+
 body {
-    background-color:#dbdbdb;
-    color: #000000;/*#5a5a5a;*/
-    font-size: 12px;
-    font-family: 'Open Sans', sans-serif;
-    margin-bottom: 50px;/*Para que el footer no solape*/
+  background-color:#dbdbdb;
+  color: #000000;/*#5a5a5a;*/
+  font-size: 12px;
+  font-family: 'Open Sans', sans-serif;
 }
+
 header{
-	margin-top:0px;
+  margin-top:10px;
 }
 
 /*-----------------------------------*/
 /*Top navbar*/
 /*-----------------------------------*/
 #topnavbar{
-    margin:0px;
-    background: url("../img/background-header.png") no-repeat center scroll;
-    background-color: #364b5f;
-
+  background: url("../img/background-header.png") no-repeat center scroll;
+  background-color: #364b5f;
 }
 
 .navbar-brand{
-    color: #a5a5a5;
-     /*color: #000000;*/
-}
-
-
-.jumbotron {
-    position: relative;
-    background: url("img/jumbotron2.png") center center;
-    width: 100%;
-    height: 300px;
-    background-size: cover;
-    overflow: hidden;
+  color: #a5a5a5;
+   /*color: #000000;*/
 }
 
 /*-----------------------------------*/
 /*Sidebar*/
 /*-----------------------------------*/
-#sidebar-container button{
-    background-color: #1B5794;
-    color: #FFFFFF;
+
+#sidebarMenu{
+  height: 95vh;
+  padding-top: 50px;
 }
 
-#sidebar{
-    padding-left: 0px;
-    padding-right: 0px;
-}
-#sidebar-container{
-    padding-left: 0px;
-    padding-right: 0px;
-}
-#sidebar li a{
-    color: #0076ff;
-    font-size:14px;
-}
-.panel-heading{
-    padding-left: 5px;
-    padding-right: 5px;
-}
-.panel-title{
-    font-size:14px;
+#sidebarMenu a{
+  text-decoration: none;
+  font-size: 1rem;
+  line-height: 1em;
 }
 
-
-
-/*Dispositivos pantalla PC*/
-@media(min-width:1024px) {
-    .typeahead-devs, .tt-hint,.combomunis, .combomtn  {
-        border: 2px solid #CCCCCC;/*#CCCCCC*/
-        border-radius: 4px 4px 4px 4px;
-        font-size: 11px;
-        height: 25px;
-        line-height: 30px;
-        outline: medium none;
-        padding: 4px 4px;
-        width: 180px;
-    }
-    .tt-dropdown-menu {
-      width: 270px;
-      margin-top: 5px;
-      padding: 8px 12px;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      border-radius: 4px 4px 4px 4px;
-      font-size: 10px;
-      color: #111;
-      background-color: #F1F1F1;
-    }
+#sidebarMenu .card {
+  margin-top:5px;
 }
-/*Dispositivos intemedios*/
-@media screen and (max-width: 1024px) and (min-width: 768px) {
-    .typeahead-devs, .tt-hint,.combomunis,.combomtn  {
-        border: 2px solid #CCCCCC;/*#CCCCCC*/
-        border-radius: 4px 4px 4px 4px;
-        font-size: 11px;
-        height: 400px;
-        line-height: 50px;
-        outline: medium none;
-        padding: 4px 4px;
-        width: 190px;
-    }
-   
-    .tt-dropdown-menu {
-      width: 190px;
-      margin-top: 5px;
-      padding: 8px 12px;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      border-radius: 4px 4px 4px 4px;
-      font-size: 10px;
-      color: #111;
-      background-color: #F1F1F1;
-    }    
+  
 
+.typeahead-devs, .tt-hint, .combomunis, .combomtn, .dvm-input  {
+  border: 2px solid #CCCCCC;
+  border-radius: 4px 4px 4px 4px;
+  font-size: 11px;
+  height: 32px;
+  line-height: 30px;
+  outline: medium none;
+  padding: 4px 4px;
+  width: 232px;
 }
-/*Dispositivos móviles*/
-@media(max-width:767px) {
-    .typeahead-devs, .tt-hint,.combomunis,.combomtn  {
-        border: 2px solid #CCCCCC;
-        border-radius: 4px 4px 4px 4px;
-        font-size: 11px;
-        height: 25px;
-        line-height: 30px;
-        outline: medium none;
-        padding: 4px 4px;
-        /*width: 100%;*/
-    }
-    .tt-dropdown-menu {
-      /*width: 210px;*/
-      margin-top: 5px;
-      padding: 8px 12px;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      border-radius: 4px 4px 4px 4px;
-      font-size: 10px;
-      color: #111;
-      background-color: #F1F1F1;
-    }
-
-    
+.tt-dropdown-menu {
+width: 232px;
+margin-top: 5px;
+padding: 8px 12px;
+background-color: #fff;
+border: 1px solid #ccc;
+border: 1px solid rgba(0, 0, 0, 0.2);
+border-radius: 4px 4px 4px 4px;
+font-size: 10px;
+color: #111;
+background-color: #F1F1F1;
 }
-
 
 #codDictio, #provinCbo{
-    font-size: 10px;
-    padding: 3px 6px;
-    height: 24px;
+  font-size: 10px;
+  padding: 3px 6px;
+  height: 24px;
+}
+
+
+.tabulator-row .tabulator-cell{
+  padding:0px;
+}
+
+/* Ajustamos la anchura del modal para que nos salgan los iconos en una línea */
+@media (min-width: 992px){
+  .modal-lg, .modal-xl {
+    --bs-modal-width: 900px;
+  }
 }
 
 
 
-
-
-/*---------------------------------------------*/
-/*Páginas de atributos atributosEntityList     */
-/*---------------------------------------------*/
-#listsElem{
-    max-height: 700px;
-    overflow-y: scroll;
-}
-
-
-#atributosEntity li {
-    margin: 0;
-    padding: 0.2em;
-    line-height: 1em;
-}
-
-#atributosEntity li.headertab {
-    margin: 0;
-    line-height: 1em;
-}
-
-@media(max-width:1300px) {
-    .tipoimg-ngbe{
-        display:visible;
-    }
-    .tipotxt-ngbe{
-        display:none;
-    }
-}
-@media(min-width:1301px) {
-    .tipoimg-ngbe{
-        display:none;
-    }
-    .tipotxt-ngbe{
-        display:visible;
-    }
-}
+/*-----------------------------------------*/
+/*Detalles de la entidad                   */
+/*-----------------------------------------*/
 
 
 .titleFirst {
-    /* Hasta 36 caracteres */
-    border-bottom: 1px double #0b5b8e;
-    padding-bottom: 5px;
-    color: #176d9b;
-    font-size: 3rem;
-    font-weight: 800;
-    line-height: normal;
-    margin-top: 15px;
+  /* Hasta 36 caracteres */
+  border-bottom: 1px double #0b5b8e;
+  padding-bottom: 5px;
+  color: #176d9b;
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: normal;
+  margin-top: 15px;
 }
 
 .titleSecond {
-    /* Hasta 47 caracteres */
-    border-bottom: 1px double #0b5b8e;
-    padding-bottom: 10px;
-    padding-right: 55px;
-    color: #176d9b;
-    font-size: 2rem;
-    font-weight: 800;
-    line-height: normal;
-    margin-top: 15px;
-    word-break:normal;
+  /* Hasta 47 caracteres */
+  border-bottom: 1px double #0b5b8e;
+  padding-bottom: 10px;
+  padding-right: 55px;
+  color: #176d9b;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: normal;
+  margin-top: 15px;
+  word-break:normal;
 }
 
 .dictioTitleFirst{
-    position: absolute;
-    top: 8px; 
-    right: 16px;
-    width:48px;
+  position: absolute;
+  top: 8px; 
+  right: 16px;
+  width:48px;
 }
 
 .dictioTitleSecond{
-    position: absolute;
-    top: 0px; 
-    right: 16px;
-    width:48px;
+  /*position: relative;
+  top: -100px; 
+  right: -570px;*/
+  max-width:48px;
+  max-height:48px;
 }
 
 .propTitle {
-    /*border-bottom: 1px dotted #389b17;*/
-    color: #176d9b;
-    font-size: 1.5rem;
-    font-weight: 800;
-    line-height: normal;
-    margin-top: 15px;
-    text-transform: uppercase;
+  /*border-bottom: 1px dotted #389b17;*/
+  color: #176d9b;
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: normal;
+  margin-top: 5px;
+  text-transform: uppercase;
 }
 
 .propSubTitle{
-    color: #176d9b;
-    font-size: 1.2rem;
-    font-weight: 800;
-    line-height: normal;
-    margin-top: 10px;
-    text-transform: uppercase;   
+  color: #176d9b;
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: normal;
+  margin-top: 10px;
+  text-transform: uppercase;   
 }
 
 .propSubContent{
-    color: #6c6c6c;
-    font-size: 1rem;
-    line-height: normal;
-    margin-top: 5px;  
+  color: #6c6c6c;
+  font-size: 1rem;
+  line-height: normal;
+  margin-top: 5px;  
 }
 
 .propContent {
-    color: #6c6c6c;
-    font-size: 14px;
-    line-height: normal;
-    margin-top: 15px;
+  color: #6c6c6c;
+  font-size: 14px;
+  line-height: normal;
+  /*margin-top: 15px;*/
 }
 
 p.propContent {
-    color: #6c6c6c;
-    text-align: justify;
+  color: #6c6c6c;
+  text-align: justify;
 }
 
 
 img.idioma_spa{
-    content: url("../img/flag-es.svg");
-    width:20px; 
-    margin-left:5px; 
+  content: url("../img/flag-es.svg");
+  width:20px; 
+  margin-left:5px; 
 }
 
 img.idioma_cat{
-    content: url("../img/flag-cat.svg");
-    width:20px; 
-    margin-left:5px; 
+  content: url("../img/flag-cat.svg");
+  width:20px; 
+  margin-left:5px; 
 }
 
 img.idioma_glg{
-    content: url("../img/flag-gal.svg");
-    width:20px; 
-    margin-left:5px; 
+  content: url("../img/flag-gal.svg");
+  width:20px; 
+  margin-left:5px; 
 }
 
 img.idioma_oci{
-    content: url("../img/flag-oci.svg");
-    width:20px; 
-    margin-left:5px; 
+  content: url("../img/flag-oci.svg");
+  width:20px; 
+  margin-left:5px; 
 }
 
 img.idioma_eus{
-    content: url("../img/flag-eus.svg");
-    width:20px; 
-    margin-left:5px; 
+  content: url("../img/flag-eus.svg");
+  width:20px; 
+  margin-left:5px; 
 }
 
 img.idioma_ara{
-    content: url("../img/flag-ara.svg");
-    width:20px; 
-    margin-left:5px; 
+  content: url("../img/flag-ara.svg");
+  width:20px; 
+  margin-left:5px; 
 }
 
 img.idioma_ast{
-    content: url("../img/flag-ast.svg");
-    width:20px; 
-    margin-left:5px; 
+  content: url("../img/flag-ast.svg");
+  width:20px; 
+  margin-left:5px; 
 }
 
 img.oficial{
-    content: url("../img/stamp-svgrepo-com.svg");
-    width:14px; 
-    margin-left:5px; 
+  content: url("../img/stamp-svgrepo-com.svg");
+  width:14px; 
+  margin-left:5px; 
 }
 
 img.normalizado{
-    content: url("../img/thumbs-up-solid.svg");
-    width:14px; 
-    margin-left:5px; 
+  content: url("../img/thumbs-up-solid.svg");
+  width:14px; 
+  margin-left:5px; 
 }
 
 img.no-normalizado{
-    content: url("../img/thumbs-down-solid.svg");
-    width:14px; 
-    margin-left:5px; 
+  content: url("../img/thumbs-down-solid.svg");
+  width:14px; 
+  margin-left:5px; 
 }
+
+
 
 
 
@@ -346,41 +242,45 @@ img.no-normalizado{
 /*-------------------------*/
 
 .footer {
-    position: absolute;
-    bottom: 0;
-    padding-top: 5px;
-    width: 100%;
-    height: 40px;
-    background-color: #222;
-    color: #666;
+  position: absolute;
+  bottom: 0;
+  padding-top: 5px;
+  width: 100%;
+  height: 40px;
+  background-color: #222;
+  color: #666;
 }
 
 .footer a {
-    color: #999;
+  color: #999;
 }
 .footer a:hover {
-    color: #efefef;
+  color: #efefef;
 }
 
+
+#panel-resultados{
+  padding-top: 60px;
+}
 
 
 /*-------------------------*/
 /*Estilos de cartografía*/
 /*-------------------------*/
 
-#mapCanvas{		
-    margin:auto;
-    height:750px;/*730px;*/
-}
 #mapLienzo{		
-    margin:auto;
-    height:730px;/*730px;*/
+  padding:0; 
+  padding-top:50px; 
+  margin:0; 
+  height:85vh;
 }
 /*
 Ajustes del contenedor del control Mouse
 */
 .m-control.m-container.m-mousesrs-container{
-    left:350px;
-    top:700px;
-    height:25px;
+  left:350px;
+  top:700px;
+  height:25px;
 }
+
+

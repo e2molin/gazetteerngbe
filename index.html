@@ -1,12 +1,12 @@
-<!doctype html>
-<html lang="en" class="h-100">
+<!DOCTYPE html>
+<html lang="es">
   <head>
+    <title>Gazetteer NGBE</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.104.2">
-    <title>Sticky Footer Navbar Template · Bootstrap v5.2</title>
+    <meta name="author" content="e2molin-dvm">
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="css/tabulator_bootstrap5.min.css">
-    <link rel="stylesheet" href="css/stylenew.css">        
+    <link rel="stylesheet" href="css/style.css">        
     
 
 
@@ -38,65 +38,8 @@
     <link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
     <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
     <meta name="theme-color" content="#712cf9"> -->
-
-
-    <style>
-      /* .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-
-      .b-example-divider {
-        height: 3rem;
-        background-color: rgba(0, 0, 0, .1);
-        border: solid rgba(0, 0, 0, .15);
-        border-width: 1px 0;
-        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-      }
-
-      .b-example-vr {
-        flex-shrink: 0;
-        width: 1.5rem;
-        height: 100vh;
-      }
-
-      .bi {
-        vertical-align: -.125em;
-        fill: currentColor;
-      }
-
-      .nav-scroller {
-        position: relative;
-        z-index: 2;
-        height: 2.75rem;
-        overflow-y: hidden;
-      }
-
-      .nav-scroller .nav {
-        display: flex;
-        flex-wrap: nowrap;
-        padding-bottom: 1rem;
-        margin-top: -1px;
-        overflow-x: auto;
-        text-align: center;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-      } */
-    </style>
-
-    
-
   </head>
-  <body class="d-flex flex-column h-100">
+<body class="d-flex flex-column h-100">
     
 <header>
   <!-- Fixed navbar -->
@@ -204,41 +147,43 @@
                 Presentación <i class="fa fa-home float-end"></i>
               </a>              
             </div>
-            <!-- <div id="panel1" class="card-body collapse">
-              <h5 class="card-title">Special title treatment</h5>
-              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div> -->
           </div>
 
           <div class="card">
             <div class="card-header">
-              <a data-bs-toggle="collapse" href="#panel2" role="button" aria-expanded="false" aria-controls="collapseExample">
+              <a data-bs-toggle="collapse" href="#panel2" role="button" aria-expanded="false" aria-controls="panel2">
                 Búsqueda espacial <i id="spinner_searchspatial" class="fa fa-spinner fa-pulse fa-x d-none"></i><span class="sr-only">Loading...</span> <i class="fa fa-map float-end"></i>
               </a>              
             </div>
-            <div id="panel2" class="card-body collapse">
-              <span style="font-size:0.95rem"><a id="searchByView" href="#"><i class="fa fa-globe" aria-hidden="true"></i> Topónimos en la vista</a></span>
+            <div id="panel2" class="collapse">
+              <div class="card-body">
+                <span style="font-size:0.95rem;">
+                  <a href="#"  style="color:#000000;">
+                    <i class="fa fa-globe" aria-hidden="true"></i> 
+                    Topónimos en la vista <button id="searchByView" type="button" class="btn btn-sm btn-primary pull-right"><i class="fa fa-search"></i></button>
+                  </a>
+                </span>
 
-              <hr/>
-             
-              <span style="font-size:0.95rem"><i class="fa fa-globe" aria-hidden="true"></i> Topónimos en el centro del mapa<br/><br/></span>
-            
-              <div class="input-group input-group-sm mb-3">
-                <input type="number" class="form-control" id="searchByRadioparam" placeholder="Define radio de búsqueda (m)" aria-label="Define radio de búsqueda (m)" aria-describedby="searchByRadio">
-                <button id="searchByRadio" class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
+                <hr/>
+              
+                <span style="font-size:0.95rem"><i class="fa fa-globe" aria-hidden="true"></i> Topónimos en el centro del mapa<br/><br/></span>
+              
+                <div class="input-group input-group-sm mb-3">
+                  <input type="number" class="form-control" id="searchByRadioparam" placeholder="Define radio de búsqueda (m)" aria-label="Define radio de búsqueda (m)" aria-describedby="searchByRadio">
+                  <button id="searchByRadio" class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+                </div>
               </div>
-
             </div>
           </div>
 
           <div class="card">
             <div class="card-header">
-              <a data-bs-toggle="collapse" href="#panel3" role="button" aria-expanded="false" aria-controls="collapseExample">
+              <a data-bs-toggle="collapse" href="#panel3" role="button" aria-expanded="false" aria-controls="panel3">
                 Búsqueda textual <i class="fa fa-search float-end"></i>
               </a>              
             </div>
-            <div id="panel3" class="card-body">
+            <div id="panel3" class="collapse">
+                <div class="card-body">
                   <div class="input-group col-sm-12 mb-2">
                     <label for="muniselect" class="form-label">Topónimos de un municipio</label><i id="spinner_searchMuni" class="fa fa-spinner fa-pulse fa-2x fa-fw d-none"></i><span class="sr-only">Loading...</span>
                     <input type="text" id="muniselect" name="muniselect" class="combomunis" placeholder="Municipio y pulsa buscar">
@@ -391,56 +336,29 @@
                       <option value="51">Ceuta</option>
                       <option value="52">Melilla</option>                            
                   </select>
-
-
-
-              
-
+                </div>
             </div>
           </div>
           
+          <div class="card">
+            <div class="card-header">
+              <a id="showLegend" href="#" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Leyenda <i class="fa fa-list float-end"></i>
+              </a>              
+            </div>
+          </div>
           
           <div class="card">
             <div class="card-header">
-              <a data-bs-toggle="collapse" href="#panel4" role="button" aria-expanded="false" aria-controls="collapseExample">
-                Featured
-              </a>              
-            </div>
-            <div id="panel4" class="card-body collapse">
-              <h5 class="card-title">Special title treatment</h5>
-              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>          
-
-          <div class="card">
-            <div class="card-header">
               <a data-bs-toggle="collapse" href="#panel5" role="button" aria-expanded="false" aria-controls="collapseExample">
-                Featured
+                Desarrollo <i class="fa fa-rebel pull-right"></i>
               </a>              
             </div>
             <div id="panel5" class="card-body collapse">
-              <h5 class="card-title">Special title treatment</h5>
-              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+              <button id="develOne" type="button" class="btn btn-sm btn-secondary">Desarrollo 1</button>
+              <button id="develTwo" type="button" class="btn btn-sm btn-secondary">Desarrollo 2</button>
             </div>
           </div>  
-
-
-          <!-- <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
-                <span data-feather="home" class="align-text-bottom"></span>
-                Dashboard
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="file" class="align-text-bottom"></span>
-                Orders
-              </a>
-            </li>
-          </ul> -->
 
         </div>
 
@@ -557,32 +475,16 @@
 
       </main>
 
-
-
-
-
-
-      <div id="mapLienzo" class="col-lg-6 col-md-3 bg-dark">
+      <div id="mapLienzo" class="col-lg-6 col-md-3 bg-dark m-0 p-0">
 
 
       </div>
 
-
-
     </div>
-
-
-    <!-- <h1 class="mt-5">Sticky footer with fixed navbar</h1>
-    <p class="lead">Pin a footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code class="small">padding-top: 60px;</code> on the <code class="small">main &gt; .container</code>.</p>
-    <p>Back to <a href="/docs/5.2/examples/sticky-footer/">the default sticky footer</a> minus the navbar.</p> -->
-
-
-
-
 
   </div>
 
-  <!-- Modal -->
+  <!-- Modales -->
   <div class="modal fade" id="myMsgModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -601,7 +503,88 @@
     </div>
   </div>
 
-
+  <div class="modal modal-lg fade" id="modalDictio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modal-title"><i class="fa fa-list"></i> Diccionario de clases</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div id="modal-message" class="modal-body">
+          <h4>División administrativa</h4>
+          <img class="" style="width:48px;" src="img/icons/1.0-master.png" title="Estado (1.0)">
+          <img class="" style="width:48px;" src="img/icons/1.1.1-master.png" title="Comunidad autónoma (1.1.1)">
+          <img class="" style="width:48px;" src="img/icons/1.1.2-master.png" title="Ciudad con estatuto de autonomía (1.1.2)">
+          <img class="" style="width:48px;" src="img/icons/1.2-master.png" title="Provincia (1.2)">
+          <img class="" style="width:48px;" src="img/icons/1.3-master.png" title="Municipio (1.3)">
+          <img class="" style="width:48px;" src="img/icons/1.4-master.png" title="EATIM (1.4)">
+          <img class="" style="width:48px;" src="img/icons/1.5-master.png" title="Isla administrativa (1.5)">
+          <img class="" style="width:48px;" src="img/icons/1.6-master.png" title="Comarca administrativa (1.6)">
+          <img class="" style="width:48px;" src="img/icons/1.7-master.png" title="Jurisdicción (1.7)">
+          <h4>Poblaciones y contrucciones</h4>
+          <img class="" style="width:48px;" src="img/icons/2.1.0-master.png" title="Capital de Estado (2.1.0)">
+          <img class="" style="width:48px;" src="img/icons/2.1.1-master.png" title="Capital de comunidad autónoma y ciudad con estatuto de autonomía (2.1.1)">
+          <img class="" style="width:48px;" src="img/icons/2.1.2-master.png" title="Capital de provincia (2.1.2)">
+          <img class="" style="width:48px;" src="img/icons/2.1.3-master.png" title="Capital de municipio (2.1.3)">
+          <img class="" style="width:48px;" src="img/icons/2.1.4-master.png" title="Capital de EATIM (2.1.4)">
+          <img class="" style="width:48px;" src="img/icons/2.1.5-master.png" title="Entidad colectiva (2.1.5)">
+          <img class="" style="width:48px;" src="img/icons/2.1.6-master.png" title="Entidad menor de población (2.1.6)">
+          <img class="" style="width:48px;" src="img/icons/2.1.7-master.png" title="Distrito municipal (2.1.7)">
+          <img class="" style="width:48px;" src="img/icons/2.1.8-master.png" title="Barrio (2.1.8)">
+          <img class="" style="width:48px;" src="img/icons/2.1.9-master.png" title="Entidad singular (2.1.9)">
+          <img class="" style="width:48px;" src="img/icons/2.1.10-master.png" title="Núcleos de población (2.1.10)">
+          <img class="" style="width:48px;" src="img/icons/2.2.1-master.png" title="Construcción/instalación abierta (2.2.1)">
+          <img class="" style="width:48px;" src="img/icons/2.2.2-master.png" title="Edificación (2.2.2)">
+          <img class="" style="width:48px;" src="img/icons/2.3.1-master.png" title="Vértice Geodésico (2.3.1)">
+          <img class="" style="width:48px;" src="img/icons/2.3.2-master.png" title="Hitos de demarcación territorial (2.3.2)">
+          <img class="" style="width:48px;" src="img/icons/2.3.3-master.png" title="Hitos en vías de comunicación (2.3.3)">
+          <h4>Comunicaciones y transporte</h4>
+          <img class="" style="width:48px;" src="img/icons/3.1.1-master.png" title="Aeropuerto (3.1.1)">
+          <img class="" style="width:48px;" src="img/icons/3.1.2-master.png" title="Aeródromo (3.1.2)">
+          <img class="" style="width:48px;" src="img/icons/3.1.3-master.png" title="Pista de aviación y helipuerto (3.1.3)">
+          <img class="" style="width:48px;" src="img/icons/3.2.1-master.png" title="Puerto (3.2.1)">
+          <img class="" style="width:48px;" src="img/icons/3.2.2-master.png" title="Instalación portuaria (3.2.2)">
+          <img class="" style="width:48px;" src="img/icons/3.2.3-master.png" title="Vía Martítima (3.2.3)">
+          <img class="" style="width:48px;" src="img/icons/3.3.1-master.png" title="Carretera (3.3.1)">
+          <img class="" style="width:48px;" src="img/icons/3.3.2-master.png" title="Camino y vía pecuaria (3.3.2)">
+          <img class="" style="width:48px;" src="img/icons/3.3.3-master.png" title="Vía urbana (3.3.3)">
+          <img class="" style="width:48px;" src="img/icons/3.3.4-master.png" title="Ferrocarril (3.3.4)">
+          <img class="" style="width:48px;" src="img/icons/3.3.5-master.png" title="Infraestructuras terrestres (3.3.5)">
+          <h4>Orografía continental y áreas geográficas</h4>
+          <img class="" style="width:48px;" src="img/icons/4.1.1-master.png" title="Alineación montañosa (4.1.1)">
+          <img class="" style="width:48px;" src="img/icons/4.1.2-master.png" title="Montaña (4.1.2)">
+          <img class="" style="width:48px;" src="img/icons/4.1.3-master.png" title="Paso de montaña (4.1.3)">
+          <img class="" style="width:48px;" src="img/icons/4.1.4-master.png" title="Llanura (4.1.4)">
+          <img class="" style="width:48px;" src="img/icons/4.1.5-master.png" title="Depresión (4.1.5)">
+          <img class="" style="width:48px;" src="img/icons/4.1.6-master.png" title="Vertientes (4.1.6)">
+          <img class="" style="width:48px;" src="img/icons/4.2.1-master.png" title="Comarca geográfica (4.2.1)">
+          <img class="" style="width:48px;" src="img/icons/4.2.2-master.png" title="Paraje (4.2.2)">
+          <img class="" style="width:48px;" src="img/icons/4.2.3-master.png" title="Elemento puntual del paisaje (4.2.3)">
+          <img class="" style="width:48px;" src="img/icons/4.3.1-master.png" title="Parque Nacional y Natural (4.3.1)">
+          <img class="" style="width:48px;" src="img/icons/4.3.2-master.png" title="Espacio protegido restante (4.3.2)">
+          <h4>Hidrografía continental</h4>
+          <img class="" style="width:48px;" src="img/icons/5.1-master.png" title="Curso natural de agua (5.1)">
+          <img class="" style="width:48px;" src="img/icons/5.2-master.png" title="Masa de agua (5.2)">
+          <img class="" style="width:48px;" src="img/icons/5.3-master.png" title="Curso artificial de agua (5.3)">
+          <img class="" style="width:48px;" src="img/icons/5.4-master.png" title="Embalse (5.4)">
+          <img class="" style="width:48px;" src="img/icons/5.5-master.png" title="Hidrónimo puntual (5.5)">
+          <img class="" style="width:48px;" src="img/icons/5.6-master.png" title="Glaciares (5.6)">
+          <h4>Hidrografía y Orografía Marítima y Costera</h4>
+          <img class="" style="width:48px;" src="img/icons/6.1.1-master.png" title="Mar (6.1.1)">
+          <img class="" style="width:48px;" src="img/icons/6.1.2-master.png" title="Entrante costero y estrecho marítimo (6.1.2)">
+          <img class="" style="width:48px;" src="img/icons/6.2.1-master.png" title="Saliente costero (6.2.1)">
+          <img class="" style="width:48px;" src="img/icons/6.2.2-master.png" title="Playa (6.2.2)">
+          <img class="" style="width:48px;" src="img/icons/6.2.3-master.png" title="Isla (6.2.3)">
+          <img class="" style="width:48px;" src="img/icons/6.2.4-master.png" title="Otro relieve costero (6.2.4)">
+          <img class="" style="width:48px;" src="img/icons/6.3-master.png" title="Relieve submarino (6.3)">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Cerrar</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 </main>
