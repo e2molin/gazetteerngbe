@@ -582,85 +582,19 @@
             <li class="nav-item" role="presentation">
               <button class="nav-link  position-relative" id="discrepancia-tab" data-bs-toggle="tab" data-bs-target="#discrepancia-tab-pane" type="button" role="tab" aria-controls="discrepancia-tab-pane" aria-selected="false">
                 Discrepancias
+                <span id="numRegDiscrepancias" class="badge rounded-pill bg-danger" id="numRegHisto">22</span>
               </button>
             </li>                     
           </ul>
-          <div class="tab-content" id="myTabContent" style="min-height:70vh; margin-top:5px;">
+          <div class="tab-content" id="myTabContent" style="min-height:70vh; margin-top:10px;">
             <div class="tab-pane fade show active" id="general-tab-pane" role="tabpanel" aria-labelledby="general-tab" tabindex="0"></div>
             <div class="tab-pane fade" id="naming-tab-pane" role="tabpanel" aria-labelledby="naming-tab" tabindex="0"></div>
             <div class="tab-pane fade" id="locate-tab-pane" role="tabpanel" aria-labelledby="locate-tab" tabindex="0"></div>
             <div class="tab-pane fade" id="others-tab-pane" role="tabpanel" aria-labelledby="others-tab" tabindex="0"></div>
             <div class="tab-pane fade" id="historial-tab-pane" role="tabpanel" aria-labelledby="historial-tab" tabindex="0">
-              <div id="histodataTable" class="table table-sm" style="max-height:60vh;"></div>
+              <div id="histodataTable" class="table table-sm"></div>
             </div>
-            <div class="tab-pane fade" id="discrepancia-tab-pane" role="tabpanel" aria-labelledby="discrepancia-tab" tabindex="0">
-
-              <div class="col-md-6">
-                <div class="card shadow-0 border rounded-3">
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-md-12">
-                        <h6>identificador_geografico <img class="idioma_ast pull-right"></h6>
-                        <div class="d-flex flex-row">
-                          <div class="mt-1 mb-0 text-muted">
-                            <ul>
-                              <li class="text-dark"><i class="fa fa-database" aria-hidden="true" title="Consolidado"></i> Añarbeko urtegia</li>
-                              <li class="text-primary"><i class="fa fa-paper-plane" aria-hidden="true" title="Enviado"></i> Embalse de Añarbe</li>
-                              <li class="text-success"><i class="fa fa-lightbulb-o" aria-hidden="true" title="Propuesto"></i> Añarbeko urtegia</li>
-                            </ul>
-                          </div>
-                        </div>
-
-                        <div class="mb-2 text-dark">
-                          <ul>
-                            <li>Usuario: e2molin</li>
-                            <li>vardate: 2018-12-13 00:00:00</li>
-                            <li>Estado: <span class="bg-success text-white">Aceptado</span> <span class="bg-danger text-white">Rechazado</span> <span class="bg-warning text-white">Pending</span></li>
-                          </ul>
-                        </div>
-                        <details  class="mb-4 mb-md-0">
-                          <summary><i class="fa fa-comments" aria-hidden="true"></i> Details</summary>
-                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, obcaecati corrupti consectetur libero est natus facilis veniam minima tempore culpa fugit cum alias voluptates aspernatur nostrum quod ullam, dolore amet.
-                        </details>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="card shadow-0 border rounded-3">
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-md-12">
-                        <h6>identificador_geografico <img class="idioma_ast pull-right"></h6>
-                        <div class="d-flex flex-row">
-                          <div class="mt-1 mb-0 text-muted">
-                            <ul>
-                              <li class="text-dark"><i class="fa fa-database" aria-hidden="true" title="Consolidado"></i> Añarbeko urtegia</li>
-                              <li class="text-primary"><i class="fa fa-paper-plane" aria-hidden="true" title="Enviado"></i> Embalse de Añarbe</li>
-                              <li class="text-success"><i class="fa fa-lightbulb-o" aria-hidden="true" title="Propuesto"></i> Añarbeko urtegia</li>
-                            </ul>
-                          </div>
-                        </div>
-
-                        <div class="mb-2 text-dark">
-                          <ul>
-                            <li>Usuario: e2molin</li>
-                            <li>vardate: 2018-12-13 00:00:00</li>
-                            <li>Estado: <span class="bg-success text-white">Aceptado</span> <span class="bg-danger text-white">Rechazado</span> <span class="bg-warning text-white">Pending</span></li>
-                          </ul>
-                        </div>
-                        <details  class="mb-4 mb-md-0">
-                          <summary><i class="fa fa-comments" aria-hidden="true"></i> Details</summary>
-                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, obcaecati corrupti consectetur libero est natus facilis veniam minima tempore culpa fugit cum alias voluptates aspernatur nostrum quod ullam, dolore amet.
-                        </details>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+            <div class="tab-pane fade" id="discrepancia-tab-pane" role="tabpanel" aria-labelledby="discrepancia-tab" tabindex="0" style="height:70vh; overflow-y: auto;">
 
             </div>
           </div>

@@ -640,6 +640,90 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
     });
 
 
+    // Obtenemos discrepancias de la entidad
+    fetch(`${urlDiscrepancias}${idEnti}`)
+    .then(res => res.json())
+    .then(response =>{
+      //console.log(response);
+      let lstDiscrepancias = [];
+      response.data.forEach((element) => {
+
+        let estadoTexto = "";
+        let estadoColor = "";
+        if (element.estado===0){
+          estadoColor="bg-primary text-white";
+          estadoTexto="Pendiente";
+        }else if (element.estado===1){
+          estadoColor="bg-success text-white";
+          estadoTexto="Aceptado";
+        }else if (element.estado===2){
+          estadoColor="bg-danger text-white";
+          estadoTexto="Rechazado";
+        }else if (element.estado===3){
+          estadoColor="bg-warning text-white";
+          estadoTexto="Eliminar";
+        }else if (element.estado===4){
+          estadoColor="bg-danger text-black";
+          estadoTexto="Eliminar";
+        }else if (element.estado===6){
+          estadoColor="bg-info text-black";
+          estadoTexto="Estudiar";
+        }else{
+          estadoColor="bg-dark text-white";
+          estadoTexto="Estado desconocido!!!";
+        }
+
+
+        lstDiscrepancias.push(`<div class="col-md-12 mb-2">
+                        <div class="card shadow-0 border rounded-3">
+                          <div class="card-body">
+                            <div class="row">
+                                <h6><img class="idioma_eus"> ${element.varfield}</h6>
+                                <div class="col-md-8">
+                                    <ul>
+                                      <li class="text-dark"><i class="fa fa-database" aria-hidden="true" title="Consolidado"></i> ${element.oldvalue.split("#")[0]}</li>
+                                      <li class="text-primary"><i class="fa fa-paper-plane" aria-hidden="true" title="Enviado"></i> ${element.oldvalue.split("#")[1]}</li>
+                                      <li class="text-success"><i class="fa fa-lightbulb-o" aria-hidden="true" title="Propuesto"></i> ${element.newvalue}</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                  <ul>
+                                    <li><i class="fa fa-user" aria-hidden="true" title="Usuario"></i> ${element.usuario}</li>
+                                    <li><i class="fa fa-calendar" aria-hidden="true" title="Fecha"></i> ${element.vardate}</li>
+                                    <li><i class="fa fa-gavel" aria-hidden="true" title="Estado"></i> <span class="bg-success text-white">${estadoTexto}</span></li>
+                                  </ul>
+                                </div>
+                                <details  class="mb-4 mb-md-0">
+                                  <summary><i class="fa fa-comments" aria-hidden="true"></i> Comentarios</summary>
+                                  ${element.comentario}
+                                </details>
+                            </div>
+                          </div>
+                        </div>
+                      </div>`);
+      });
+      document.getElementById('discrepancia-tab-pane').innerHTML  = lstDiscrepancias.join('');//response.data.length;
+      document.getElementById('numRegDiscrepancias').textContent = lstDiscrepancias.length;
+
+      //let generalAttribTemplate  = `<h4 class="propTitle">General</h4>
+
+
+      //document.getElementById('numRegHisto').textContent = response.data.length;
+      //tabulatorHisto.setData(response.data);
+    })
+    .catch((err)=>{
+        console.log(err);
+    });
+
+
+
+
+    
+
+
+
+
+
 }
 
 /**

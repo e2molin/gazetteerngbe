@@ -13,7 +13,7 @@ const appURLCanonical = "http://sapignmad200.ign.fomento.es/runtime/gazetteerngb
 
 const domainProduction = "http://10.13.90.93/apibadasidv4/";
 const domainDeveloper = "http://localhost/apibadasidv4/";
-const modoDeveloper = false;
+const modoDeveloper = true;
 const domainRoot = modoDeveloper === true ? domainDeveloper:domainProduction;
 
 const urlMunisSearcher = `${domainRoot}public/autoridades/municipios`;//'http://localhost/apibadasidv4/public/autoridades/municipios';
@@ -26,8 +26,7 @@ const nameSearchServer  = `${domainRoot}public/nomenclator/json/listngbeINSPIRE/
 const urlSearchListById = `${domainRoot}public/nomenclator/json/listngbe/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/id/'
 const urlSearchHistoEntityById = `${domainRoot}public/nomenclator/json/entityngbehisto/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/entityngbehisto/id/'
 const urlBufferSearch = `${domainRoot}public/nomenclator/json/listngbe/buffer?`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/buffer?'
-
-
+const urlDiscrepancias = `${domainRoot}public/nomenclator/json/entityngbediscrepancias/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/entityngbediscrepancias/id/'
 
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*/

@@ -316,3 +316,35 @@ https://www.youtube.com/watch?v=FJ-w0tf3d_w
                       </div>
                     </div>
                   </div>
+
+
+              <div class="col-md-12">
+                <div class="card shadow-0 border rounded-3">
+                  <div class="card-body">
+                    <div class="row">
+                      
+                        <h6>identificador_geografico <img class="idioma_ast pull-right"></h6>
+                          <div class="col-md-6">
+                            <ul>
+                              <li class="text-dark"><i class="fa fa-database" aria-hidden="true" title="Consolidado"></i> Añarbeko urtegia</li>
+                              <li class="text-primary"><i class="fa fa-paper-plane" aria-hidden="true" title="Enviado"></i> Embalse de Añarbe</li>
+                              <li class="text-success"><i class="fa fa-lightbulb-o" aria-hidden="true" title="Propuesto"></i> Añarbeko urtegia</li>
+                            </ul>
+                          </div>
+
+                          <div class="col-md-6">
+                            <ul>
+                              <li>Usuario: e2molin</li>
+                              <li>vardate: 2018-12-13 00:00:00</li>
+                              <li>Estado: <span class="bg-success text-white">Aceptado</span> <span class="bg-danger text-white">Rechazado</span> <span class="bg-warning text-white">Pending</span></li>
+                            </ul>
+                        </div>
+                        <details  class="mb-4 mb-md-0">
+                          <summary><i class="fa fa-comments" aria-hidden="true"></i> Details</summary>
+                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, obcaecati corrupti consectetur libero est natus facilis veniam minima tempore culpa fugit cum alias voluptates aspernatur nostrum quod ullam, dolore amet.
+                        </details>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
