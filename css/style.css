@@ -55,10 +55,10 @@ header{
   line-height: 30px;
   outline: medium none;
   padding: 4px 4px;
-  width: 232px;
+  width: 230px;
 }
 .tt-dropdown-menu {
-width: 232px;
+width: 230px;
 margin-top: 5px;
 padding: 8px 12px;
 background-color: #fff;
@@ -81,14 +81,17 @@ background-color: #F1F1F1;
   padding:0px;
 }
 
+.tabulator {
+  font-size: 12px;
+}
+
+
 /* Ajustamos la anchura del modal para que nos salgan los iconos en una línea */
 @media (min-width: 992px){
   .modal-lg, .modal-xl {
     --bs-modal-width: 900px;
   }
 }
-
-
 
 /*-----------------------------------------*/
 /*Detalles de la entidad                   */

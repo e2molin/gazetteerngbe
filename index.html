@@ -8,11 +8,9 @@
     <meta name="description" content="">
     <meta name="author" content="e2molin-dvm">
 
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Open+Sans'>    
     
-
     <link rel="stylesheet" href="https://componentes.cnig.es/api-core/assets/css/apiign.ol.min.css">
     <link rel="stylesheet" href="https://componentes.cnig.es/api-core/plugins/backimglayer/backimglayer.ol.min.css">
     <link rel="stylesheet" href="https://componentes.cnig.es/api-core/plugins/measurebar/measurebar.ol.min.css">
@@ -26,11 +24,9 @@
     <link rel="stylesheet" href="css/tabulator_bootstrap5.min.css">
     <link rel="stylesheet" href="css/style.css">        
     
-
-
-
     <!-- Favicons -->
     <link rel="shortcut icon" href="favicon.ico">
+
     <!-- <link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
     <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
     <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
@@ -38,6 +34,131 @@
     <link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
     <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
     <meta name="theme-color" content="#712cf9"> -->
+    <style>
+.product-content {
+    border: 2px solid #dfe5e9;
+    margin-bottom: 20px;
+    margin-top: 12px;
+    background: #fff;
+    padding: 4px;
+        -webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+}
+
+.product-content .carousel-control.left {
+    margin-left: 0
+}
+
+.product-content .product-image {
+    background-color: #fff;
+    display: block;
+    min-height: 238px;
+    overflow: hidden;
+    position: relative
+}
+
+.product-content .product-deatil {
+    border-bottom: 1px solid #dfe5e9;
+    padding-bottom: 17px;
+    padding-left: 16px;
+    padding-top: 16px;
+    position: relative;
+    background: #fff
+}
+
+.product-content .product-deatil h5 a {
+    color: #2f383d;
+    font-size: 15px;
+    line-height: 19px;
+    text-decoration: none;
+    padding-left: 0;
+    margin-left: 0
+}
+
+.product-content .product-deatil h5 a span {
+    color: #9aa7af;
+    display: block;
+    font-size: 13px
+}
+
+.product-content .product-deatil span.tag1 {
+    border-radius: 50%;
+    color: #fff;
+    font-size: 15px;
+    height: 50px;
+    padding: 13px 0;
+    position: absolute;
+    right: 10px;
+    text-align: center;
+    top: 10px;
+    width: 50px
+}
+
+.product-content .product-deatil span.sale {
+    background-color: #21c2f8
+}
+
+.product-content .product-deatil span.discount {
+    background-color: #71e134
+}
+
+.product-content .product-deatil span.hot {
+    background-color: #fa9442
+}
+
+.product-content .description {
+    font-size: 12.5px;
+    line-height: 20px;
+    padding: 10px 14px 16px 19px;
+    background: #fff
+}
+
+.product-content .product-info {
+    padding: 11px 19px 10px 20px
+}
+
+.product-content .product-info a.add-to-cart {
+    color: #2f383d;
+    font-size: 13px;
+    padding-left: 16px
+}
+
+.product-content name.a {
+    padding: 5px 10px;
+    margin-left: 16px
+}
+
+.product-info.smart-form .btn {
+    padding: 6px 12px;
+    margin-left: 12px;
+    margin-top: -10px
+}
+
+.product-entry .product-deatil {
+    border-bottom: 1px solid #dfe5e9;
+    padding-bottom: 17px;
+    padding-left: 16px;
+    padding-top: 16px;
+    position: relative
+}
+
+.product-entry .product-deatil h5 a {
+    color: #2f383d;
+    font-size: 15px;
+    line-height: 19px;
+    text-decoration: none
+}
+
+.product-entry .product-deatil h5 a span {
+    color: #9aa7af;
+    display: block;
+    font-size: 13px
+}
+
+
+
+
+    </style>
   </head>
 <body class="d-flex flex-column h-100">
     
@@ -457,15 +578,90 @@
                 Historico
                 <span id="numRegHisto" class="badge rounded-pill bg-danger" id="numRegHisto">12</span>
               </button>
-            </li>            
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link  position-relative" id="discrepancia-tab" data-bs-toggle="tab" data-bs-target="#discrepancia-tab-pane" type="button" role="tab" aria-controls="discrepancia-tab-pane" aria-selected="false">
+                Discrepancias
+              </button>
+            </li>                     
           </ul>
-          <div class="tab-content" id="myTabContent" style="min-height:70vh; margin-top: 5px;">
+          <div class="tab-content" id="myTabContent" style="min-height:70vh; margin-top:5px;">
             <div class="tab-pane fade show active" id="general-tab-pane" role="tabpanel" aria-labelledby="general-tab" tabindex="0"></div>
             <div class="tab-pane fade" id="naming-tab-pane" role="tabpanel" aria-labelledby="naming-tab" tabindex="0"></div>
             <div class="tab-pane fade" id="locate-tab-pane" role="tabpanel" aria-labelledby="locate-tab" tabindex="0"></div>
             <div class="tab-pane fade" id="others-tab-pane" role="tabpanel" aria-labelledby="others-tab" tabindex="0"></div>
             <div class="tab-pane fade" id="historial-tab-pane" role="tabpanel" aria-labelledby="historial-tab" tabindex="0">
               <div id="histodataTable" class="table table-sm" style="max-height:60vh;"></div>
+            </div>
+            <div class="tab-pane fade" id="discrepancia-tab-pane" role="tabpanel" aria-labelledby="discrepancia-tab" tabindex="0">
+
+              <div class="col-md-6">
+                <div class="card shadow-0 border rounded-3">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h6>identificador_geografico <img class="idioma_ast pull-right"></h6>
+                        <div class="d-flex flex-row">
+                          <div class="mt-1 mb-0 text-muted">
+                            <ul>
+                              <li class="text-dark"><i class="fa fa-database" aria-hidden="true" title="Consolidado"></i> Añarbeko urtegia</li>
+                              <li class="text-primary"><i class="fa fa-paper-plane" aria-hidden="true" title="Enviado"></i> Embalse de Añarbe</li>
+                              <li class="text-success"><i class="fa fa-lightbulb-o" aria-hidden="true" title="Propuesto"></i> Añarbeko urtegia</li>
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div class="mb-2 text-dark">
+                          <ul>
+                            <li>Usuario: e2molin</li>
+                            <li>vardate: 2018-12-13 00:00:00</li>
+                            <li>Estado: <span class="bg-success text-white">Aceptado</span> <span class="bg-danger text-white">Rechazado</span> <span class="bg-warning text-white">Pending</span></li>
+                          </ul>
+                        </div>
+                        <details  class="mb-4 mb-md-0">
+                          <summary><i class="fa fa-comments" aria-hidden="true"></i> Details</summary>
+                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, obcaecati corrupti consectetur libero est natus facilis veniam minima tempore culpa fugit cum alias voluptates aspernatur nostrum quod ullam, dolore amet.
+                        </details>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="card shadow-0 border rounded-3">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h6>identificador_geografico <img class="idioma_ast pull-right"></h6>
+                        <div class="d-flex flex-row">
+                          <div class="mt-1 mb-0 text-muted">
+                            <ul>
+                              <li class="text-dark"><i class="fa fa-database" aria-hidden="true" title="Consolidado"></i> Añarbeko urtegia</li>
+                              <li class="text-primary"><i class="fa fa-paper-plane" aria-hidden="true" title="Enviado"></i> Embalse de Añarbe</li>
+                              <li class="text-success"><i class="fa fa-lightbulb-o" aria-hidden="true" title="Propuesto"></i> Añarbeko urtegia</li>
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div class="mb-2 text-dark">
+                          <ul>
+                            <li>Usuario: e2molin</li>
+                            <li>vardate: 2018-12-13 00:00:00</li>
+                            <li>Estado: <span class="bg-success text-white">Aceptado</span> <span class="bg-danger text-white">Rechazado</span> <span class="bg-warning text-white">Pending</span></li>
+                          </ul>
+                        </div>
+                        <details  class="mb-4 mb-md-0">
+                          <summary><i class="fa fa-comments" aria-hidden="true"></i> Details</summary>
+                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, obcaecati corrupti consectetur libero est natus facilis veniam minima tempore culpa fugit cum alias voluptates aspernatur nostrum quod ullam, dolore amet.
+                        </details>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
             </div>
           </div>
           <button id="showListResults" type="button" class="btn btn-sm btn-primary pull-right" >Volver lista resultados</button>
@@ -475,7 +671,7 @@
 
       </main>
 
-      <div id="mapLienzo" class="col-lg-6 col-md-3 bg-dark m-0 p-0">
+      <div id="mapLienzo" class="col-lg-6 col-md-3 bg-dark" style="padding-top:50px;">
 
 
       </div>

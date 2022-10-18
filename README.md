@@ -199,9 +199,120 @@ resumen, diccionario.*
 FROM ngbe_elaboracion.diccionario_codigo_ngbe 
 left join ngbe_cnig.diccionario  on diccionario_codigo_ngbe.codigo_ngbe=diccionario.codigo_ngbe
 
+## Apuntes
 
-# USo de fetch en peticiones API
+### Uso de fetch en peticiones API
+
+AJAX correponde a la abreviatura de **Asynchronous JavaScript and XML**. AJAX es una técnica de desarrollo web que nos permite actualziar el contenido de una web sin recargar la página completa.
+El XML presente en el nombre se debe a aque inicialmente las transferencias de datos se hacían utilizaban este lenguaje de marcado. Hoy en día, este formato ha sido sustituído mayoritariamente por JSON.
+Javascript tiene un objeto llamado XMLHttpRequest() que podemos utilizar para hacer estas peticiones. Sin embargo, su complejidad fue unos de los motivos por los que **jQuery** se hizo tan popular, ya que simplificaba
+las llamadas.
+
+Actualmente lo mejor es utilizar **Fetch API**. La API Fetch proporciona una interfaz para recuperar recursos. Fetch devuelve una promesa, que tenemos que manejar. Esta respuesta que devuelve, contiene entre sus propiedades un *status* para comprobar cómo ha ido la petición, y un **body**, que es una clase ReadableStream.
+
+```javascript  
+const options =  {
+        method:'GET', /* Por defecto, pero lo pongo como dejemplo de cómo se puede parametrizar */
+}
+
+fetch(urlRequest,options)
+  .then(res => res.json()) /* Retorno implícito de un arrow function */
+  .then(response =>{
+    console.log(response);
+    showResultsetList(response);
+  })
+  .catch(err=>{
+    console.log(err);
+  });
+
+
+fetch(urlRequest,options)
+  .then(res => {
+    /* Retorno explícito de un arrow function */
+    // Comprobamos el valor de un header en particular 👇
+    console.log(res.headers.get("Content-Type")); 
+    // Listamos todos los headers recibidos 👇
+    for (const [key, val] of response.headers){ 
+      console.log(key,val)
+    }
+    return res.json()
+  })
+  .then(response =>{
+          console.log(response);
+          showResultsetList(response);
+  })
+  .catch(err=>{
+          console.log(err);
+  });
+```
+
+Esto que vemos aquí es una petición GET, pero podemos mandar una petción POST
+
+```javascript
+// Los datos que queremos enviar
+const payload ={
+  id: 1354654,
+  name: "Esteban",
+  color: "red",
+}
+
+const options = {
+  method: "POST",
+  headers: {
+    "Content-type": "application/json; charsert=UTF-8"
+  },
+  body: JSON.stringify(payload),
+}
+
+
+fetch(url, options)
+    .then(res => console.log(res)) /* Retorno implícito de un arrow function */
+    .catch(err=>{
+      /* Retorno explícito de un arrow function */
+      console.log(err);
+    });
+```
+
+
+
 
 RApidapi.com
 
+https://fontawesome.com/v4/icons/
+
 https://www.youtube.com/watch?v=FJ-w0tf3d_w
+
+
+
+                  <div class="col-md-6">
+                    <div class="card shadow-0 border rounded-3">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <h6>identificador_geografico <img class="idioma_ast pull-right"></h6>
+                            <div class="d-flex flex-row">
+                              <div class="mt-1 mb-0 text-muted">
+                                <ul>
+                                  <li class="text-dark"><i class="fa fa-database" aria-hidden="true" title="Consolidado"></i> Añarbeko urtegia</li>
+                                  <li class="text-primary"><i class="fa fa-paper-plane" aria-hidden="true" title="Enviado"></i> Embalse de Añarbe</li>
+                                  <li class="text-success"><i class="fa fa-lightbulb-o" aria-hidden="true" title="Propuesto"></i> Añarbeko urtegia</li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div class="mb-2 text-dark">
+                              <ul>
+                                <li>Usuario: e2molin</li>
+                                <li>vardate: 2018-12-13 00:00:00</li>
+                                <li>Estado: <span class="bg-success text-white">Aceptado</span> <span class="bg-danger text-white">Rechazado</span> <span class="bg-warning text-white">Pending</span></li>
+                              </ul>
+                            </div>
+                            <details  class="mb-4 mb-md-0">
+                              <summary><i class="fa fa-comments" aria-hidden="true"></i> Details</summary>
+                              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, obcaecati corrupti consectetur libero est natus facilis veniam minima tempore culpa fugit cum alias voluptates aspernatur nostrum quod ullam, dolore amet.
+                            </details>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>

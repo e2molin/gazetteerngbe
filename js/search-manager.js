@@ -25,7 +25,6 @@ const fixNullValue = (value) => {
     : value;
 };
 
-
 const showModalMessage = (message, title) => {
 
   title = typeof title === "undefined" ? appTitle : title;
@@ -109,11 +108,7 @@ const searchByMuni = () => {
   }
 
   let codMuni = nameMuni.substring(nameMuni.length - 6, nameMuni.length - 1);
-  let urlRequest =
-    ineSearchServer +
-    codMuni +
-    "?" +
-    (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "");
+  let urlRequest = `${ineSearchServer}${codMuni}?${(codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "")}`;
 
   document.getElementById("presentacion").classList.add("d-none");
   document.getElementById("tabulatorEntityList").classList.add("d-none");
@@ -129,19 +124,6 @@ const searchByMuni = () => {
   .catch(err=>{
       console.log(err);
   });
-
-
-  // $.ajax({
-  //   url: urlRequest,
-  //   dataType: "json",
-  //   success: function (resultsRequest) {
-  //     //Pintamos el geoJSON en el mapa
-  //     showResultsetList(resultsRequest);
-  //   },
-  //   error: function (e) {
-  //     console.log(e.responseText);
-  //   },
-  // });
 
 };
 
@@ -457,9 +439,7 @@ const showResultsetList = (resultsRequest) => {
     document.getElementById("tabulatorEntityList").classList.remove("d-none");
   }
 
-
 };
-
 
 const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
     
@@ -468,204 +448,198 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
     //Tratamiento de parámetros opcionales
     panningEntity = (typeof panningEntity === 'undefined') ? false : panningEntity;
     
-    $.ajax({
-        //url: 'apinomen2/public/entityngbe/json/id/' + idEnti,
-        url: municipioInfoByIdServer + idEnti,
-            dataType: 'json',
-            success: function(resultsRequest){
-                console.log(resultsRequest);
-                console.log(municipioInfoByIdServer + idEnti);
-                console.log("Encontrados: " + resultsRequest.features.length);
-                console.log("Elemento primero: " + resultsRequest.features[0].properties.identificador_geografico);
-                let itemSelected = resultsRequest.features[0];
 
-                document.getElementById('propNameEntity').textContent = itemSelected.properties.identificador_geografico;
-                document.getElementById('propImageDictio').src = `img/icons/${itemSelected.properties.codigo_ngbe}-master.png`;
-                document.getElementById('propImageDictio').title = itemSelected.properties.tipo_mostrado;
+    fetch(`${municipioInfoByIdServer}${idEnti}`)
+    .then(res => res.json())
+    .then(resultsRequest =>{
+              console.log(resultsRequest);
+              console.log(municipioInfoByIdServer + idEnti);
+              console.log("Encontrados: " + resultsRequest.features.length);
+              console.log("Elemento primero: " + resultsRequest.features[0].properties.identificador_geografico);
+              let itemSelected = resultsRequest.features[0];
 
-                let evalNumNombres = 0;
-                if (itemSelected.properties.nombre_alternativo_3 !== undefined && itemSelected.properties.nombre_alternativo_3 !== null){
-                    evalNumNombres=evalNumNombres+1;
-                }
-                if (itemSelected.properties.nombre_variante_2 !== undefined && itemSelected.properties.nombre_variante_2 !== null){
-                    evalNumNombres=evalNumNombres+1;
-                }
-                if (itemSelected.properties.nombre_variante_3 !== undefined && itemSelected.properties.nombre_variante_3 !== null){
-                    evalNumNombres=evalNumNombres+1;
-                }
-                if (itemSelected.properties.ig_recomendado !== undefined && itemSelected.properties.ig_recomendado !== null){
-                    evalNumNombres=evalNumNombres+1;
-                }
-                if (itemSelected.properties.alternativo_recomendado !== undefined && itemSelected.properties.alternativo_recomendado !== null){
-                    evalNumNombres=evalNumNombres+1;
-                }
-                if (itemSelected.properties.otras_denominaciones !== undefined && itemSelected.properties.otras_denominaciones !== null){
-                    evalNumNombres=evalNumNombres+1;
-                }
-                if (itemSelected.properties.forma_no_recomendada !== undefined && itemSelected.properties.forma_no_recomendada !== null){
-                    evalNumNombres=evalNumNombres+1;
-                }                
-                if (itemSelected.properties.forma_erronea !== undefined && itemSelected.properties.forma_erronea !== null){
-                    evalNumNombres=evalNumNombres+1;
-                }
+              document.getElementById('propNameEntity').textContent = itemSelected.properties.identificador_geografico;
+              document.getElementById('propImageDictio').src = `img/icons/${itemSelected.properties.codigo_ngbe}-master.png`;
+              document.getElementById('propImageDictio').title = itemSelected.properties.tipo_mostrado;
 
-                document.getElementById('numNombres').textContent = evalNumNombres;
+              let evalNumNombres = 0;
+              if (itemSelected.properties.nombre_alternativo_3 !== undefined && itemSelected.properties.nombre_alternativo_3 !== null){
+                  evalNumNombres=evalNumNombres+1;
+              }
+              if (itemSelected.properties.nombre_variante_2 !== undefined && itemSelected.properties.nombre_variante_2 !== null){
+                  evalNumNombres=evalNumNombres+1;
+              }
+              if (itemSelected.properties.nombre_variante_3 !== undefined && itemSelected.properties.nombre_variante_3 !== null){
+                  evalNumNombres=evalNumNombres+1;
+              }
+              if (itemSelected.properties.ig_recomendado !== undefined && itemSelected.properties.ig_recomendado !== null){
+                  evalNumNombres=evalNumNombres+1;
+              }
+              if (itemSelected.properties.alternativo_recomendado !== undefined && itemSelected.properties.alternativo_recomendado !== null){
+                  evalNumNombres=evalNumNombres+1;
+              }
+              if (itemSelected.properties.otras_denominaciones !== undefined && itemSelected.properties.otras_denominaciones !== null){
+                  evalNumNombres=evalNumNombres+1;
+              }
+              if (itemSelected.properties.forma_no_recomendada !== undefined && itemSelected.properties.forma_no_recomendada !== null){
+                  evalNumNombres=evalNumNombres+1;
+              }                
+              if (itemSelected.properties.forma_erronea !== undefined && itemSelected.properties.forma_erronea !== null){
+                  evalNumNombres=evalNumNombres+1;
+              }
 
-                let generalAttribTemplate  = `<h4 class="propTitle">General</h4>
-                                        <ul>
-                                        <li class="propContent">Identidad nº: <span class="pull-right">${itemSelected.properties.id}</span></li>
-                                        <li class="propContent">Clasificación: <span class="pull-right">${itemSelected.properties.codigo_ngbe_text}</span></li>
-                                        <li class="${itemSelected.properties.provincias_nombre.length>75 ? "propSubContent":"propContent"}">Provincias: <span class="pull-right">${replaceAllOcurrences(fixNullValue(itemSelected.properties.provincias_nombre),',',', ')}</span></li>
-                                        <li class="propContent">
-                                          Permalink: <span class="pull-right"><a href="${appURLCanonical}?identidad=${itemSelected.properties.id}" target="_blank">Enlace externo <i class="fa fa-external-link" aria-hidden="true"></i></a></span>
-                                        </li>
-                                        </ul>
-                                        <h4 class="propTitle">Identificador geográfico</h4>
-                                        <ul>
-                                        <li class="propContent">Denominación: <span class="pull-right">${itemSelected.properties.identificador_geografico}</span></li>
-                                        <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_idg)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_idg)}</span></li>
-                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_idg)}</span></li>
-                                        <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
-                                        </ul>
-                                        <h4 class="propSubTitle">Nombre extendido</h4>
-                                        <ul>
-                                        <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_extendido)}</span></li>
-                                        <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_extendido)}</span></li>
-                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_extendido)}</span></li>
-                                        <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
-                                        </ul>
+              document.getElementById('numNombres').textContent = evalNumNombres;
 
-                                        <h4 class="propSubTitle">Nombre alternativo 2</h4>
-                                        <ul>
-                                        <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_alternativo_2)}</span></li>
-                                        <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_alternativo_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_alternativo_2)}</span></li>
-                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_alternativo_2)}</span></li>
-                                        <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_alternativo_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_alternativo_2)}</span></li>
-                                        </ul>
+              let generalAttribTemplate  = `<h4 class="propTitle">General</h4>
+                                      <ul>
+                                      <li class="propContent">Identidad nº: <span class="pull-right">${itemSelected.properties.id}</span></li>
+                                      <li class="propContent">Clasificación: <span class="pull-right">${itemSelected.properties.codigo_ngbe_text}</span></li>
+                                      <li class="${itemSelected.properties.provincias_nombre.length>75 ? "propSubContent":"propContent"}">Provincias: <span class="pull-right">${replaceAllOcurrences(fixNullValue(itemSelected.properties.provincias_nombre),',',', ')}</span></li>
+                                      <li class="propContent">
+                                        Permalink: <span class="pull-right"><a href="${appURLCanonical}?identidad=${itemSelected.properties.id}" target="_blank">Enlace externo <i class="fa fa-external-link" aria-hidden="true"></i></a></span>
+                                      </li>
+                                      </ul>
+                                      <h4 class="propTitle">Identificador geográfico</h4>
+                                      <ul>
+                                      <li class="propContent">Denominación: <span class="pull-right">${itemSelected.properties.identificador_geografico}</span></li>
+                                      <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_idg)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_idg)}</span></li>
+                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_idg)}</span></li>
+                                      <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
+                                      </ul>
+                                      <h4 class="propSubTitle">Nombre extendido</h4>
+                                      <ul>
+                                      <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_extendido)}</span></li>
+                                      <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_extendido)}</span></li>
+                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_extendido)}</span></li>
+                                      <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
+                                      </ul>
 
-                                        <h4 class="propSubTitle">Nombre variante 1</h4>
-                                        <ul>
-                                        <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_1)}</span></li>
-                                        <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_1)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_1)}</span></li>
-                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_1)}</span></li>
-                                        <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_1)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_1)}</span></li>
-                                        </ul>`;
+                                      <h4 class="propSubTitle">Nombre alternativo 2</h4>
+                                      <ul>
+                                      <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_alternativo_2)}</span></li>
+                                      <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_alternativo_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_alternativo_2)}</span></li>
+                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_alternativo_2)}</span></li>
+                                      <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_alternativo_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_alternativo_2)}</span></li>
+                                      </ul>
 
-
-                let namingAttribTemplate  = `<h4 class="propSubTitle">Nombre alternativo 3</h4>
-                                        <ul>
-                                        <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_alternativo_3)}</span></li>
-                                        <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_alternativo_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_alternativo_3)}</span></li>
-                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_alternativo_3)}</span></li>
-                                        <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_alternativo_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_alternativo_3)}</span></li>
-                                        </ul>
+                                      <h4 class="propSubTitle">Nombre variante 1</h4>
+                                      <ul>
+                                      <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_1)}</span></li>
+                                      <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_1)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_1)}</span></li>
+                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_1)}</span></li>
+                                      <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_1)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_1)}</span></li>
+                                      </ul>`;
 
 
-                                        <h4 class="propSubTitle">Nombre variante 2</h4>
-                                        <ul>
-                                        <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_2)}</span></li>
-                                        <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_2)}</span></li>
-                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_2)}</span></li>
-                                        <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_2)}</span></li>
-                                        </ul>
-
-                                        <h4 class="propSubTitle">Nombre variante 3</h4>
-                                        <ul>
-                                        <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_3)}</span></li>
-                                        <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_3)}</span></li>
-                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_3)}</span></li>
-                                        <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_3)}</span></li>
-                                        </ul>
-
-                                        <h4 class="propSubTitle">Otras denominaciones</h4>
-                                        <ul>
-                                        <li class="propContent">Nombre recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.ig_recomendado)}</span></li>
-                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_ig_recomendada)}</span></li>
-                                        <li class="propContent">Alternativo recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.alternativo_recomendado)}</span></li>
-                                        <li class="propContent">Otras denominaciones: <span class="pull-right">${fixNullValue(itemSelected.properties.otras_denominaciones)}</span></li>
-                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_otras_denominaciones)}</span></li>
-                                        <li class="propContent">No recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.forma_no_recomendada)}</span></li>
-                                        <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_fnr)}</span></li>
-                                        <li class="propContent">Forma errónea: <span class="pull-right">${fixNullValue(itemSelected.properties.forma_erronea)}</span></li>
-                                        </ul>`;
+              let namingAttribTemplate  = `<h4 class="propSubTitle">Nombre alternativo 3</h4>
+                                      <ul>
+                                      <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_alternativo_3)}</span></li>
+                                      <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_alternativo_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_alternativo_3)}</span></li>
+                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_alternativo_3)}</span></li>
+                                      <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_alternativo_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_alternativo_3)}</span></li>
+                                      </ul>
 
 
+                                      <h4 class="propSubTitle">Nombre variante 2</h4>
+                                      <ul>
+                                      <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_2)}</span></li>
+                                      <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_2)}</span></li>
+                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_2)}</span></li>
+                                      <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_2)}</span></li>
+                                      </ul>
 
+                                      <h4 class="propSubTitle">Nombre variante 3</h4>
+                                      <ul>
+                                      <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_3)}</span></li>
+                                      <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_3)}</span></li>
+                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_3)}</span></li>
+                                      <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_3)}</span></li>
+                                      </ul>
 
-                let locationAttribTemplate  = `<h4 class="propTitle">Geometría</h4>
-                                        <ul>
-                                        <li class="propContent">Geográficas (epsg:4258): <span class="pull-right">${fixNullValue(itemSelected.properties.long_etrs89_regcan95)} ${fixNullValue(itemSelected.properties.lat_etrs89_regcan95)}</span>
-                                        </li>
-                                        <li class="propContent">UTM (epsg:258${itemSelected.properties.huso_etrs89_regcan95}): <span class="pull-right">${fixNullValue(itemSelected.properties.x_utm_etrs89_regcan95)} ${fixNullValue(itemSelected.properties.y_utm_etrs89_regcan95)}</span></li>
-                                        </ul>
-                                        <h4 class="propTitle">Provincias</h4>
-                                        <p class="propContent">${replaceAllOcurrences(fixNullValue(itemSelected.properties.provincias_nombre),',',', ')}</p>
-                                        <h3 class="propTitle">Códigos INE asociados</h3>
-                                        <p class="propContent">${replaceAllOcurrences(fixNullValue(itemSelected.properties.codigo_ine),',',', ')}</p>
-                                        <h4 class="propTitle">Hoja MTN25</h4><span class="propContent">${itemSelected.properties.hojamtn_25}</span>`;
+                                      <h4 class="propSubTitle">Otras denominaciones</h4>
+                                      <ul>
+                                      <li class="propContent">Nombre recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.ig_recomendado)}</span></li>
+                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_ig_recomendada)}</span></li>
+                                      <li class="propContent">Alternativo recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.alternativo_recomendado)}</span></li>
+                                      <li class="propContent">Otras denominaciones: <span class="pull-right">${fixNullValue(itemSelected.properties.otras_denominaciones)}</span></li>
+                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_otras_denominaciones)}</span></li>
+                                      <li class="propContent">No recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.forma_no_recomendada)}</span></li>
+                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_fnr)}</span></li>
+                                      <li class="propContent">Forma errónea: <span class="pull-right">${fixNullValue(itemSelected.properties.forma_erronea)}</span></li>
+                                      </ul>`;
 
+              let locationAttribTemplate  = `<h4 class="propTitle">Geometría</h4>
+                                      <ul>
+                                      <li class="propContent">Geográficas (epsg:4258): <span class="pull-right">${fixNullValue(itemSelected.properties.long_etrs89_regcan95)} ${fixNullValue(itemSelected.properties.lat_etrs89_regcan95)}</span>
+                                      </li>
+                                      <li class="propContent">UTM (epsg:258${itemSelected.properties.huso_etrs89_regcan95}): <span class="pull-right">${fixNullValue(itemSelected.properties.x_utm_etrs89_regcan95)} ${fixNullValue(itemSelected.properties.y_utm_etrs89_regcan95)}</span></li>
+                                      </ul>
+                                      <h4 class="propTitle">Provincias</h4>
+                                      <p class="propContent">${replaceAllOcurrences(fixNullValue(itemSelected.properties.provincias_nombre),',',', ')}</p>
+                                      <h3 class="propTitle">Códigos INE asociados</h3>
+                                      <p class="propContent">${replaceAllOcurrences(fixNullValue(itemSelected.properties.codigo_ine),',',', ')}</p>
+                                      <h4 class="propTitle">Hoja MTN25</h4><span class="propContent">${itemSelected.properties.hojamtn_25}</span>`;
 
+              let othersAttribTemplate  = `<h4 class="propTitle">Tema INSPIRE</h4>
+                                      <span class="propContent">
+                                        https://inspire.ec.europa.eu/codelist/NamedPlaceTypeValue/hydrography
+                                        <a href="https://inspire.ec.europa.eu/codelist/NamedPlaceTypeValue/hydrography" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                                      </span>
+                                      <h4 class="propTitle">Otras codificaciones</h4>
+                                      <ul>
+                                          <li class="propContent">id_autonum_union_sep2013 <span class="pull-right">${fixNullValue(itemSelected.properties.id_autonum_union_sep2013)}</span></li>
+                                          <li class="propContent">objectid <span class="pull-right">${fixNullValue(itemSelected.properties.objectid)}</span></li>
+                                      </ul>
+                                      <h4 class="propTitle">Proceso de autocorrección</h4>
+                                      <ul>
+                                          <li class="propContent">Texto previo en BTN <span class="pull-right">${fixNullValue(itemSelected.properties.texto_previo_btn)}</span></li>
+                                          <li class="propContent">Código TTGGSS <span class="pull-right">${fixNullValue(itemSelected.properties.ttggss)}</span></li>
+                                          <li class="propContent">Relación <span class="pull-right">${fixNullValue(itemSelected.properties.relacion)}</span></li>
+                                          <li class="propContent">Tratamiento <span class="pull-right">${fixNullValue(itemSelected.properties.tratamiento)}</span></li>
+                                      </ul>
+                                  </div>`;
+              
+              let generalAttribContainer = document.getElementById('general-tab-pane');
+              generalAttribContainer.innerHTML = generalAttribTemplate;
+              let namingAttribContainer = document.getElementById('naming-tab-pane');
+              namingAttribContainer.innerHTML = namingAttribTemplate;
+              let locationAttribContainer = document.getElementById('locate-tab-pane');
+              locationAttribContainer.innerHTML = locationAttribTemplate;
+              let othersAttribContainer = document.getElementById('others-tab-pane');
+              othersAttribContainer.innerHTML = othersAttribTemplate;                
 
-
-                let othersAttribTemplate  = `<h4 class="propTitle">Tema INSPIRE</h4>
-                                        <span class="propContent">
-                                          https://inspire.ec.europa.eu/codelist/NamedPlaceTypeValue/hydrography
-                                          <a href="https://inspire.ec.europa.eu/codelist/NamedPlaceTypeValue/hydrography" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>
-                                        </span>
-                                        <h4 class="propTitle">Otras codificaciones</h4>
-                                        <ul>
-                                            <li class="propContent">id_autonum_union_sep2013 <span class="pull-right">${fixNullValue(itemSelected.properties.id_autonum_union_sep2013)}</span></li>
-                                            <li class="propContent">objectid <span class="pull-right">${fixNullValue(itemSelected.properties.objectid)}</span></li>
-                                        </ul>
-                                        <h4 class="propTitle">Proceso de autocorrección</h4>
-                                        <ul>
-                                            <li class="propContent">Texto previo en BTN <span class="pull-right">${fixNullValue(itemSelected.properties.texto_previo_btn)}</span></li>
-                                            <li class="propContent">Código TTGGSS <span class="pull-right">${fixNullValue(itemSelected.properties.ttggss)}</span></li>
-                                            <li class="propContent">Relación <span class="pull-right">${fixNullValue(itemSelected.properties.relacion)}</span></li>
-                                            <li class="propContent">Tratamiento <span class="pull-right">${fixNullValue(itemSelected.properties.tratamiento)}</span></li>
-                                        </ul>
-                                    </div>`;
-                
-                let generalAttribContainer = document.getElementById('general-tab-pane');
-                generalAttribContainer.innerHTML = generalAttribTemplate;
-                let namingAttribContainer = document.getElementById('naming-tab-pane');
-                namingAttribContainer.innerHTML = namingAttribTemplate;
-                let locationAttribContainer = document.getElementById('locate-tab-pane');
-                locationAttribContainer.innerHTML = locationAttribTemplate;
-                let othersAttribContainer = document.getElementById('others-tab-pane');
-                othersAttribContainer.innerHTML = othersAttribTemplate;                
-
-                if (panningEntity===true){
-                                    centrarVistaSobreToponimo(resultsRequest.features[0].properties.long_etrs89_regcan95,
-                                                              resultsRequest.features[0].properties.lat_etrs89_regcan95,15);
-                }
-                $("#showListResults").on("click", function(event) {
-                                        $("#atributosEntity").hide();
-                                        $("#tabulatorEntityList").show();                    
-                });
-                document.getElementById("showListResults").addEventListener("click", () => {
-                  document.getElementById("tabulatorEntityList").classList.remove("d-none");
-                  document.getElementById("atributosEntity").classList.add("d-none");
-                });
-                document.getElementById("spinner_searchEntityData").classList.add("d-none");
-            },
-            error: function(e){
-                        console.log(e.responseText);
-                    }
+              if (panningEntity===true){
+                                  centrarVistaSobreToponimo(resultsRequest.features[0].properties.long_etrs89_regcan95,
+                                                            resultsRequest.features[0].properties.lat_etrs89_regcan95,15);
+              }
+              $("#showListResults").on("click", function(event) {
+                                      $("#atributosEntity").hide();
+                                      $("#tabulatorEntityList").show();                    
+              });
+              document.getElementById("showListResults").addEventListener("click", () => {
+                document.getElementById("tabulatorEntityList").classList.remove("d-none");
+                document.getElementById("atributosEntity").classList.add("d-none");
+              });
+              document.getElementById("spinner_searchEntityData").classList.add("d-none");
+    })
+    .catch((err)=>{
+        console.log(err);
     });
-    
-    $.ajax({
-        url: urlSearchHistoEntityById + idEnti,
-        dataType: 'json',
-        success: function(resultsRequest){
-            document.getElementById('numRegHisto').textContent = resultsRequest.data.length;
-            tabulatorHisto.setData(resultsRequest.data);
 
-        },
-        error: function(e){
-                    console.log(e.responseText);
-                }
+
+
+    fetch(`${urlSearchHistoEntityById}${idEnti}`)
+    .then(res => res.json())
+    .then(response =>{
+      console.log(response)
+      document.getElementById('numRegHisto').textContent = response.data.length;
+      tabulatorHisto.setData(response.data);
+    })
+    .catch((err)=>{
+        console.log(err);
     });
+
+
 }
 
 /**
