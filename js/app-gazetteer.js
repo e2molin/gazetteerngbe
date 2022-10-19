@@ -13,7 +13,7 @@ const appURLCanonical = "http://sapignmad200.ign.fomento.es/runtime/gazetteerngb
 
 const domainProduction = "http://10.13.90.93/apibadasidv4/";
 const domainDeveloper = "http://localhost/apibadasidv4/";
-const modoDeveloper = true;
+const modoDeveloper = false;
 const domainRoot = modoDeveloper === true ? domainDeveloper:domainProduction;
 
 const urlMunisSearcher = `${domainRoot}public/autoridades/municipios`;//'http://localhost/apibadasidv4/public/autoridades/municipios';
@@ -275,7 +275,7 @@ const createAPICNIGMap = () => {
 
     mapAPICNIG = new M.map({
         container: 'mapLienzo',
-        controls: [ 'scale', 'rotate' , 'location'],
+        controls: [ 'scale', 'rotate'],
         zoom: 5,
         maxZoom: 22,
         minZoom: 4,
@@ -427,7 +427,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         /*data:tabledata,*/ //assign data to table
         /*height:"311px",*/
         layout:"fitColumns",
-        textSize:12,
         columns:[
         {title:"Fecha", field:"fecha", width:100},
         {title:"Usuario", field:"username", width:100, hozAlign:"left"},
@@ -453,9 +452,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         mapAPICNIG.setBbox(resultNGBE_lyr.getFeaturesExtent());
     })
 
-
-    
-
     $('#muniselect').typeahead({
         name: 'combomunis',
         prefetch : urlMunisSearcher
@@ -469,18 +465,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById("tabulatorEntityList").classList.add("d-none");
     document.getElementById("atributosEntity").classList.add("d-none");
     document.getElementById("presentacion").classList.remove("d-none");
+    if (modoDeveloper){
+      document.getElementById("develPanel").classList.remove("d-none");
+    }
 
    // Detección del permalink de entidad
     let paramSearch=window.location.search;
     if (!isEmptyNullString(paramSearch)){
       if (paramSearch.indexOf('?identidad=')>=0){
         let idEntidadSearch = paramSearch.replace('?identidad=','');
-        console.log(`Permalink entidad ${paramSearch.replace('?identidad=','')}`);
+        // console.log(`Permalink entidad ${paramSearch.replace('?identidad=','')}`);
         document.getElementById("searchByIdparam").value=idEntidadSearch;
         searchById();
+      }else if(paramSearch.indexOf('?codigoine=')>=0){
+        let codigoINESearch = paramSearch.replace('?codigoine=','');
+        // console.log(`Permalink códigoINE ${paramSearch.replace('?codigoine=','')}`);
+        searchByMuni(codigoINESearch);        
       }
     }
-
-
     
 });

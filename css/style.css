@@ -45,6 +45,20 @@ header{
 #sidebarMenu .card {
   margin-top:5px;
 }
+
+#panel2 a {
+  color:#354b5f;
+  font-weight: bold;
+  font-size:0.80rem;
+  cursor: default;
+}
+
+#panel3 label{
+  color:#354b5f;
+  font-weight: bold;
+  font-size:0.80rem;
+  cursor: default;
+}
   
 
 .typeahead-devs, .tt-hint, .combomunis, .combomtn, .dvm-input  {
@@ -70,7 +84,7 @@ color: #111;
 background-color: #F1F1F1;
 }
 
-#codDictio, #provinCbo{
+#codDictio, #provinCbo, #searchByNameType {
   font-size: 10px;
   padding: 3px 6px;
   height: 24px;
@@ -236,8 +250,41 @@ img.no-normalizado{
   margin-left:5px; 
 }
 
+img.envio_paisvasco_gipuzkoa_comp, img.envio_paisvasco_alava_comp, img.envio_paisvasco_bizkaia_comp {
+  content: url("../img/flag-eus.svg");
+  width:20px; 
+  margin-left:5px; 
+}
 
+img.envio_larioja_comp {
+  content: url("../img/flag-larioja.svg");
+  width:20px; 
+  margin-left:5px; 
+}
 
+img.envio_murcia_comp {
+  content: url("../img/flag-murcia.svg");
+  width:20px; 
+  margin-left:5px; 
+}
+
+img.envio_aragon_comp {
+  content: url("../img/flag-aragon.svg");
+  width:20px; 
+  margin-left:5px; 
+}
+
+img.envio_asturias_comp {
+  content: url("../img/flag-ast.svg");
+  width:20px; 
+  margin-left:5px; 
+}
+
+img.envio_navarra_parte1_comp {
+  content: url("../img/flag-navarra.svg");
+  width:20px; 
+  margin-left:5px; 
+}
 
 
 /*-------------------------*/
@@ -272,8 +319,8 @@ img.no-normalizado{
 /*-------------------------*/
 
 #mapLienzo{		
-  padding:0; 
-  padding-top:50px; 
+  padding:0;
+  padding-top:56px; 
   margin:0; 
   height:85vh;
 }
@@ -282,8 +329,10 @@ Ajustes del contenedor del control Mouse
 */
 .m-control.m-container.m-mousesrs-container{
   left:350px;
-  top:700px;
-  height:25px;
+  top:760px;
+  height: 24px;
 }
 
-
+ .m-control.m-scale-container{
+  height: 24px !important;
+}

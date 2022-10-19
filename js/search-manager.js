@@ -95,19 +95,28 @@ const searchByHojaMTN = () => {
  * Procedimiento para las búsquedas por municipio
  * @returns 
  */
-const searchByMuni = () => {
-  //let nameMuni = $("#muniselect").val();
+const searchByMuni = (codigoINE = '') => {
+  
   let nameMuni = document.getElementById("muniselect").value;
-  //let codDictio= $("#codDictio").find(":selected").val();
   let codDictio = document.getElementById("codDictio").value;
-  if (isEmptyNullString(nameMuni)) {
-    document.getElementById("alertnoselmuni").classList.remove("d-none");
-    return;
-  } else {
-    document.getElementById("alertnoselmuni").classList.add("d-none");
+  let codMuni ="";
+  if (!isEmptyNullString(codigoINE)){
+    codMuni = codigoINE;
+  }else{
+    if (isEmptyNullString(nameMuni)) {
+      document.getElementById("alertnoselmuni").classList.remove("d-none");
+      return;
+    } else {
+      document.getElementById("alertnoselmuni").classList.add("d-none");
+    }
   }
 
-  let codMuni = nameMuni.substring(nameMuni.length - 6, nameMuni.length - 1);
+  if (codigoINE===''){
+    codMuni = nameMuni.substring(nameMuni.length - 6, nameMuni.length - 1);
+  } else {
+    codMuni = codigoINE;
+  }
+  
   let urlRequest = `${ineSearchServer}${codMuni}?${(codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "")}`;
 
   document.getElementById("presentacion").classList.add("d-none");
@@ -134,15 +143,16 @@ const searchByMuni = () => {
 const searchByName = () => {
 
   let nameEnti = document.getElementById("searchByNameparam").value;
-  let codProv = document.getElementById("provinCbo").value;
-  let codDictio = document.getElementById("codDictio").value;
-
   if (isEmptyNullString(nameEnti)) {
     document.getElementById("alertnoselname").classList.remove("d-none");
     return;
   }
 
-  let urlRequest = `${nameSearchServer}${nameEnti}?${codDictio != "0.0" ? "codDictio=" + codDictio + "&" : ""}${codProv != "00" ? "codProv=" + codProv + "&" : ""}`;
+  let codProv = document.getElementById("provinCbo").value;
+  let codDictio = document.getElementById("codDictio").value;
+  let typeSearch = document.getElementById("searchByNameType").value;
+
+  let urlRequest = `${nameSearchServer}${nameEnti}?${codDictio != "0.0" ? "codDictio=" + codDictio + "&" : ""}${codProv != "00" ? "codProv=" + codProv + "&" : ""}typeSearch=${typeSearch}&`;
 
   document.getElementById("presentacion").classList.add("d-none");
   document.getElementById("tabulatorEntityList").classList.add("d-none");
@@ -335,7 +345,22 @@ document.getElementById("develOne").addEventListener("click", () => {
 const showResultsetList = (resultsRequest) => {
 
 
-  // Pintamos el geoJSON en el mapa
+
+  if (resultsRequest.totalFeatures=== 0){
+    document.getElementById("spinner_searchspatial").classList.add("d-none");
+    document.getElementById("spinner_searchMuni").classList.add("d-none");
+    document.getElementById("spinner_searchMTN").classList.add("d-none");
+    document.getElementById("spinner_searchId").classList.add("d-none");
+    document.getElementById("spinner_searchName").classList.add("d-none");
+    document.getElementById("searchingBar").classList.add("d-none");
+    showModalMessage(
+      "No se encuentran resultados"
+    );
+    document.getElementById("tabulatorEntityList").classList.remove("d-none");
+    document.getElementById("atributosEntity").classList.add("d-none");
+    return;
+  }
+
 
   // Borro la capa de resultados si existe
   mapAPICNIG.getLayers().forEach((lyr) => {
@@ -343,6 +368,11 @@ const showResultsetList = (resultsRequest) => {
       mapAPICNIG.removeLayers(lyr);
     }
   });
+
+
+  
+
+
   
   // Creo la nueva capa de resultados a partir de la informaicón recibida
   resultNGBE_lyr = new M.layer.GeoJSON({
@@ -452,10 +482,6 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
     fetch(`${municipioInfoByIdServer}${idEnti}`)
     .then(res => res.json())
     .then(resultsRequest =>{
-              console.log(resultsRequest);
-              console.log(municipioInfoByIdServer + idEnti);
-              console.log("Encontrados: " + resultsRequest.features.length);
-              console.log("Elemento primero: " + resultsRequest.features[0].properties.identificador_geografico);
               let itemSelected = resultsRequest.features[0];
 
               document.getElementById('propNameEntity').textContent = itemSelected.properties.identificador_geografico;
@@ -568,6 +594,11 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                       <li class="propContent">Forma errónea: <span class="pull-right">${fixNullValue(itemSelected.properties.forma_erronea)}</span></li>
                                       </ul>`;
 
+              let codesINE=itemSelected.properties.codigo_ine;
+              let linksToMunis = [];
+              // Tengo que coger los cinco primeros caracteres para poder manejar los INE largos
+              codesINE.toString().split(",").forEach((elem)=> linksToMunis.push(`<a href="${appURLCanonical}?codigoine=${elem.slice(0, 5)}" target="_blank">${elem}</a>`));
+
               let locationAttribTemplate  = `<h4 class="propTitle">Geometría</h4>
                                       <ul>
                                       <li class="propContent">Geográficas (epsg:4258): <span class="pull-right">${fixNullValue(itemSelected.properties.long_etrs89_regcan95)} ${fixNullValue(itemSelected.properties.lat_etrs89_regcan95)}</span>
@@ -577,7 +608,7 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                       <h4 class="propTitle">Provincias</h4>
                                       <p class="propContent">${replaceAllOcurrences(fixNullValue(itemSelected.properties.provincias_nombre),',',', ')}</p>
                                       <h3 class="propTitle">Códigos INE asociados</h3>
-                                      <p class="propContent">${replaceAllOcurrences(fixNullValue(itemSelected.properties.codigo_ine),',',', ')}</p>
+                                      <p class="propContent">${replaceAllOcurrences(fixNullValue(linksToMunis.join(', ')),',',', ')}</p>
                                       <h4 class="propTitle">Hoja MTN25</h4><span class="propContent">${itemSelected.properties.hojamtn_25}</span>`;
 
               let othersAttribTemplate  = `<h4 class="propTitle">Tema INSPIRE</h4>
@@ -612,10 +643,6 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                   centrarVistaSobreToponimo(resultsRequest.features[0].properties.long_etrs89_regcan95,
                                                             resultsRequest.features[0].properties.lat_etrs89_regcan95,15);
               }
-              $("#showListResults").on("click", function(event) {
-                                      $("#atributosEntity").hide();
-                                      $("#tabulatorEntityList").show();                    
-              });
               document.getElementById("showListResults").addEventListener("click", () => {
                 document.getElementById("tabulatorEntityList").classList.remove("d-none");
                 document.getElementById("atributosEntity").classList.add("d-none");
@@ -644,7 +671,6 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
     fetch(`${urlDiscrepancias}${idEnti}`)
     .then(res => res.json())
     .then(response =>{
-      //console.log(response);
       let lstDiscrepancias = [];
       response.data.forEach((element) => {
 
@@ -652,7 +678,7 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
         let estadoColor = "";
         if (element.estado===0){
           estadoColor="bg-primary text-white";
-          estadoTexto="Pendiente";
+          estadoTexto="Pendiente de resolución";
         }else if (element.estado===1){
           estadoColor="bg-success text-white";
           estadoTexto="Aceptado";
@@ -660,17 +686,17 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
           estadoColor="bg-danger text-white";
           estadoTexto="Rechazado";
         }else if (element.estado===3){
-          estadoColor="bg-warning text-white";
-          estadoTexto="Eliminar";
+          estadoColor="fw-bold bg-warning text-white";
+          estadoTexto="Alternativo";
         }else if (element.estado===4){
-          estadoColor="bg-danger text-black";
+          estadoColor="bg-danger text-white fw-bold";
           estadoTexto="Eliminar";
         }else if (element.estado===6){
           estadoColor="bg-info text-black";
           estadoTexto="Estudiar";
         }else{
           estadoColor="bg-dark text-white";
-          estadoTexto="Estado desconocido!!!";
+          estadoTexto=`Desconocido!!! -> ${element.estado}`;
         }
 
 
@@ -678,7 +704,7 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                         <div class="card shadow-0 border rounded-3">
                           <div class="card-body">
                             <div class="row">
-                                <h6><img class="idioma_eus"> ${element.varfield}</h6>
+                                <h6><i class="fa fa-tag" aria-hidden="true"></i> ${element.varfield} <img class="${element.nombretabla}"> <span class="text-muted" style="font-size:10px;">${element.nombretabla}</span></h6>
                                 <div class="col-md-8">
                                     <ul>
                                       <li class="text-dark"><i class="fa fa-database" aria-hidden="true" title="Consolidado"></i> ${element.oldvalue.split("#")[0]}</li>
@@ -688,14 +714,14 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                 </div>
                                 <div class="col-md-4">
                                   <ul>
-                                    <li><i class="fa fa-user" aria-hidden="true" title="Usuario"></i> ${element.usuario}</li>
+                                    <li><i class="fa fa-user" aria-hidden="true" title="Usuario"></i> ${isEmptyNullString(element.usuario) ? '' : element.usuario}</li>
                                     <li><i class="fa fa-calendar" aria-hidden="true" title="Fecha"></i> ${element.vardate}</li>
-                                    <li><i class="fa fa-gavel" aria-hidden="true" title="Estado"></i> <span class="bg-success text-white">${estadoTexto}</span></li>
+                                    <li><i class="fa fa-gavel" aria-hidden="true" title="Estado"></i> <span class="${estadoColor}">${estadoTexto}</span></li>
                                   </ul>
                                 </div>
-                                <details  class="mb-4 mb-md-0">
+                                <details class="mb-4 mb-md-0">
                                   <summary><i class="fa fa-comments" aria-hidden="true"></i> Comentarios</summary>
-                                  ${element.comentario}
+                                  <span class="fst-italic">${isEmptyNullString(element.comentario) ? 'Nada que comentar' : element.comentario}</span>
                                 </details>
                             </div>
                           </div>
@@ -704,25 +730,13 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
       });
       document.getElementById('discrepancia-tab-pane').innerHTML  = lstDiscrepancias.join('');//response.data.length;
       document.getElementById('numRegDiscrepancias').textContent = lstDiscrepancias.length;
-
-      //let generalAttribTemplate  = `<h4 class="propTitle">General</h4>
-
-
-      //document.getElementById('numRegHisto').textContent = response.data.length;
-      //tabulatorHisto.setData(response.data);
     })
     .catch((err)=>{
         console.log(err);
     });
 
-
-
-
-    
-
-
-
-
+    document.getElementById("tabulatorEntityList").classList.add("d-none");
+    document.getElementById("atributosEntity").classList.remove("d-none");
 
 }
 
@@ -775,7 +789,6 @@ document.getElementById("searchByNameparam").addEventListener("keyup", (event) =
  }
 });
 
- 
 document.getElementById("clean-filter").addEventListener("click", (e) => {
     cleanTabulatorResultsFilter();
 });
