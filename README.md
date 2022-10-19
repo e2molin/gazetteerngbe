@@ -2,6 +2,34 @@
 
 ![](img/jumbotron.png)
 
+Aplicación web para la consulta del NGBE. El Nomenclátor Geográfico Nacional se define como un registro dinámico de información que recoge las denominaciones oficiales referenciadas geográficamente que deben utilizarse en la cartografía oficial.
+
+## Opciones de búsqueda
+
+### Espaciales
+
+* Por vista del mapa: topónimos dentro del bounding Box del mapa. El entorno de búsqueda debe ser de un nivel de zoom >=13.
+* Por buffer: calcula el centro del mapa y devuelve los topónimos dentro de un radio de búsqueda <= 50 Km.
+  
+### Textuales
+
+* Topónimos contenidos dentro de un municipio. Busqueda del municipio con *autocomplete*.
+* Topónimos contenidos dentro de una hoja del MTN25. Busqueda de la hoja con *autocomplete*.
+* Búsqueda por identificados espacial.
+* Búsqueda por nombre del topónimo.
+  * Cadena de texto contenida
+  * Cadena de texto al principio del nombre del topónimo
+  * Cadena de texto al final del nombre del topónimo
+  * Cadena de texto exacta al topónimo
+
+Los resultados pueden filtrarse por provincia o por clase.
+
+
+
+
+
+
+
 
 ## localStorage
 
