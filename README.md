@@ -67,8 +67,9 @@ Las discrepancias se muestran mediante una ficha donde podemos encontrar:
 
 * [✍️ Apuntes de desarrollo](develnotes.md)
 * [📚 Listado de nomenclátores](lista-nomenclators.md)
-* 🕵️‍♂️ Buscador de APIs: [https://rapidapi.com/](https://rapidapi.com/)
-* 🎨 Fontawesome 4.7 [https://fontawesome.com/v4/icons/](https://fontawesome.com/v4/icons/)
-* Vídeo explicación fetch [📽 Vídeo](https://www.youtube.com/watch?v=FJ-w0tf3d_w)
-* 
+* 🕵️‍♂️ Buscador de APIs: [🔗 Enlace](https://rapidapi.com/)
+* 🎨 Fontawesome 4.7 [🔗 Enlace](https://fontawesome.com/v4/icons/)
+* 🖼 Bootstrap 5.2 [🔗 Enlace](https://getbootstrap.com/docs/5.2/getting-started/introduction/)
+* 📽 Vídeo explicación fetch [🔗 Enlace](https://www.youtube.com/watch?v=FJ-w0tf3d_w)
+* 📽 Vídeo para gonfigurar Prettier y ESLint [🔗 Enlace](https://dev.to/mrluisfer/configurar-eslint-prettier-junto-con-vscode-3h00)
 
