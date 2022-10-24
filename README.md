@@ -2,7 +2,10 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
-![](img/jumbotron.png)
+
+<div class="img-content" style="display:flex; justify-content: center;">
+  <img src="img/jumbotron.png">
+</div>
 
 Aplicación web para la consulta del NGBE. El Nomenclátor Geográfico Nacional se define como un registro dinámico de información que recoge las denominaciones oficiales referenciadas geográficamente que deben utilizarse en la cartografía oficial.
 
@@ -29,7 +32,9 @@ Los resultados pueden filtrarse por provincia o por clase.
 El resultado de una consulta se muestra de manera textual en una tabla que permite búsquedas progresivas por nombre y ordenar por columna, y de manera gráfica con un mapa sobre el que se muestra un zoom general de los resultados. El mapa está desarrollado utilizando la [APICNIG](https://github.com/IGN-CNIG/API-CNIG) con algunos de sus plugins. 
 Desde la tabla de resultados podemos hacer zoom a un topónimo en particular o ver su **ficha de detalle**. El resultado de la consulyta puede exportarse en varios formatos. Desde el mapa, al pinchar sobre el icono de un topónimo veremos su **ficha de detalle**, y si se trata de un cluster de topónimos,la tabla de resultados mostrará únicamente los topónimos en esa posición. Con el botón de eliminar filtro, volveremos a ver todos los resultados.
 
-![](img/help_resultado.jpg)
+<div class="img-content" style="display:flex; justify-content: center;">
+  <img src="img/help_resultado.jpg">
+</div>
 
 ## 🎨 Ficha de detalle
 
@@ -44,7 +49,10 @@ La ficha de detalle de un topónimos nos permite estudiar todas sus característ
 
 Cuando accedemos a la ficha de detalle de un topónimos, el mapa se centrará sobre la posición del topónimo.
 
-![](img/help_detail.jpg)
+
+<div class="img-content" style="display:flex; justify-content: center;">
+  <img src="img/help_detail.jpg">
+</div>
 
 Las discrepancias se muestran mediante una ficha donde podemos encontrar:
 
@@ -61,7 +69,30 @@ Las discrepancias se muestran mediante una ficha donde podemos encontrar:
   * Alternativo
   * Estudio
 
-![](img/helper_descrepancia.jpg)
+<div class="img-content" style="display:flex; justify-content: center;">
+  <img src="img/helper_descrepancia.jpg">
+</div>
+
+## Visualizador
+
+Se ha incorporado un visualizador desarrollado con la APICNIG que permite ver los topónimos resultado de las búsquedas sobre los siguientes mapas de fondo
+
+* Mapa MTN.
+* Mapa vectorial base.
+* PNOA con y sin textos.
+* LiDAR con y sin textos.
+* MTN Tradicional. Para acceder a este servicio es necesario instalar un plugin que desactive la petición de CORS, ya que el servicio no implementa estas cabeceras. [Este es uno](https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino) de los disponibles para **Chrome** y **Edge**.
+* Primera edición del MTN25 y del MTN50.
+* Minutas MTN (Comunmente llamado *catastrones* del MTN).
+* Planimetrías del Archivo Topográfico.
+
+
+<div class="img-content" style="display:flex; justify-content: center;">
+  <img src="img/help_mapas-fondo.jpg">
+</div>
+
+
+
 
 ## ⛲️ Recursos
 
