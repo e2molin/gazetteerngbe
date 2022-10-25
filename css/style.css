@@ -1,22 +1,28 @@
-html{
-  min-height: 100%;
-  position: relative;
-}
-
 body {
+  margin:0;
+  padding: 0;
   background-color:#dbdbdb;
   color: #000000;/*#5a5a5a;*/
   font-size: 12px;
   font-family: 'Open Sans', sans-serif;
 }
 
-header{
-  margin-top:10px;
+.app-container{
+  background-color: #f8f9fa;
+  display: grid;
+  grid-template-rows: 65px 1fr 35px;
+  min-height: 100vh;
 }
 
 /*-----------------------------------*/
 /*Top navbar*/
 /*-----------------------------------*/
+
+header{
+  margin:0;
+  padding: 10px;          
+}
+
 #topnavbar{
   background: url("../img/background-header.png") no-repeat center scroll;
   background-color: #364b5f;
@@ -24,15 +30,26 @@ header{
 
 .navbar-brand{
   color: #a5a5a5;
-   /*color: #000000;*/
 }
 
-/*-----------------------------------*/
-/*Sidebar*/
-/*-----------------------------------*/
 
+main{
+  display: grid;
+  grid-template-columns: 295px 0.80fr 1.20fr;
+  grid-template-rows: 1fr;
+}
+
+main > section{
+  /*background-color:cornsilk;*/
+  background-color:#f8f9fa;
+  /* border: 1px solid black; */
+}
+
+/*--------------------------------*/
+/*Aside Navbar                    */
+/*--------------------------------*/
 #sidebarMenu{
-  height: 95vh;
+  /*height: 95vh;*/
   padding-top: 50px;
 }
 
@@ -44,6 +61,11 @@ header{
 
 #sidebarMenu .card {
   margin-top:5px;
+}
+
+#sidebarMenu .card-body {
+  padding:0.75rem;
+  
 }
 
 #panel2 a {
@@ -59,8 +81,10 @@ header{
   font-size:0.80rem;
   cursor: default;
 }
-  
 
+
+
+/* Controles de búsqueda */
 .typeahead-devs, .tt-hint, .combomunis, .combomtn, .dvm-input  {
   border: 2px solid #CCCCCC;
   border-radius: 4px 4px 4px 4px;
@@ -69,10 +93,10 @@ header{
   line-height: 30px;
   outline: medium none;
   padding: 4px 4px;
-  width: 230px;
+  width: 220px;
 }
 .tt-dropdown-menu {
-width: 230px;
+width: 220px;
 margin-top: 5px;
 padding: 8px 12px;
 background-color: #fff;
@@ -90,6 +114,7 @@ background-color: #F1F1F1;
   height: 24px;
 }
 
+/* Tabulator */
 
 .tabulator-row .tabulator-cell{
   padding:0px;
@@ -97,6 +122,10 @@ background-color: #F1F1F1;
 
 .tabulator {
   font-size: 12px;
+}
+
+#example-table{
+  height: 70vh;
 }
 
 
@@ -143,6 +172,9 @@ background-color: #F1F1F1;
   width:48px;
 }
 
+
+
+
 .dictioTitleSecond{
   /*position: relative;
   top: -100px; 
@@ -187,6 +219,11 @@ background-color: #F1F1F1;
 p.propContent {
   color: #6c6c6c;
   text-align: justify;
+}
+
+#propImageDictio{
+  width: 10%;
+  padding: 0px;
 }
 
 
@@ -287,18 +324,20 @@ img.envio_navarra_parte1_comp {
 }
 
 
+
+
 /*-------------------------*/
 /*Footer                   */
 /*-------------------------*/
 
-.footer {
-  position: absolute;
-  bottom: 0;
+footer{
+  margin:0;
+  padding: 0;
   padding-top: 5px;
+  position: fixed;
+  bottom:0;
+  height: 35px;
   width: 100%;
-  height: 40px;
-  background-color: #222;
-  color: #666;
 }
 
 .footer a {
@@ -309,27 +348,12 @@ img.envio_navarra_parte1_comp {
 }
 
 
-#panel-resultados{
-  padding-top: 60px;
-}
-
-
-/*-------------------------*/
-/*Estilos de cartografía*/
-/*-------------------------*/
-
-#mapLienzo{		
-  padding:0;
-  padding-top:56px; 
-  margin:0; 
-  height:85vh;
-}
 /*
 Ajustes del contenedor del control Mouse
 */
 .m-control.m-container.m-mousesrs-container{
-  left:350px;
-  top:760px;
+  left:20px;
+  top: 800px;
   height: 24px;
 }
 

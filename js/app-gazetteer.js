@@ -405,7 +405,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     tabulatorResults = new Tabulator("#example-table", {
         /*data:tabledata,*/ //assign data to table
         /*height:"311px",*/
-        layout:"fitColumns",
+        /*layout:"fitColumns",*/
         columns:[
         {formatter: dictioIcon,width:30, hozAlign:"center"},
         {title:"Nombre", field:"nombre", width:320},
@@ -426,7 +426,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     tabulatorHisto = new Tabulator("#histodataTable", {
         /*data:tabledata,*/ //assign data to table
         /*height:"311px",*/
-        layout:"fitColumns",
+        /*layout:"fitColumns",*/
         columns:[
         {title:"Fecha", field:"fecha", width:100},
         {title:"Usuario", field:"username", width:100, hozAlign:"left"},
@@ -483,5 +483,5 @@ document.addEventListener("DOMContentLoaded", function(event) {
         searchByMuni(codigoINESearch);        
       }
     }
-    
+
 });
