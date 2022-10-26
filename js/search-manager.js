@@ -646,6 +646,7 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
               document.getElementById("showListResults").addEventListener("click", () => {
                 document.getElementById("tabulatorEntityList").classList.remove("d-none");
                 document.getElementById("atributosEntity").classList.add("d-none");
+                document.getElementById("presentacion").classList.add("d-none");
               });
               document.getElementById("spinner_searchEntityData").classList.add("d-none");
     })
@@ -758,6 +759,9 @@ document.getElementById("searchByMuni").addEventListener("click", (e) => {
 
 document.getElementById("muniselect").addEventListener("keyup", (event) => {
   document.getElementById("alertnoselmuni").classList.add("d-none");
+  if (event.target.value === ''){
+    document.getElementById("autoComplete_list_1").hidden = true;
+  }
   if (event.key === "Enter") {
     searchByMuni();
   }
@@ -769,6 +773,9 @@ document.getElementById("searchByHojaMTN").addEventListener("click", (e) => {
 
  document.getElementById("mtnselect").addEventListener("keyup", (event) => {
   document.getElementById("alertnoselmtn").classList.add("d-none");
+  if (event.target.value === ''){
+    document.getElementById("autoComplete_list_2").hidden = true;
+  }  
    if (event.key === "Enter") {
     searchByHojaMTN();
    }

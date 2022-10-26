@@ -1,3 +1,17 @@
+:root{
+
+  --IGN-blue-verydark: #364b5f;
+  --IGN-blue-dark:#005b91;
+  --IGN-blue-light: #4f728f;
+  --IGN-grey: #d8d9d8;
+  --Nomen-red: #7f0018;
+  --Nomen-blue: #0069ff;
+  --Nomen-blue-dark: #003c7f;
+  --Nomen-green: #004713;
+  --Nomen-orange: #ff6e43;
+
+}
+
 body {
   margin:0;
   padding: 0;
@@ -85,7 +99,7 @@ main > section{
 
 
 /* Controles de búsqueda */
-.typeahead-devs, .tt-hint, .combomunis, .combomtn, .dvm-input  {
+.combomunis, .combomtn, .dvm-input  {
   border: 2px solid #CCCCCC;
   border-radius: 4px 4px 4px 4px;
   font-size: 11px;
@@ -94,18 +108,6 @@ main > section{
   outline: medium none;
   padding: 4px 4px;
   width: 220px;
-}
-.tt-dropdown-menu {
-width: 220px;
-margin-top: 5px;
-padding: 8px 12px;
-background-color: #fff;
-border: 1px solid #ccc;
-border: 1px solid rgba(0, 0, 0, 0.2);
-border-radius: 4px 4px 4px 4px;
-font-size: 10px;
-color: #111;
-background-color: #F1F1F1;
 }
 
 #codDictio, #provinCbo, #searchByNameType {

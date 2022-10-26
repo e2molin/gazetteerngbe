@@ -4,6 +4,7 @@ var resultNGBE_lyr=null; // Capa para almacenar resultados de las búsquedas
 var tabulatorResults;
 var tabulatorHisto;
 var lstIndex=[]; // Almacena los índices de los elementos sobre los que se ha hecho clic sobre el mapa.
+var diccionarioNGBE = [];
 
 const appTitle= "Gazetteer NGBE";
 const appURLCanonical = "http://sapignmad200.ign.fomento.es/runtime/gazetteerngbe/index.html"
@@ -13,11 +14,12 @@ const appURLCanonical = "http://sapignmad200.ign.fomento.es/runtime/gazetteerngb
 
 const domainProduction = "http://10.13.90.93/apibadasidv4/";
 const domainDeveloper = "http://localhost/apibadasidv4/";
-const modoDeveloper = false;
+const modoDeveloper = true;
 const domainRoot = modoDeveloper === true ? domainDeveloper:domainProduction;
 
 const urlMunisSearcher = `${domainRoot}public/autoridades/municipios`;//'http://localhost/apibadasidv4/public/autoridades/municipios';
 const urlHojaMTNSearcher = `${domainRoot}public/autoridades/hojamtn25`;//'http://localhost/apibadasidv4/public/autoridades/hojamtn25';
+const urlCodigosNGBE = `${domainRoot}public/nomenclator/json/codigosngbeinspire`; // http://localhost/apibadasidv4/public/nomenclator/json/codigosngbeinspire
 const municipioInfoByIdServer = `${domainRoot}public/nomenclator/json/entityngbe/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/entityngbe/id/'
 const bboxSearchServer = `${domainRoot}public/nomenclator/json/listngbe/bbox?`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/bbox?'
 const ineSearchServer = `${domainRoot}public/nomenclator/json/listngbe/codine/`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/codine/'
@@ -72,7 +74,33 @@ document.getElementById("showLegend").addEventListener("click", () => {
 });
 
 
+const cargarDiccionarioNGBE = () => {
 
+  fetch(`${urlCodigosNGBE}`)
+  .then(res => res.json())
+  .then(response =>{
+    diccionarioNGBE = response.data;
+    let optionsDictionario = [];
+    let imagesDictionario = [];
+    let headerDictio = '';
+    optionsDictionario.push(`<option value="0.0">Ver todas las clases</option>`);
+    diccionarioNGBE.forEach((item) => {
+      optionsDictionario.push(`<option value="${item.codigo_ngbe}">${item.nombre_mostrado}</option>`);
+      if (headerDictio!==item.categoria1){
+        imagesDictionario.push(`<h4>${item.categoria1}</h4>`);
+        headerDictio=item.categoria1;
+      }
+      imagesDictionario.push(`<img class="" style="width:48px;" src="img/icons/${item.codigo_ngbe}-master.png" title="${item.nombre_mostrado}">`)
+    });
+    document.getElementById('codDictio').innerHTML  = optionsDictionario.join('');
+    document.getElementById('modal-message-dictiocodes').innerHTML  = imagesDictionario.join('');
+
+  })
+  .catch((err)=>{
+      console.log(`No se pudo acceder a las clases del diccionario NGBE ${err}`);
+  });
+
+}
 
 
 const cleanTabulatorResultsFilter = () => {
@@ -343,6 +371,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // Lanzar mapa
     createAPICNIGMap();
 
+    // Caregar diccionario NGBE
+    cargarDiccionarioNGBE();
+
     //initialize table
     const dictioIcon = (cell, formatterParams, onRendered)=>{ //plain text value
         return `<img src="img/icons/${cell.getRow().getData().dictiongbe}.png" alt="${cell.getRow().getData().tipo}">`;
@@ -452,15 +483,113 @@ document.addEventListener("DOMContentLoaded", function(event) {
         mapAPICNIG.setBbox(resultNGBE_lyr.getFeaturesExtent());
     })
 
-    $('#muniselect').typeahead({
-        name: 'combomunis',
-        prefetch : urlMunisSearcher
-    });
+    const configAutoCompleteMunis = {
+        selector: "#muniselect",
+        placeHolder: "Buscar municipio...",
+        data: {
+            src: async (query) => {
+              try {
+                const source = await fetch(`${urlMunisSearcher}`);
+                const data = await source.json();
+                return data;
+              } catch (error) {
+                return error;
+              }
+            },
+            cache: false,
+        },
+        searchEngine: "strict", // loose
+        diacritics: true, // True: unaccent search false: accent search
+        resultsList: {
+                      element: (list, data) => {
+                          const info = document.createElement("p");
+                          if (data.results.length) {
+                              info.innerHTML = `Displaying <strong>${data.results.length}</strong> out of <strong>${data.matches.length}</strong> results`;
+                          } else {
+                              info.innerHTML = `Found <strong>${data.matches.length}</strong> matching results for <strong>"${data.query}"</strong>`;
+                          }
+                          list.prepend(info);
+                      },
+                      noResults: true,
+                      maxResults: 15,
+                      tabSelect: true,
+        },            
+        resultItem: {
+          element: (item, data) => {
+              // Modify Results Item Style
+              item.style = "display: flex; justify-content: space-between;";
+              item.innerHTML = `
+              <span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                ${data.match}
+              </span>`;
+            },              
+            highlight: true
+        },
+        events: {
+            input: {
+                selection: (event) => {
+                    const selection = event.detail.selection.value;
+                    autoCompleteMunis.input.value = selection;
+                }
+            }
+        }
+  }
 
-    $('#mtnselect').typeahead({
-          name: 'combomtn',
-          prefetch : urlHojaMTNSearcher
-    });
+  const configAutoCompleteMTNs = {
+      selector: "#mtnselect",
+      placeHolder: "Buscar hoja MTN25...",
+      data: {
+          src: async (query) => {
+            try {
+              // Fetch Data from external Source
+              const source = await fetch(`${urlHojaMTNSearcher}`);
+              // Data should be an array of `Objects` or `Strings`
+              const data = await source.json();
+              return data;
+            } catch (error) {
+              return error;
+            }
+          },
+          cache: false,
+      },
+      searchEngine: "strict", // loose
+      diacritics: true, // True: unaccent search false: accent search
+      resultsList: {
+                    element: (list, data) => {
+                        const info = document.createElement("p");
+                        if (data.results.length) {
+                            info.innerHTML = `Mostrando <strong>${data.results.length}</strong> de <strong>${data.matches.length}</strong> resultados`;
+                        } else {
+                            info.innerHTML = `Found <strong>${data.matches.length}</strong> matching results for <strong>"${data.query}"</strong>`;
+                        }
+                        list.prepend(info);
+                    },
+                    noResults: true,
+                    maxResults: 15,
+                    tabSelect: true,
+      },            
+      resultItem: {
+        element: (item, data) => {
+            item.style = "display: flex; justify-content: space-between;";
+            item.innerHTML = `
+            <span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+              ${data.match}
+            </span>`;
+          },              
+          highlight: true
+      },
+      events: {
+          input: {
+              selection: (event) => {
+                  const selection = event.detail.selection.value;
+                  autoCompleteMTNs.input.value = selection;
+              }
+          }
+      }
+    } 
+
+    const autoCompleteMunis = new autoComplete(configAutoCompleteMunis);
+    const autoCompleteMTNs = new autoComplete(configAutoCompleteMTNs);
 
     document.getElementById("tabulatorEntityList").classList.add("d-none");
     document.getElementById("atributosEntity").classList.add("d-none");

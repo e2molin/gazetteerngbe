@@ -18,12 +18,13 @@
     <link rel="stylesheet" href="https://componentes.cnig.es/api-core/plugins/mousesrs/mousesrs.ol.min.css">
     <link rel="stylesheet" href="https://componentes.cnig.es/api-core/plugins/fulltoc/fulltoc.ol.min.css">
     <link rel="stylesheet" href="https://componentes.cnig.es/api-core/plugins/ignsearchlocator/ignsearchlocator.ol.min.css">
-
+    
     <link rel="stylesheet" href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    
     <link rel="stylesheet" href="css/tabulator_bootstrap5.min.css">
     <link rel="stylesheet" href="css/style.css">
-    
+    <link rel="stylesheet" href="vendor/autoComplete@10.2.7/css/autoComplete.02.css">
     
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="img/logoNGBE.png" />
@@ -172,14 +173,14 @@
                   <div class="card-body">
                     <div class="input-group col-sm-12 mb-2">
                       <label for="muniselect" class="form-label">Topónimos de un municipio</label><i id="spinner_searchMuni" class="fa fa-spinner fa-pulse fa-2x fa-fw d-none"></i><span class="sr-only">Loading...</span>
-                      <input type="text" id="muniselect" name="muniselect" class="combomunis" placeholder="Municipio y pulsa buscar">
+                      <input type="text" id="muniselect" name="muniselect" class="combomunis" placeholder="Municipio y pulsa buscar" dir="ltr" spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off">
                       <button id="searchByMuni" class="btn btn-primary btn-sm" type="button" id="button-addon2"><i class="fa fa-search"></i></button>
                       <span id="alertnoselmuni" class="badge text-bg-warning d-none">Selecciona municipio</span>
                     </div>
   
                     <div class="input-group col-sm-12 mb-2">
                       <label for="mtnselect" class="form-label">Topónimos de una Hoja MTN25</label><i id="spinner_searchMTN" class="fa fa-spinner fa-pulse fa-2x fa-fw d-none"></i><span class="sr-only">Loading...</span>
-                      <input type="text" id="mtnselect" name="mtnselect" class="combomtn" placeholder="Hoja MTN y pulsa buscar. 0559c1..">
+                      <input type="text" id="mtnselect" name="mtnselect" class="combomtn" placeholder="Hoja MTN y pulsa buscar. 0559c1.." dir="ltr" spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off">
                       <button id="searchByHojaMTN" class="btn btn-primary btn-sm" type="button" id="button-addon2"><i class="fa fa-search"></i></button>
                       <span id="alertnoselmtn" class="badge text-bg-warning d-none">Selecciona hoja MTN</span>
                     </div>
@@ -212,69 +213,7 @@
   
   
                     <label for="codDictio" class="form-label">Filtrar por clase …</label>
-                    <select id="codDictio" class="form-select form-select-sm  mb-2">
-                        <option value="0.0">Ver todas las clases</option>
-                        <option value="1.0">Estado (1.0)</option>
-                        <option value="1.1.1">Comunidad autónoma (1.1.1)</option>
-                        <option value="1.1.2">Ciudad autónoma (1.1.2)</option>
-                        <option value="1.2">Provincia (1.2)</option>
-                        <option value="1.3">Municipio (1.3)</option>
-                        <option value="1.4">EATIM (1.4)</option>
-                        <option value="1.5">Isla administrativa (1.5)</option>
-                        <option value="1.6">Comarca administrativa (1.6)</option>
-                        <option value="1.7">Jurisdicción (1.7)</option>
-                        <option value="2.1.0">Capital de Estado (2.1.0)</option>
-                        <option value="2.1.1">Capital de autonomía (2.1.1)</option>
-                        <option value="2.1.2">Capital de provincia (2.1.2)</option>
-                        <option value="2.1.3">Capital de municipio (2.1.3)</option>
-                        <option value="2.1.4">Capital de EATIM (2.1.4)</option>
-                        <option value="2.1.5">Entidad colectiva (2.1.5)</option>
-                        <option value="2.1.6">Entidad menor de población (2.1.6)</option>
-                        <option value="2.1.7">Distrito municipal (2.1.7)</option>
-                        <option value="2.1.8">Barrio (2.1.8)</option>
-                        <option value="2.1.9">Entidad singular (2.1.9)</option>
-                        <option value="2.1.10">Núcleo de población (2.1.10)</option>
-                        <option value="2.2.1">Construcción/instalación abierta (2.2.1)</option>
-                        <option value="2.2.2">Edificación (2.2.2)</option>
-                        <option value="2.3.1">Vértice Geodésico (2.3.1)</option>
-                        <option value="2.3.2">Hitos de demarcación territorial (2.3.2)</option>
-                        <option value="2.3.3">Hitos en vías de comunicación (2.3.3)</option>
-                        <option value="3.1.1">Aeropuerto (3.1.1)</option>
-                        <option value="3.1.2">Aeródromo (3.1.2)</option>
-                        <option value="3.1.3">Pista de aviación y helipuerto (3.1.3)</option>
-                        <option value="3.2.1">Puerto (3.2.1)</option>
-                        <option value="3.2.2">Instalación portuaria (3.2.2)</option>
-                        <option value="3.2.3">Vía Martítima (3.2.3)</option>
-                        <option value="3.3.1">Carretera (3.3.1)</option>
-                        <option value="3.3.2">Camino y vía pecuaria (3.3.2)</option>
-                        <option value="3.3.3">Vía urbana (3.3.3)</option>
-                        <option value="3.3.4">Ferrocarril (3.3.4)</option>
-                        <option value="3.3.5">Infraestructuras terrestres (3.3.5)</option>
-                        <option value="4.1.1">Alineación montañosa (4.1.1)</option>
-                        <option value="4.1.2">Montaña (4.1.2)</option>
-                        <option value="4.1.3">Paso de montaña (4.1.3)</option>
-                        <option value="4.1.4">Llanura (4.1.4)</option>
-                        <option value="4.1.5">Depresión (4.1.5)</option>
-                        <option value="4.1.6">Vertientes (4.1.6)</option>
-                        <option value="4.2.1">Comarca geográfica (4.2.1)</option>
-                        <option value="4.2.2">Paraje (4.2.2)</option>
-                        <option value="4.2.3">Elemento puntual del paisaje (4.2.3)</option>
-                        <option value="4.3.1">Parque Nacional y Natural (4.3.1)</option>
-                        <option value="4.3.2">Espacio protegido restante (4.3.2)</option>
-                        <option value="5.1">Curso natural de agua (5.1)</option>"
-                        <option value="5.2">Masa de agua (5.2)</option>
-                        <option value="5.3">Curso artificial de agua (5.3)</option>
-                        <option value="5.4">Embalse (5.4)</option>
-                        <option value="5.5">Hidrónimo puntual (5.5)</option>
-                        <option value="5.6">Glaciares (5.6)</option>
-                        <option value="6.1.1">Mar (6.1.1)</option>
-                        <option value="6.1.2">Entrante y estrecho marítimo (6.1.2)</option>
-                        <option value="6.2.1">Saliente costero (6.2.1)</option>
-                        <option value="6.2.2">Playa (6.2.2)</option>
-                        <option value="6.2.3">Isla (6.2.3)</option>
-                        <option value="6.2.4">Otro relieve costero (6.2.4)</option>
-                        <option value="6.3">Relieve submarino (6.3)</option>
-                    </select>                        
+                    <select id="codDictio" class="form-select form-select-sm mb-2"></select>                        
                     
                     <label for="provinCbo" class="form-label">Buscar en …</label>
                     <select id="provinCbo" class="form-select form-select-sm">
@@ -524,74 +463,7 @@
               <h1 class="modal-title fs-5" id="modal-title"><i class="fa fa-list"></i> Diccionario de clases</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div id="modal-message" class="modal-body">
-              <h4>División administrativa</h4>
-              <img class="" style="width:48px;" src="img/icons/1.0-master.png" title="Estado (1.0)">
-              <img class="" style="width:48px;" src="img/icons/1.1.1-master.png" title="Comunidad autónoma (1.1.1)">
-              <img class="" style="width:48px;" src="img/icons/1.1.2-master.png" title="Ciudad con estatuto de autonomía (1.1.2)">
-              <img class="" style="width:48px;" src="img/icons/1.2-master.png" title="Provincia (1.2)">
-              <img class="" style="width:48px;" src="img/icons/1.3-master.png" title="Municipio (1.3)">
-              <img class="" style="width:48px;" src="img/icons/1.4-master.png" title="EATIM (1.4)">
-              <img class="" style="width:48px;" src="img/icons/1.5-master.png" title="Isla administrativa (1.5)">
-              <img class="" style="width:48px;" src="img/icons/1.6-master.png" title="Comarca administrativa (1.6)">
-              <img class="" style="width:48px;" src="img/icons/1.7-master.png" title="Jurisdicción (1.7)">
-              <h4>Poblaciones y contrucciones</h4>
-              <img class="" style="width:48px;" src="img/icons/2.1.0-master.png" title="Capital de Estado (2.1.0)">
-              <img class="" style="width:48px;" src="img/icons/2.1.1-master.png" title="Capital de comunidad autónoma y ciudad con estatuto de autonomía (2.1.1)">
-              <img class="" style="width:48px;" src="img/icons/2.1.2-master.png" title="Capital de provincia (2.1.2)">
-              <img class="" style="width:48px;" src="img/icons/2.1.3-master.png" title="Capital de municipio (2.1.3)">
-              <img class="" style="width:48px;" src="img/icons/2.1.4-master.png" title="Capital de EATIM (2.1.4)">
-              <img class="" style="width:48px;" src="img/icons/2.1.5-master.png" title="Entidad colectiva (2.1.5)">
-              <img class="" style="width:48px;" src="img/icons/2.1.6-master.png" title="Entidad menor de población (2.1.6)">
-              <img class="" style="width:48px;" src="img/icons/2.1.7-master.png" title="Distrito municipal (2.1.7)">
-              <img class="" style="width:48px;" src="img/icons/2.1.8-master.png" title="Barrio (2.1.8)">
-              <img class="" style="width:48px;" src="img/icons/2.1.9-master.png" title="Entidad singular (2.1.9)">
-              <img class="" style="width:48px;" src="img/icons/2.1.10-master.png" title="Núcleos de población (2.1.10)">
-              <img class="" style="width:48px;" src="img/icons/2.2.1-master.png" title="Construcción/instalación abierta (2.2.1)">
-              <img class="" style="width:48px;" src="img/icons/2.2.2-master.png" title="Edificación (2.2.2)">
-              <img class="" style="width:48px;" src="img/icons/2.3.1-master.png" title="Vértice Geodésico (2.3.1)">
-              <img class="" style="width:48px;" src="img/icons/2.3.2-master.png" title="Hitos de demarcación territorial (2.3.2)">
-              <img class="" style="width:48px;" src="img/icons/2.3.3-master.png" title="Hitos en vías de comunicación (2.3.3)">
-              <h4>Comunicaciones y transporte</h4>
-              <img class="" style="width:48px;" src="img/icons/3.1.1-master.png" title="Aeropuerto (3.1.1)">
-              <img class="" style="width:48px;" src="img/icons/3.1.2-master.png" title="Aeródromo (3.1.2)">
-              <img class="" style="width:48px;" src="img/icons/3.1.3-master.png" title="Pista de aviación y helipuerto (3.1.3)">
-              <img class="" style="width:48px;" src="img/icons/3.2.1-master.png" title="Puerto (3.2.1)">
-              <img class="" style="width:48px;" src="img/icons/3.2.2-master.png" title="Instalación portuaria (3.2.2)">
-              <img class="" style="width:48px;" src="img/icons/3.2.3-master.png" title="Vía Martítima (3.2.3)">
-              <img class="" style="width:48px;" src="img/icons/3.3.1-master.png" title="Carretera (3.3.1)">
-              <img class="" style="width:48px;" src="img/icons/3.3.2-master.png" title="Camino y vía pecuaria (3.3.2)">
-              <img class="" style="width:48px;" src="img/icons/3.3.3-master.png" title="Vía urbana (3.3.3)">
-              <img class="" style="width:48px;" src="img/icons/3.3.4-master.png" title="Ferrocarril (3.3.4)">
-              <img class="" style="width:48px;" src="img/icons/3.3.5-master.png" title="Infraestructuras terrestres (3.3.5)">
-              <h4>Orografía continental y áreas geográficas</h4>
-              <img class="" style="width:48px;" src="img/icons/4.1.1-master.png" title="Alineación montañosa (4.1.1)">
-              <img class="" style="width:48px;" src="img/icons/4.1.2-master.png" title="Montaña (4.1.2)">
-              <img class="" style="width:48px;" src="img/icons/4.1.3-master.png" title="Paso de montaña (4.1.3)">
-              <img class="" style="width:48px;" src="img/icons/4.1.4-master.png" title="Llanura (4.1.4)">
-              <img class="" style="width:48px;" src="img/icons/4.1.5-master.png" title="Depresión (4.1.5)">
-              <img class="" style="width:48px;" src="img/icons/4.1.6-master.png" title="Vertientes (4.1.6)">
-              <img class="" style="width:48px;" src="img/icons/4.2.1-master.png" title="Comarca geográfica (4.2.1)">
-              <img class="" style="width:48px;" src="img/icons/4.2.2-master.png" title="Paraje (4.2.2)">
-              <img class="" style="width:48px;" src="img/icons/4.2.3-master.png" title="Elemento puntual del paisaje (4.2.3)">
-              <img class="" style="width:48px;" src="img/icons/4.3.1-master.png" title="Parque Nacional y Natural (4.3.1)">
-              <img class="" style="width:48px;" src="img/icons/4.3.2-master.png" title="Espacio protegido restante (4.3.2)">
-              <h4>Hidrografía continental</h4>
-              <img class="" style="width:48px;" src="img/icons/5.1-master.png" title="Curso natural de agua (5.1)">
-              <img class="" style="width:48px;" src="img/icons/5.2-master.png" title="Masa de agua (5.2)">
-              <img class="" style="width:48px;" src="img/icons/5.3-master.png" title="Curso artificial de agua (5.3)">
-              <img class="" style="width:48px;" src="img/icons/5.4-master.png" title="Embalse (5.4)">
-              <img class="" style="width:48px;" src="img/icons/5.5-master.png" title="Hidrónimo puntual (5.5)">
-              <img class="" style="width:48px;" src="img/icons/5.6-master.png" title="Glaciares (5.6)">
-              <h4>Hidrografía y Orografía Marítima y Costera</h4>
-              <img class="" style="width:48px;" src="img/icons/6.1.1-master.png" title="Mar (6.1.1)">
-              <img class="" style="width:48px;" src="img/icons/6.1.2-master.png" title="Entrante costero y estrecho marítimo (6.1.2)">
-              <img class="" style="width:48px;" src="img/icons/6.2.1-master.png" title="Saliente costero (6.2.1)">
-              <img class="" style="width:48px;" src="img/icons/6.2.2-master.png" title="Playa (6.2.2)">
-              <img class="" style="width:48px;" src="img/icons/6.2.3-master.png" title="Isla (6.2.3)">
-              <img class="" style="width:48px;" src="img/icons/6.2.4-master.png" title="Otro relieve costero (6.2.4)">
-              <img class="" style="width:48px;" src="img/icons/6.3-master.png" title="Relieve submarino (6.3)">
-            </div>
+            <div id="modal-message-dictiocodes" class="modal-body"></div>
             <div class="modal-footer">
               <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Cerrar</button>
               <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
@@ -602,13 +474,8 @@
 
     </div>
 
-
-
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><!-- Antes 1.11.3-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-<script src="js/typeahead/typeahead.js"></script>
+<script src="vendor/autoComplete@10.2.7/autoComplete.min.js"></script>
 <script type="text/javascript" src="https://componentes.cnig.es/api-core/js/apiign.ol.min.js"></script>
 <script type="text/javascript" src="https://componentes.cnig.es/api-core/js/configuration.js"></script>
 <script type="text/javascript" src="https://componentes.cnig.es/api-core/plugins/backimglayer/backimglayer.ol.min.js"></script>
