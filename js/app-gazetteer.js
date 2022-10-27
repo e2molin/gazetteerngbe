@@ -5,6 +5,7 @@ var tabulatorResults;
 var tabulatorHisto;
 var lstIndex=[]; // Almacena los índices de los elementos sobre los que se ha hecho clic sobre el mapa.
 var diccionarioNGBE = [];
+var rcdProvincias = [];
 
 const appTitle= "Gazetteer NGBE";
 const appURLCanonical = "http://sapignmad200.ign.fomento.es/runtime/gazetteerngbe/index.html"
@@ -14,20 +15,21 @@ const appURLCanonical = "http://sapignmad200.ign.fomento.es/runtime/gazetteerngb
 
 const domainProduction = "http://10.13.90.93/apibadasidv4/";
 const domainDeveloper = "http://localhost/apibadasidv4/";
-const modoDeveloper = true;
+const modoDeveloper = false;
 const domainRoot = modoDeveloper === true ? domainDeveloper:domainProduction;
 
-const urlMunisSearcher = `${domainRoot}public/autoridades/municipios`;//'http://localhost/apibadasidv4/public/autoridades/municipios';
-const urlHojaMTNSearcher = `${domainRoot}public/autoridades/hojamtn25`;//'http://localhost/apibadasidv4/public/autoridades/hojamtn25';
-const urlCodigosNGBE = `${domainRoot}public/nomenclator/json/codigosngbeinspire`; // http://localhost/apibadasidv4/public/nomenclator/json/codigosngbeinspire
-const municipioInfoByIdServer = `${domainRoot}public/nomenclator/json/entityngbe/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/entityngbe/id/'
-const bboxSearchServer = `${domainRoot}public/nomenclator/json/listngbe/bbox?`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/bbox?'
-const ineSearchServer = `${domainRoot}public/nomenclator/json/listngbe/codine/`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/codine/'
-const mtn25SearchServer = `${domainRoot}public/nomenclator/json/listngbe/mtn25/`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/mtn25/'
-const nameSearchServer  = `${domainRoot}public/nomenclator/json/listngbeINSPIRE/name/`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbeINSPIRE/name/'
-const urlSearchListById = `${domainRoot}public/nomenclator/json/listngbe/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/id/'
+const urlMunisSearcher = `${domainRoot}public/autoridades/municipios`;                      //'http://localhost/apibadasidv4/public/autoridades/municipios';
+const urlHojaMTNSearcher = `${domainRoot}public/autoridades/hojamtn25`;                     //'http://localhost/apibadasidv4/public/autoridades/hojamtn25';
+const urlCodigosNGBE = `${domainRoot}public/nomenclator/json/codigosngbeinspire`;           // http://localhost/apibadasidv4/public/nomenclator/json/codigosngbeinspire
+const urlProvincias = `${domainRoot}public/autoridades/json/provincias`;                    // http://localhost/apibadasidv4/public/nomenclator/json/provincias
+const municipioInfoByIdServer = `${domainRoot}public/nomenclator/json/entityngbe/id/`;      //'http://localhost/apibadasidv4/public/nomenclator/json/entityngbe/id/'
+const bboxSearchServer = `${domainRoot}public/nomenclator/json/listngbe/bbox?`;             //'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/bbox?'
+const ineSearchServer = `${domainRoot}public/nomenclator/json/listngbe/codine/`;            //'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/codine/'
+const mtn25SearchServer = `${domainRoot}public/nomenclator/json/listngbe/mtn25/`;           //'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/mtn25/'
+const nameSearchServer  = `${domainRoot}public/nomenclator/json/listngbeINSPIRE/name/`;     //'http://localhost/apibadasidv4/public/nomenclator/json/listngbeINSPIRE/name/'
+const urlSearchListById = `${domainRoot}public/nomenclator/json/listngbe/id/`;              //'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/id/'
 const urlSearchHistoEntityById = `${domainRoot}public/nomenclator/json/entityngbehisto/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/entityngbehisto/id/'
-const urlBufferSearch = `${domainRoot}public/nomenclator/json/listngbe/buffer?`;//'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/buffer?'
+const urlBufferSearch = `${domainRoot}public/nomenclator/json/listngbe/buffer?`;            //'http://localhost/apibadasidv4/public/nomenclator/json/listngbe/buffer?'
 const urlDiscrepancias = `${domainRoot}public/nomenclator/json/entityngbediscrepancias/id/`;//'http://localhost/apibadasidv4/public/nomenclator/json/entityngbediscrepancias/id/'
 
 
@@ -98,6 +100,29 @@ const cargarDiccionarioNGBE = () => {
   })
   .catch((err)=>{
       console.log(`No se pudo acceder a las clases del diccionario NGBE ${err}`);
+  });
+
+}
+
+const cargarProvincias = () => {
+
+  fetch(`${urlProvincias}`)
+  .then(res => res.json())
+  .then(response =>{
+    rcdProvincias = response.data;
+    let optionsProvincias = [];
+    optionsProvincias.push(`<option value="00">Todas las provincias</option>`);
+    rcdProvincias.forEach((item) => {
+      optionsProvincias.push(` <option value="${item.codine}">${item.nombreprovincia}</option>`);
+    });
+    document.getElementById('provinCbo').innerHTML  = optionsProvincias.join('');
+
+
+
+
+  })
+  .catch((err)=>{
+      console.log(`No se pudo acceder a la lista de provincias ${err}`);
   });
 
 }
@@ -368,11 +393,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
     console.log(`Arranque W/H: ${window.innerWidth} / ${window.innerHeight}`);
     console.log(`${window.innerWidth<768 ? 'Mobile' : 'desktop'}`)
     
+    // Cargamos el diccionario NGBE
+    cargarDiccionarioNGBE();
+
+    // Cargamos la lista de provincias
+    cargarProvincias()
+
     // Lanzar mapa
     createAPICNIGMap();
 
-    // Caregar diccionario NGBE
-    cargarDiccionarioNGBE();
 
     //initialize table
     const dictioIcon = (cell, formatterParams, onRendered)=>{ //plain text value
@@ -612,5 +641,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         searchByMuni(codigoINESearch);        
       }
     }
+
+
+
 
 });

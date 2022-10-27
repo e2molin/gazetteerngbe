@@ -611,10 +611,13 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                       <p class="propContent">${replaceAllOcurrences(fixNullValue(linksToMunis.join(', ')),',',', ')}</p>
                                       <h4 class="propTitle">Hoja MTN25</h4><span class="propContent">${itemSelected.properties.hojamtn_25}</span>`;
 
+              console.log(itemSelected.properties.codigo_ngbe.toString());
+              let urlINSPIRE = diccionarioNGBE.filter(item => item.codigo_ngbe.toString() === itemSelected.properties.codigo_ngbe.toString())[0]?.name_inspire !== undefined ?
+                              diccionarioNGBE.filter(item => item.codigo_ngbe.toString() === itemSelected.properties.codigo_ngbe.toString())[0]?.name_inspire :
+                             "Clase INSPIRE no encontrada";
+
               let othersAttribTemplate  = `<h4 class="propTitle">Tema INSPIRE</h4>
-                                      <span class="propContent">
-                                        https://inspire.ec.europa.eu/codelist/NamedPlaceTypeValue/hydrography
-                                        <a href="https://inspire.ec.europa.eu/codelist/NamedPlaceTypeValue/hydrography" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                                      <span class="propContent">${urlINSPIRE} <a href="${urlINSPIRE==="Clase INSPIRE no encontrada" ? "#" : urlINSPIRE}" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>
                                       </span>
                                       <h4 class="propTitle">Otras codificaciones</h4>
                                       <ul>
