@@ -1,7 +1,11 @@
-# Apuntes de desarrollo
+# 💻 Apuntes de desarrollo
+
+## 🎨 Apuntes de CSS
+
+![](img/css-cheatsheet.jpg)
 
 
-## Utilizando **localStorage** y prefetch
+## ⚙️ Utilizando **localStorage** y prefetch
 
 Así obtenemos todas las claves almacenadas en `localStorage`
 
@@ -21,7 +25,7 @@ localStorage.removeItem(key);
 
 ```
 
-En nuestro caso, la librería **typeahead** almacena en el localStorage los arrays con los valores para mostrar en el autonumérico. Para el caso del municipio, el HTML y el Jacascript son:;
+En nuestro caso, la librería **typeahead** almacena en el localStorage los arrays con los valores para mostrar en el autonumérico. Para el caso del municipio, el HTML y el Javascript son:
 
 ```html
 <input type="text" id="muniselect" name="muniselect" class="combomunis" placeholder="Introduce un municipio y pulsa buscar">
@@ -41,7 +45,14 @@ localStorage.clear(); /* Borra todo lo allacenado en localStorage */
 localStorage.removeItem('__combomunis__itemHash'); /* Borra úncaimente valores de la clave */
 ```
 
-## Uso de fetch en peticiones API
+### ☂️ Motivos del cambio de la librería TypeAhead por AutoComplete
+
+Para el componente Autocomplete, he descartado la librería [**Typeahead**](https://github.com/twitter/typeahead.js) porque necesita de **jQuery** para su funcionamiento, y quería hacer un desarrollo libre de esta dependencia. En su sustitución, he utilizado la librería [**autoComplete**](https://github.com/TarekRaafat/autoComplete.js) que utiliza exclusivamente **Vanilla JS**.
+
+Dentro de la carpeta `vendor\autoComplete@10.2.7` está la versión descargada de la librería con sus posibles hojas de estilo y un fichero `pruebas.html` que utilizo como pruebas.
+
+
+## ⚙️ Uso de fetch en peticiones API
 
 AJAX correponde a la abreviatura de **Asynchronous JavaScript and XML**. AJAX es una técnica de desarrollo web que nos permite actualziar el contenido de una web sin recargar la página completa.
 El XML presente en el nombre se debe a aque inicialmente las transferencias de datos se hacían utilizaban este lenguaje de marcado. Hoy en día, este formato ha sido sustituído mayoritariamente por JSON.

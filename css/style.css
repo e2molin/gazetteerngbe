@@ -9,14 +9,14 @@
   --Nomen-blue-dark: #003c7f;
   --Nomen-green: #004713;
   --Nomen-orange: #ff6e43;
-
+  box-sizing: border-box;
+  margin:0;
+  padding: 0;
 }
 
 body {
-  margin:0;
-  padding: 0;
   background-color:#dbdbdb;
-  color: #000000;/*#5a5a5a;*/
+  color: #000000;
   font-size: 12px;
   font-family: 'Open Sans', sans-serif;
 }

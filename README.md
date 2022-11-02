@@ -7,7 +7,7 @@
   <img src="img/jumbotron.png">
 </div>
 
-Aplicación web para la consulta del NGBE. El Nomenclátor Geográfico Nacional se define como un registro dinámico de información que recoge las denominaciones oficiales referenciadas geográficamente que deben utilizarse en la cartografía oficial. [🌐 Web del Nomenclator en el IGN](https://www.ign.es/web/ign/portal/rcc-area-rcc)
+Aplicación web para la consulta del **NGBE**. El Nomenclátor Geográfico Nacional se define como un registro dinámico de información que recoge las denominaciones oficiales referenciadas geográficamente que deben utilizarse en la cartografía oficial. [🌐 Web del Nomenclator en el IGN](https://www.ign.es/web/ign/portal/rcc-area-rcc)
 
 ## 🔍 Opciones de búsqueda
 
@@ -102,5 +102,5 @@ Se ha incorporado un visualizador desarrollado con la APICNIG que permite ver lo
 * 🎨 Fontawesome 4.7 [🔗 Enlace](https://fontawesome.com/v4/icons/)
 * 🖼 Bootstrap 5.2 [🔗 Enlace](https://getbootstrap.com/docs/5.2/getting-started/introduction/)
 * 📽 Vídeo explicación fetch [🔗 Enlace](https://www.youtube.com/watch?v=FJ-w0tf3d_w)
-* 📽 Vídeo para gonfigurar Prettier y ESLint [🔗 Enlace](https://dev.to/mrluisfer/configurar-eslint-prettier-junto-con-vscode-3h00)
+* 📽 Vídeo para configurar Prettier y ESLint [🔗 Enlace](https://dev.to/mrluisfer/configurar-eslint-prettier-junto-con-vscode-3h00)
 

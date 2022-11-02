@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoComplete Vanilla JS</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.02.min.css">
+  <!--<link rel="stylesheet" href="vendor/autoComplete@10.2.7/css/autoComplete.02.css">--> <!-- Estilo standard -->
+  <style>
+    :root {
+      color: #111111;
+      font-family: 'Lato', sans-serif;
+      --transition-1: all 0.3s ease-in-out;
+      --transition-2: all 0.2s ease-in-out;
+      --colorToogle: #5e64d8;
+      /* --colorToogle: #ffc6c6; */
+    }
+
+    .toggle {
+  display: flex;
+  /* position: absolute; */
+  border: 1px solid var(--colorToogle);
+  height: 35px;
+  width: 120px;
+  border-radius: 50px;
+  justify-content: flex-start;
+  align-content: center;
+  transition: var(--transition-2);
+}
+
+.toggler {
+  display: grid;
+  cursor: pointer;
+  background-color: var(--colorToogle);
+  color: #fff;
+  height: 25px;
+  width: 60px;
+  border-radius: 50px;
+  margin: 5px;
+  text-align: center;
+  align-content: center;
+  align-self: flex-start;
+  transition: var(--transition-2);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.toggler:hover {
+  width: 65px;
+  background-color: var(--colorToogle);
+  opacity: 0.7;
+}
+
+.toggler::selection {
+  color: #fff;
+}
+
+  #autoComplete_list_1,
+  #autoComplete_list_2 > p{ 
+    color: #5e64d8;
+    font-size: 12px;
+  }
+
+  .autoComplete_wrapper>ul>li{
+    font-size: 12px;
+    padding: 5px 10px
+  }
+  .autoComplete_wrapper>ul>li mark {
+    color: #5e64d8;
+  }
+    
+  </style>
+</head>
+
+<body>
+
+    <input id="muniselect" type="search" dir="ltr" spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off">
+<br/>
+<br/>
+    <input id="mtnselect" type="search" dir="ltr" spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off">
+    <br/>
+    <br/>
+    <div class="toggle">
+      <div class="toggler">Strict</div>
+    </div>
+
+
+    <script src="vendor/autoComplete@10.2.7/autoComplete.min.js"></script>
+
+
+    <script>
+
+
+document.querySelector(".toggler").addEventListener("click", () => {
+  // Holds the toggle button selection/alignment
+  const toggle = document.querySelector(".toggle").style.justifyContent;
+
+  if (toggle === "flex-start" || toggle === "") {
+    // Set Search Engine mode to Loose
+    document.querySelector(".toggle").style.justifyContent = "flex-end";
+    document.querySelector(".toggler").innerHTML = "Loose";
+    autoCompleteJS.searchEngine = "loose";
+  } else {
+    // Set Search Engine mode to Strict
+    document.querySelector(".toggle").style.justifyContent = "flex-start";
+    document.querySelector(".toggler").innerHTML = "Strict";
+    autoCompleteJS.searchEngine = "strict";
+  }
+});
+
+        const configAutoCompleteMunis = {
+            selector: "#muniselect",
+            placeHolder: "Buscar municipio...",
+            data: {
+                //src: ["Café ☕️", "Tomate 🍅", "Hamburguesa 🍔", "Pizza 🍕", "Plátano 🍌", "Cerveza 🍺", "Ananas 🍍"], // Array String
+                // src: [
+                //     { "food": "Sauce - Thousand Island" },
+                //     { "food": "Wild Boar - Tenderloin" },
+                //     { "food": "Goat - Whole Cut" }
+                // ],  // Array Objects
+                // keys: ["food"], // Array Objects
+                src: async (query) => {
+                  try {
+                    // Fetch Data from external Source
+                    const source = await fetch(`http://10.13.90.93/apibadasidv4/public/autoridades/municipios`);
+                    // Data should be an array of `Objects` or `Strings`
+                    const data = await source.json();
+
+                    return data;
+                  } catch (error) {
+                    return error;
+                  }
+                },
+                cache: false,
+            },
+            searchEngine: "strict", // loose
+            diacritics: true, // True: unaccent search false: accent search
+            resultsList: {
+                          element: (list, data) => {
+                              const info = document.createElement("p");
+                              // if (!data.results.length) {
+                              //     // Create "No Results" message element
+                              //     const message = document.createElement("div");
+                              //     // Add class to the created element
+                              //     message.setAttribute("class", "no_result");
+                              //     // Add message text content
+                              //     message.innerHTML = `<span>No hay resultados para "${data.query}"</span>`;
+                              //     // Append message element to the results list
+                              //     list.prepend(message);
+                              // }
+                              if (data.results.length) {
+                                  info.innerHTML = `Displaying <strong>${data.results.length}</strong> out of <strong>${data.matches.length}</strong> results`;
+                              } else {
+                                  info.innerHTML = `Found <strong>${data.matches.length}</strong> matching results for <strong>"${data.query}"</strong>`;
+                              }
+                              list.prepend(info);
+                          },
+                          noResults: true,
+                          maxResults:15,
+                          tabSelect: true,
+            },            
+            resultItem: {
+              element: (item, data) => {
+                console.log(item);
+                  // Modify Results Item Style
+                  item.style = "display: flex; justify-content: space-between;";
+                  // Modify Results Item Content
+                  // item.innerHTML = `
+                  // <span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                  //   ${data.match}
+                  // </span>
+                  // <span style="display: flex; align-items: center; font-size: 13px; font-weight: 100; text-transform: uppercase; color: rgba(0,0,0,.2);">
+                  //    ${data.key}
+                  // </span>`;
+                  item.innerHTML = `
+                  <span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                    ${data.match}
+                  </span>`;
+                },              
+                highlight: true
+            },
+            events: {
+                input: {
+                    selection: (event) => {
+                        const selection = event.detail.selection.value;
+                        autoCompleteMunis.input.value = selection;
+                    }
+                }
+            }
+        }
+
+        const configAutoCompleteMTNs = {
+            selector: "#mtnselect",
+            placeHolder: "Buscar hoja MTN25...",
+            data: {
+                src: async (query) => {
+                  try {
+                    // Fetch Data from external Source
+                    const source = await fetch(`http://10.13.90.93/apibadasidv4/public/autoridades/hojamtn25`);
+                    // Data should be an array of `Objects` or `Strings`
+                    const data = await source.json();
+                    return data;
+                  } catch (error) {
+                    return error;
+                  }
+                },
+                cache: false,
+            },
+            searchEngine: "strict", // loose
+            diacritics: true, // True: unaccent search false: accent search
+            resultsList: {
+                          element: (list, data) => {
+                              const info = document.createElement("p");
+                              if (data.results.length) {
+                                  info.innerHTML = `Mostrando <strong>${data.results.length}</strong> de <strong>${data.matches.length}</strong> resultados`;
+                              } else {
+                                  info.innerHTML = `Found <strong>${data.matches.length}</strong> matching results for <strong>"${data.query}"</strong>`;
+                              }
+                              list.prepend(info);
+                          },
+                          noResults: true,
+                          maxResults:15,
+                          tabSelect: true,
+            },            
+            resultItem: {
+              element: (item, data) => {
+                console.log(item);
+                  item.style = "display: flex; justify-content: space-between;";
+                  item.innerHTML = `
+                  <span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                    ${data.match}
+                  </span>`;
+                },              
+                highlight: true
+            },
+            events: {
+                input: {
+                    selection: (event) => {
+                        const selection = event.detail.selection.value;
+                        autoCompleteMTNs.input.value = selection;
+                    }
+                }
+            }
+        }       
+
+        const autoCompleteMunis = new autoComplete(configAutoCompleteMunis);
+        const autoCompleteMTNs = new autoComplete(configAutoCompleteMTNs);
+
+        
+
+    </script>
+</body>
+
