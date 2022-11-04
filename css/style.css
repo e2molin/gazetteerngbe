@@ -1,5 +1,9 @@
+/* 
+  Aunque :root y html representan lo mismo, :root  tiene un nivel de especificidad mayor.
+  Por eso, un estilo especificado a nivel de :root prevalece sobre un html, aunque el html se defina
+  en el CSS después del root y por cascada debiera prevalecer el html
+*/
 :root{
-
   --IGN-blue-verydark: #364b5f;
   --IGN-blue-dark:#005b91;
   --IGN-blue-light: #4f728f;
@@ -9,6 +13,11 @@
   --Nomen-blue-dark: #003c7f;
   --Nomen-green: #004713;
   --Nomen-orange: #ff6e43;
+}
+/* 
+  Afecta a toos los elementos contenido en el html
+*/
+* {
   box-sizing: border-box;
   margin:0;
   padding: 0;
