@@ -5,6 +5,33 @@
 ![](img/css-cheatsheet.jpg)
 
 
+## Introduciendo Vite
+
+npm create vite@latest vanillajs-app --template vanilla
+
+```bash
+  cd vanillajs-app
+  npm install
+  npm run dev
+  
+  code .
+```
+
+Con esto ya gtemso un boilerplate de una app con vanilla-js
+
+Por organización del código, me gusta que cuelgue de dentro de la carpeta scr. Para ello muev o todo dentro y para decirle a Vite que trabaje dentro de esa carpeta hacemos unç
+
+
+export default {
+  root:'src',
+  build: {
+    outDir: '../dist'
+  }
+}
+
+
+
+
 ## ⚙️ Utilizando **localStorage** y prefetch
 
 Así obtenemos todas las claves almacenadas en `localStorage`

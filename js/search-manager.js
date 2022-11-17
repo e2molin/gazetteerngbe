@@ -1,46 +1,49 @@
-/**
- * 
- * @param {*} cadena 
- * @returns 
- */
-const isEmptyNullString = (cadena) => {
-  if (cadena === undefined || cadena === null) {
-    return true;
-  } else {
-    if (cadena === "") {
-      return true;
-    }
-  }
-  return false;
-};
+import {getClassIdioma, getClassEstatus, showModalMessage, isEmptyNullString, replaceAllOcurrences, fixNullValue} from "./helpers";
+import { mapAPICNIG, centrarVistaSobreToponimo } from './apicnigUtils';
+import {bboxSearchServer, ineSearchServer,municipioInfoByIdServer, urlBufferSearch,urlSearchHistoEntityById,nameSearchServer,urlDiscrepancias, appURLCanonical, urlSearchListById,mtn25SearchServer  } from './constants';
+import { tabulatorHisto, tabulatorResults, updateFilter } from "./tableresulsets";
+import { diccionarioNGBE } from "./datasets";
+
+
+var resultNGBE_lyr=null; // Capa para almacenar resultados de las búsquedas
+
 
 /**
- * 
- * @param {*} value 
- * @returns 
+ * Eventos relacionados con los resultados
  */
-const fixNullValue = (value) => {
-  return value === undefined || value === null
-    ? '<em>No definido <i class="fa fa-question-circle" aria-hidden="true"></i></em>'
-    : value;
-};
 
-const showModalMessage = (message, title) => {
+document.getElementById("clean-filter").addEventListener("click", (e) => {
+  cleanTabulatorResultsFilter();
+});
 
-  title = typeof title === "undefined" ? appTitle : title;
-  document.getElementById("modal-title").textContent = `${title}`;
-  document.getElementById("modal-message").textContent = `${message}`;
+document.getElementById("filter-value").addEventListener("keyup", updateFilter);
 
-  const myModal = new bootstrap.Modal(document.getElementById('myMsgModal'), {keyboard: false})
-  myModal.show();
+document.getElementById("download-csv").addEventListener("click", () => {
+  tabulatorResults.download("csv", "data.csv");
+});
 
-};
+document.getElementById("download-json").addEventListener("click", () => {
+  tabulatorResults.download("json", "data.json");
+});
+
+document.getElementById("download-html").addEventListener("click", () => {
+  tabulatorResults.download("html", "data.html", {style:true});
+});
+
+document.getElementById("zoom-mapResults").addEventListener("click", () => {
+  mapAPICNIG.setBbox(resultNGBE_lyr.getFeaturesExtent());
+});
+
+/**
+ * 🔍 PROCEDIMIENTOS DE BÚSQUEDA
+ */
+
 
 /**
  * Procedimiento para las búsquedas por hoja MTN25
  * @returns 
  */
-const searchByHojaMTN = () => {
+ export const searchByHojaMTN = () => {
 
     let userNumMTN = document.getElementById("mtnselect").value;
     let numMTN='';
@@ -95,7 +98,7 @@ const searchByHojaMTN = () => {
  * Procedimiento para las búsquedas por municipio
  * @returns 
  */
-const searchByMuni = (codigoINE = '') => {
+ export const searchByMuni = (codigoINE = '') => {
   
   let nameMuni = document.getElementById("muniselect").value;
   let codDictio = document.getElementById("codDictio").value;
@@ -140,7 +143,7 @@ const searchByMuni = (codigoINE = '') => {
  * Procedimiento para las búsquedas por nombre
  * @returns
  */
-const searchByName = () => {
+export const searchByName = () => {
 
   let nameEnti = document.getElementById("searchByNameparam").value;
   if (isEmptyNullString(nameEnti)) {
@@ -171,7 +174,11 @@ const searchByName = () => {
 
 };
 
-const searchByView = () => {
+/**
+ * Procedimiento de búsqueda espacial por BBOX
+ * @returns 
+ */
+export const searchByView = () => {
 
   const formatter = new M.format.WKT();
   const bboxMin = `POINT (${mapAPICNIG.getBbox().x.min} ${
@@ -229,7 +236,11 @@ const searchByView = () => {
 
 };
 
-const searchByBuffer = () => {
+/**
+ * Procedimiento de búsqueda espacial por entorno
+ * @returns 
+ */
+export const searchByBuffer = () => {
 
   let radioSearch = document.getElementById("searchByRadioparam").value;
   const formatter = new M.format.WKT();
@@ -262,8 +273,11 @@ const searchByBuffer = () => {
 
 };
 
-
-const searchById = () => {
+/**
+ * Procedimiento de búsqieda por identificador
+ * @returns 
+ */
+export const searchById = () => {
 
   let idEnti = parseInt(document.getElementById("searchByIdparam").value);
   if (idEnti === 0) {
@@ -294,57 +308,16 @@ const searchById = () => {
 
 };
 
+/**
+ * 📖 PROCEDIMIENTOS DE RENDERIZADO DE RESULTSETS
+ */
 
 /**
- * Helpers para poner bandera junto al idioma
- * Desactivado por problemas políticos. Siempre devuelve la cadena vacía (sin bandera)
- * @param {*} idioma 
+ * Tabulñación de resultados
+ * @param {*} resultsRequest 
  * @returns 
  */
-const getClassIdioma= (idioma)=>{
-    return "";
-    if (idioma === undefined || idioma === null) {
-        return "";
-    } else if (idioma === "gal") {
-        return `idioma_glg`;  
-    } else {
-      return `idioma_${idioma}`;
-    }
-
-}
-
-/**
- * Helper para colocar la simbología del estatus de la entidad
- * @param {*} estatus 
- * @returns 
- */
-const getClassEstatus= (estatus)=>{
-    
-    if (estatus === undefined || estatus === null) {
-        return "";
-    } else if (estatus === "Oficial") {
-        return `oficial`;  
-    } else if (estatus === "Normalizado") {
-        return `normalizado`; 
-    } else if (estatus === "No Normalizado") {
-        return `no-normalizado`; 
-    } else {
-      return "";
-    }
-
-}
-
-document.getElementById("develOne").addEventListener("click", () => {
-
-  console.log("Desarrollo");
-
-});
-
-
-
 const showResultsetList = (resultsRequest) => {
-
-
 
   if (resultsRequest.totalFeatures=== 0){
     document.getElementById("spinner_searchspatial").classList.add("d-none");
@@ -368,11 +341,6 @@ const showResultsetList = (resultsRequest) => {
       mapAPICNIG.removeLayers(lyr);
     }
   });
-
-
-  
-
-
   
   // Creo la nueva capa de resultados a partir de la informaicón recibida
   resultNGBE_lyr = new M.layer.GeoJSON({
@@ -449,6 +417,7 @@ const showResultsetList = (resultsRequest) => {
     });
   }
 
+  
   tabulatorResults.clearFilter();
   tabulatorResults.setData(tableData);
 
@@ -471,7 +440,13 @@ const showResultsetList = (resultsRequest) => {
 
 };
 
-const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
+/**
+ * Muestra en detalle de los atributos de un resultado
+ * @param {*} idEnti 
+ * @param {*} showBtnResults 
+ * @param {*} panningEntity 
+ */
+export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
     
     let attributeDisplay="";
     document.getElementById("spinner_searchEntityData").classList.remove("d-none");
@@ -611,7 +586,6 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                       <p class="propContent">${replaceAllOcurrences(fixNullValue(linksToMunis.join(', ')),',',', ')}</p>
                                       <h4 class="propTitle">Hoja MTN25</h4><span class="propContent">${itemSelected.properties.hojamtn_25}</span>`;
 
-              console.log(itemSelected.properties.codigo_ngbe.toString());
               let urlINSPIRE = diccionarioNGBE.filter(item => item.codigo_ngbe.toString() === itemSelected.properties.codigo_ngbe.toString())[0]?.name_inspire !== undefined ?
                               diccionarioNGBE.filter(item => item.codigo_ngbe.toString() === itemSelected.properties.codigo_ngbe.toString())[0]?.name_inspire :
                              "Clase INSPIRE no encontrada";
@@ -672,7 +646,7 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
 
 
     // Obtenemos discrepancias de la entidad
-    fetch(`${urlDiscrepancias}${idEnti}`)
+    fetch(`${urlDiscrepancias}${idEnti}`, { mode: 'no-cors'})
     .then(res => res.json())
     .then(response =>{
       let lstDiscrepancias = [];
@@ -741,66 +715,4 @@ const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
 
     document.getElementById("tabulatorEntityList").classList.add("d-none");
     document.getElementById("atributosEntity").classList.remove("d-none");
-
-}
-
-/**
- * Definición Eventos del UI
- */
-
- document.getElementById("searchByRadio").addEventListener("click", (e) => {
-  searchByBuffer();
-});
-
-document.getElementById("searchByView").addEventListener("click", (e) => {
-  searchByView();
-});
-
-document.getElementById("searchByMuni").addEventListener("click", (e) => {
-  searchByMuni();
-});
-
-document.getElementById("muniselect").addEventListener("keyup", (event) => {
-  document.getElementById("alertnoselmuni").classList.add("d-none");
-  if (event.target.value === ''){
-    document.getElementById("autoComplete_list_1").hidden = true;
   }
-  if (event.key === "Enter") {
-    searchByMuni();
-  }
-});
-
-document.getElementById("searchByHojaMTN").addEventListener("click", (e) => {
-  searchByHojaMTN();
-});
-
- document.getElementById("mtnselect").addEventListener("keyup", (event) => {
-  document.getElementById("alertnoselmtn").classList.add("d-none");
-  if (event.target.value === ''){
-    document.getElementById("autoComplete_list_2").hidden = true;
-  }  
-   if (event.key === "Enter") {
-    searchByHojaMTN();
-   }
- });
-
- document.getElementById("searchById").addEventListener("click", (e) => {
-  document.getElementById("alertnoselid").classList.add("d-none");
-   searchById();
-});
-
-document.getElementById("searchByName").addEventListener("click", (e) => {
-  searchByName();
-});
-document.getElementById("searchByNameparam").addEventListener("keyup", (event) => {
- document.getElementById("alertnoselname").classList.add("d-none");
- if (event.key === "Enter") {
-   searchByName();
- }
-});
-
-document.getElementById("clean-filter").addEventListener("click", (e) => {
-    cleanTabulatorResultsFilter();
-});
-
-
