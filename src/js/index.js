@@ -1,12 +1,12 @@
-import { isEmptyNullString, replaceAllOcurrences, getFloatNum } from "./helpers";
+import { isEmptyNullString } from "./helpers";
 import { cargarDiccionarioNGBE, cargarProvincias } from "./datasets";
 import { modoDeveloper, urlMunisSearcher, urlHojaMTNSearcher } from "./constants";
 import * as mapUtils from './apicnigUtils';
 import { searchByBuffer, searchById, searchByMuni, searchByName, searchByView, searchByHojaMTN } from './search-manager';
-import { launchTabulatorResults, launchTabulatorHisto, updateFilter, tabulatorResults, cleanTabulatorResultsFilter } from "./tableresulsets";
+import { launchTabulatorResults, launchTabulatorHisto } from "./tableresulsets";
 
 var mobileMode=false;
-var lstIndex=[]; // Almacena los índices de los elementos sobre los que se ha hecho clic sobre el mapa.
+
 
 /*----------------------------------------*/
 /*Botoneras ------------------------------*/

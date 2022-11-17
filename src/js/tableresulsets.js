@@ -50,7 +50,6 @@ export const updateFilter = () => {
   } else {
     document.getElementById("numResultsFilter").textContent = ``;
   }
-  console.log(tabulatorResults.getFilters());
 };
 
 

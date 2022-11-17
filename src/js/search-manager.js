@@ -1,12 +1,11 @@
 import {getClassIdioma, getClassEstatus, showModalMessage, isEmptyNullString, replaceAllOcurrences, fixNullValue} from "./helpers";
 import { mapAPICNIG, centrarVistaSobreToponimo } from './apicnigUtils';
 import {bboxSearchServer, ineSearchServer,municipioInfoByIdServer, urlBufferSearch,urlSearchHistoEntityById,nameSearchServer,urlDiscrepancias, appURLCanonical, urlSearchListById,mtn25SearchServer  } from './constants';
-import { tabulatorHisto, tabulatorResults, updateFilter } from "./tableresulsets";
+import { tabulatorHisto, tabulatorResults, updateFilter, cleanTabulatorResultsFilter } from "./tableresulsets";
 import { diccionarioNGBE } from "./datasets";
 
-
 var resultNGBE_lyr=null; // Capa para almacenar resultados de las búsquedas
-
+var lstIndex=[]; // Almacena los índices de los elementos sobre los que se ha hecho clic sobre el mapa.
 
 /**
  * Eventos relacionados con los resultados
@@ -646,7 +645,7 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
 
 
     // Obtenemos discrepancias de la entidad
-    fetch(`${urlDiscrepancias}${idEnti}`, { mode: 'no-cors'})
+    fetch(`${urlDiscrepancias}${idEnti}`)
     .then(res => res.json())
     .then(response =>{
       let lstDiscrepancias = [];

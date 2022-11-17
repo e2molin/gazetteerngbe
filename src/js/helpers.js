@@ -65,7 +65,7 @@ export const showModalMessage = (message, title) => {
  * @returns 
  */
  export const getClassIdioma= (idioma)=>{
-//  return "";
+  return "";
   if (idioma === undefined || idioma === null) {
       return "";
   } else if (idioma === "gal") {
