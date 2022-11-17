@@ -23,7 +23,7 @@ const cargarDiccionarioNGBE = () => {
         imagesDictionario.push(`<h4>${item.categoria1}</h4>`);
         headerDictio=item.categoria1;
       }
-      imagesDictionario.push(`<img class="" style="width:48px;" src="/img/icons/${item.codigo_ngbe}-master.png" title="${item.nombre_mostrado}">`)
+      imagesDictionario.push(`<img class="" style="width:48px;" src="/runtime/gazetteerngbe/img/icons/${item.codigo_ngbe}-master.png" title="${item.nombre_mostrado}">`)
 
     });
     document.getElementById('codDictio').innerHTML  = optionsDictionario.join('');
