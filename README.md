@@ -101,6 +101,7 @@ Se ha incorporado un visualizador desarrollado con la APICNIG que permite ver lo
 * 🕵️‍♂️ Buscador de APIs: [🔗 Enlace](https://rapidapi.com/)
 * 🎨 Fontawesome 4.7 [🔗 Enlace](https://fontawesome.com/v4/icons/)
 * 🖼 Bootstrap 5.2 [🔗 Enlace](https://getbootstrap.com/docs/5.2/getting-started/introduction/)
+* 🌐 APICNIG - Instituto Geográfico Nacional  [🔗 Enlace](https://plataforma.idee.es/cnig-api)
 * 📽 Vídeo explicación fetch [🔗 Enlace](https://www.youtube.com/watch?v=FJ-w0tf3d_w)
 * 📽 Vídeo para configurar Prettier y ESLint [🔗 Enlace](https://dev.to/mrluisfer/configurar-eslint-prettier-junto-con-vscode-3h00)
 

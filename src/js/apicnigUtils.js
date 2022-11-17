@@ -1,9 +1,18 @@
+import previewcallejero from '../img/previewcallejero.png';
+import previewrastermtn from '../img/previewrastermtn.png';
+import previewpnoa from '../img/previewpnoa.png';
+import previewpnoahibrido from '../img/previewpnoahibrido.png';
+import previewlidarhibrido from '../img/previewlidarhibrido.png';
+import previewmtntradicional from '../img/previewmtntradicional.png';
+import previewminutas from '../img/previewminutas.png';
+import previewmtn25old from '../img/previewmtn25old.png';
+import previewmtn50old from '../img/previewmtn50old.png';
+import previewplanimetrias from '../img/previewplanimetrias.png';
+
 /**
  * Aquí definimos la parte del componente Mapa
  * @returns 
  */
-
-
 export var mapAPICNIG = null;
 
 export const centrarVistaSobreToponimo = (longitud,latitud,zoomLevel)=>{
@@ -141,67 +150,67 @@ const getConfiguredBaseLayersPlugin = () => {
       {
         id: 'MAPAMTN',
         title: 'Mapa MTN',
-        preview: 'img/previewrastermtn.png',
+        preview: previewrastermtn,
         layers: [objWMTSMapa],
       },
 
       {
         id: 'mapa',
-        preview: 'img/previewcallejero.png',
+        preview: previewcallejero,
         title: 'Mapa base',
         layers: [objTMSIGNBase],
       },
       {
         id: 'imagen',
         title: 'PNOA',
-        preview: 'img/previewpnoa.png',
+        preview: previewpnoa,
         layers: [objTMSPNOA],
       },
       {
         id: 'hibrido',
         title: 'PNOA Híbrido',
-        preview: 'img/previewpnoahibrido.png',
+        preview: previewpnoahibrido,
         layers: [objTMSPNOA,objTMSIGNBaseSoloTextos],
       },
       // LiDAR Híbrido
       {
         id: 'lidar-hibrido',
         title: 'LiDAR Híbrido',
-        preview:  'img/previewlidarhibrido.png',
+        preview:  previewlidarhibrido,
         layers: [objWMTSLidar,objTMSIGNBaseSoloTextos],
       },
       // LiDAR Híbrido
       {
           id: 'mtntradicional',
           title: 'MTN Tradicional',
-          preview:  'img/previewmtntradicional.png',
+          preview:  previewmtntradicional,
           layers: [objWMSMTNTradicional],
       },
       //  MTN25 1Edi
       {
         id: 'MTN251Edi',
-        preview: 'img/previewmtn25old.png',
+        preview: previewmtn25old,
         title: 'MTN25 1Edi',
         layers: [objWMTSMTN251Edi],
       },
       //  MTN50 1Edi
       {
         id: 'MTN501Edi',
-        preview: 'img/previewmtn50old.png',
+        preview: previewmtn50old,
         title: 'MTN50 1Edi',
         layers: [objWMTSMTN501Edi],
       },
       //  Minutas
       {
           id: 'minutasmtn',
-          preview: 'img/previewminutas.png',
+          preview: previewminutas,
           title: 'Minutas MTN',
           layers: [objWMTSMTNMinutas],
       },
       //  Planimetrías
       {
           id: 'planimetrias',
-          preview: 'img/previewplanimetrias.png',
+          preview: previewplanimetrias,
           title: 'Planimetrías',
           layers: [objWMSPlanimetrias],
       },

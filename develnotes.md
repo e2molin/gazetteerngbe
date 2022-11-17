@@ -2,7 +2,7 @@
 
 ## 🎨 Apuntes de CSS
 
-![](img/css-cheatsheet.jpg)
+![](assets/css-cheatsheet.jpg)
 
 
 ## Introduciendo Vite
