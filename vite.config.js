@@ -4,4 +4,5 @@ export default {
     outDir: '../dist',
   },
   publicDir: '../public',
+  base:'/runtime/gazetteerngbe/', // Por defecto es /
 }
