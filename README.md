@@ -4,7 +4,7 @@
 
 
 <div class="img-content" style="display:flex; justify-content: center;">
-  <img src="img/jumbotron.png">
+  <img src="src/img/jumbotron.png">
 </div>
 
 Aplicación web para la consulta del **NGBE**. El Nomenclátor Geográfico Nacional se define como un registro dinámico de información que recoge las denominaciones oficiales referenciadas geográficamente que deben utilizarse en la cartografía oficial. [🌐 Web del Nomenclator en el IGN](https://www.ign.es/web/ign/portal/rcc-area-rcc)
@@ -33,7 +33,7 @@ El resultado de una consulta se muestra de manera textual en una tabla que permi
 Desde la tabla de resultados podemos hacer zoom a un topónimo en particular o ver su **ficha de detalle**. El resultado de la consulyta puede exportarse en varios formatos. Desde el mapa, al pinchar sobre el icono de un topónimo veremos su **ficha de detalle**, y si se trata de un cluster de topónimos,la tabla de resultados mostrará únicamente los topónimos en esa posición. Con el botón de eliminar filtro, volveremos a ver todos los resultados.
 
 <div class="img-content" style="display:flex; justify-content: center;">
-  <img src="img/help_resultado.jpg">
+  <img src="assets/help_resultado.jpg">
 </div>
 
 ## 🎨 Ficha de detalle
@@ -51,7 +51,7 @@ Cuando accedemos a la ficha de detalle de un topónimos, el mapa se centrará so
 
 
 <div class="img-content" style="display:flex; justify-content: center;">
-  <img src="img/help_detail.jpg">
+  <img src="assets/help_detail.jpg">
 </div>
 
 Las discrepancias se muestran mediante una ficha donde podemos encontrar:
@@ -70,7 +70,7 @@ Las discrepancias se muestran mediante una ficha donde podemos encontrar:
   * Estudio
 
 <div class="img-content" style="display:flex; justify-content: center;">
-  <img src="img/helper_descrepancia.jpg">
+  <img src="assets/helper_descrepancia.jpg">
 </div>
 
 ## Visualizador
@@ -88,7 +88,7 @@ Se ha incorporado un visualizador desarrollado con la APICNIG que permite ver lo
 
 
 <div class="img-content" style="display:flex; justify-content: center;">
-  <img src="img/help_mapas-fondo.jpg">
+  <img src="assets/help_mapas-fondo.jpg">
 </div>
 
 
