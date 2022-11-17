@@ -5,32 +5,32 @@
 ![](assets/css-cheatsheet.jpg)
 
 
-## Introduciendo Vite
+## ⚡️ Introduciendo Vite
 
-npm create vite@latest vanillajs-app --template vanilla
+[**Vite**](https://vitejs.dev/config/) es un programa de generación de proyectos de frontend. Existen aplicaciones como create-react-app o create-vue-app que hacen los mismo sobre webpack. El problema de Webpack es que tiene una curva de aprendizaje muy alta, y para proyectos grandes ralentiza mucho el trabajop. Vite no utiliza Webpack, sino esBiuild, que está escrito en Go. Además de templates para React o Vue, también los ofrece para Svelte o incluiso para Vanilla-JS a secas, como es este proyecto. Para empezar:
 
 ```bash
-  cd vanillajs-app
-  npm install
-  npm run dev
+npm create vite@latest vanillajs-app --template vanilla
+
+cd vanillajs-app
+npm install # Instalamos dependencias
+npm run dev
   
-  code .
+code .  # Nos abre VsCode en la carpeta
 ```
 
-Con esto ya gtemso un boilerplate de una app con vanilla-js
+Sólo con esto ya tenemos un *boilerplate* de una app con vanilla-js. Sin embargo, a mí me gusta cambiar ligeramente la estructura de carpetas; por ejemplo, todo el código fuente lo quiero colgando de `src`, quiero una carpeta `public` para las imágenes y recursos que no se instancian desde Javascript pero las quiero disponibles en la carpeta de distribución, o que la URL de salida no sea el root de la URL sino una carpeta. Todo ello puede configurarse atravñes del archivo `vite.config.js`:
 
-Por organización del código, me gusta que cuelgue de dentro de la carpeta scr. Para ello muev o todo dentro y para decirle a Vite que trabaje dentro de esa carpeta hacemos unç
-
-
+```javascript
 export default {
-  root:'src',
+  root: 'src', // Carpeta de donde cuelga el código fuente y que Vite lanza en modo desarrollo
   build: {
-    outDir: '../dist'
-  }
+    outDir: '../dist',  // Donde se compila, relativa con respecto al source code
+  },
+  publicDir: '../public', // Donde se introducen recursos no compilables ni hasheables
+  base: '/runtime/gazetteerngbe/', // Carpeta relativa del servidor de producción. Por defecto es / (slash)
 }
-
-
-
+```
 
 ## ⚙️ Utilizando **localStorage** y prefetch
 
