@@ -1,13 +1,10 @@
 # 💻 Apuntes de desarrollo
 
-## 🎨 Apuntes de CSS
-
-![](assets/css-cheatsheet.jpg)
-
-
 ## ⚡️ Introduciendo Vite
 
-[**Vite**](https://vitejs.dev/config/) es un programa de generación de proyectos de frontend. Existen aplicaciones como create-react-app o create-vue-app que hacen los mismo sobre webpack. El problema de Webpack es que tiene una curva de aprendizaje muy alta, y para proyectos grandes ralentiza mucho el trabajop. Vite no utiliza Webpack, sino esBiuild, que está escrito en Go. Además de templates para React o Vue, también los ofrece para Svelte o incluiso para Vanilla-JS a secas, como es este proyecto. Para empezar:
+[**Vite**](https://vitejs.dev/config/) es un programa de generación de proyectos de frontend. Existen aplicaciones como **create-react-app** o **create-vue-app** que hacen los mismo sobre Webpack. El problema de Webpack es que tiene una curva de aprendizaje muy alta, y para proyectos grandes ralentiza mucho el trabajo. Vite no utiliza como empaquetador - *javascript bundle* - **Webpack**, sino **esBuild**. 
+
+**esbuild** está escrito en Go. Además de templates para React o Vue, también los ofrece para Svelte o incluso para Vanilla-JS a secas, como es este proyecto. Para empezar:
 
 ```bash
 npm create vite@latest vanillajs-app --template vanilla
@@ -31,6 +28,49 @@ export default {
   base: '/runtime/gazetteerngbe/', // Carpeta relativa del servidor de producción. Por defecto es / (slash)
 }
 ```
+
+## ⚙️ Apuntes de Javascript
+
+### Trabajando con módulos
+
+* Un *export default* por módulo
+  * Los import de una función export default non necesitan el nombre entre *curly brackets* `{…}`.
+* Todos los *export* que se quieran
+  * Los import de modulos con funciones export llevan nombres de las funciones entre *curly brackets*.
+* Para importar todas las funciones de un mósulo, usar un alias
+
+```javascript
+// Opción 1
+export const foo1 = () =>{};
+export const foo2 = () =>{};
+
+// Opción 2
+const foo1 = () =>{};
+const foo2 = () =>{};
+export {foo1, foo2};
+
+// Opción 3
+const foo1 = () =>{};
+const foo2 = () =>{};
+const recursos = {
+  foo1,
+  foo2,
+}
+export default recursos;
+
+
+import { cargarDiccionarioNGBE, cargarProvincias } from "./datasets"; // Estas funciones están definidas como export
+import foo from ".module"; // La función foo está definida como export default
+import * as mapUtils from './apicnigUtils'; // usamos las funciones así: mapUtils.map mapUtils.centrarToponimo()
+```
+
+
+
+## 🎨 Apuntes de CSS
+
+![](assets/css-cheatsheet.jpg)
+
+
 
 ## ⚙️ Utilizando **localStorage** y prefetch
 
@@ -124,7 +164,7 @@ fetch(urlRequest,options)
   });
 ```
 
-Esto que vemos aquí es una petición GET, pero podemos mandar una petción POST
+Esto que vemos aquí es una petición GET, pero podemos mandar una petición POST
 
 ```javascript
 // Los datos que queremos enviar
@@ -151,3 +191,14 @@ fetch(url, options)
     });
 ```
 
+# Fuentes
+
+https://www.youtube.com/watch?v=J_ZmtP9xNg8
+
+Consulta para sacar la relación NGMEP-NGBE
+
+select entidadesngmep.* 
+from ngbe_elaboracion.entidadesngmep 
+where entidadesngmep.identidad in (select regexp_split_to_table(identidad_ngmep,',')::integer from ngbe_elaboracion.ngmep_to_ngbe WHERE id_ngbe='2707911');
+
+https://www.youtube.com/watch?v=J_ZmtP9xNg8

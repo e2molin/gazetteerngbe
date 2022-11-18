@@ -213,6 +213,16 @@ main > section{
   text-transform: uppercase;   
 }
 
+.propNameTitle{
+  color: #176d9b;
+  font-size: 0.8rem;
+  font-weight: 800;
+  line-height: normal;
+  margin-top: 10px;
+}
+
+
+
 .propSubContent{
   color: #6c6c6c;
   font-size: 1rem;
@@ -223,6 +233,13 @@ main > section{
 .propContent {
   color: #6c6c6c;
   font-size: 14px;
+  line-height: normal;
+  /*margin-top: 15px;*/
+}
+
+.propContentName {
+  color: #6c6c6c;
+  font-size: 0.7rem;
   line-height: normal;
   /*margin-top: 15px;*/
 }

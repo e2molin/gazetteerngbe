@@ -1,6 +1,6 @@
-import {getClassIdioma, getClassEstatus, showModalMessage, isEmptyNullString, replaceAllOcurrences, fixNullValue} from "./helpers";
+import { getClassIdioma, getClassEstatus, showModalMessage, isEmptyNullString, replaceAllOcurrences, fixNullValue } from './helpers';
 import { mapAPICNIG, centrarVistaSobreToponimo } from './apicnigUtils';
-import {bboxSearchServer, ineSearchServer,municipioInfoByIdServer, urlBufferSearch,urlSearchHistoEntityById,nameSearchServer,urlDiscrepancias, appURLCanonical, urlSearchListById,mtn25SearchServer  } from './constants';
+import { bboxSearchServer, ineSearchServer,municipioInfoByIdServer, urlBufferSearch,urlSearchHistoEntityById,nameSearchServer,urlDiscrepancias, appURLCanonical, urlSearchListById,mtn25SearchServer  } from './constants';
 import { tabulatorHisto, tabulatorResults, updateFilter, cleanTabulatorResultsFilter } from "./tableresulsets";
 import { diccionarioNGBE } from "./datasets";
 
@@ -490,7 +490,9 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
 
               document.getElementById('numNombres').textContent = evalNumNombres;
 
-              let generalAttribTemplate  = `<h4 class="propTitle">General</h4>
+              let generalAttribTemplate  = [];
+              generalAttribTemplate.push(`
+                                      <h4 class="propTitle">General</h4>
                                       <ul>
                                       <li class="propContent">Identidad nº: <span class="pull-right">${itemSelected.properties.id}</span></li>
                                       <li class="propContent">Clasificación: <span class="pull-right">${itemSelected.properties.codigo_ngbe_text}</span></li>
@@ -499,73 +501,124 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                         Permalink: <span class="pull-right"><a href="${appURLCanonical}?identidad=${itemSelected.properties.id}" target="_blank">Enlace externo <i class="fa fa-external-link" aria-hidden="true"></i></a></span>
                                       </li>
                                       </ul>
-                                      <h4 class="propTitle">Identificador geográfico</h4>
+                                      <h4 class="propNameTitle">Identificador geográfico</h4>
                                       <ul>
-                                      <li class="propContent">Denominación: <span class="pull-right">${itemSelected.properties.identificador_geografico}</span></li>
-                                      <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_idg)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_idg)}</span></li>
-                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_idg)}</span></li>
-                                      <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
+                                      <li class="propContentName">Denominación: <span class="pull-right">${itemSelected.properties.identificador_geografico}</span></li>
+                                      <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_idg)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_idg)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_idg)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
+                                      </ul>`);
+
+                if (!isEmptyNullString(itemSelected.properties.nombre_extendido)) { generalAttribTemplate.push(`<h4 class="propNameTitle">Nombre extendido</h4>
+                                      <ul>
+                                      <li class="propContentName">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_extendido)}</span></li>
+                                      <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_extendido)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_extendido)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
+                                      </ul>`);}
+
+                if (!isEmptyNullString(itemSelected.properties.nombre_alternativo_2)) { generalAttribTemplate.push(`<h4 class="propNameTitle">Nombre alternativo 2</h4>
+                                      <ul>
+                                      <li class="propContentName">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_alternativo_2)}</span></li>
+                                      <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_alternativo_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_alternativo_2)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_alternativo_2)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_alternativo_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_alternativo_2)}</span></li>
+                                      </ul>`);}
+                
+                if (!isEmptyNullString(itemSelected.properties.nombre_alternativo_3)) { generalAttribTemplate.push(`<h4 class="propNameTitle">Nombre alternativo 3</h4>
+                                      <ul>
+                                      <li class="propContentName">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_alternativo_3)}</span></li>
+                                      <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_alternativo_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_alternativo_3)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_alternativo_3)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_alternativo_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_alternativo_3)}</span></li>
+                                      </ul>`)};
+
+                if (!isEmptyNullString(itemSelected.properties.nombre_variante_1)) { generalAttribTemplate.push(`<h4 class="propNameTitle">Nombre variante 1</h4>
+                                      <ul>
+                                      <li class="propContentName">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_1)}</span></li>
+                                      <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_1)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_1)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_1)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_1)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_1)}</span></li>
+                                      </ul>`);}
+
+                if (!isEmptyNullString(itemSelected.properties.nombre_variante_2)) { generalAttribTemplate.push(`<h4 class="propNameTitle">Nombre variante 2</h4>
+                                      <ul>
+                                      <li class="propContentName">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_2)}</span></li>
+                                      <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_2)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_2)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_2)}</span></li>
+                                      </ul>`);}
+                if (!isEmptyNullString(itemSelected.properties.nombre_variante_3)) { generalAttribTemplate.push(`<h4 class="propNameTitle">Nombre variante 3</h4>
+                                      <ul>
+                                      <li class="propContentName">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_3)}</span></li>
+                                      <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_3)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_3)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_3)}</span></li>
+                                      </ul>`)};                                                                 
+
+                let namingAttribTemplate  = `
+                                      <h4 class="propNameTitle">Identificador geográfico</h4>
+                                      <ul>
+                                      <li class="propContentName">Denominación: <span class="pull-right">${itemSelected.properties.identificador_geografico}</span></li>
+                                      <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_idg)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_idg)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_idg)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
                                       </ul>
-                                      <h4 class="propSubTitle">Nombre extendido</h4>
+                                      <h4 class="propNameTitle">Nombre extendido</h4>
                                       <ul>
-                                      <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_extendido)}</span></li>
-                                      <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_extendido)}</span></li>
-                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_extendido)}</span></li>
-                                      <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
+                                      <li class="propContentName">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_extendido)}</span></li>
+                                      <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_extendido)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_extendido)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
                                       </ul>
 
-                                      <h4 class="propSubTitle">Nombre alternativo 2</h4>
+                                      <h4 class="propNameTitle">Nombre alternativo 2</h4>
                                       <ul>
-                                      <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_alternativo_2)}</span></li>
-                                      <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_alternativo_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_alternativo_2)}</span></li>
-                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_alternativo_2)}</span></li>
-                                      <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_alternativo_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_alternativo_2)}</span></li>
+                                      <li class="propContentName">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_alternativo_2)}</span></li>
+                                      <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_alternativo_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_alternativo_2)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_alternativo_2)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_alternativo_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_alternativo_2)}</span></li>
+                                      </ul>
+                                      <h4 class="propNameTitle">Nombre alternativo 3</h4>
+                                      <ul>
+                                      <li class="propContentName">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_alternativo_3)}</span></li>
+                                      <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_alternativo_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_alternativo_3)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_alternativo_3)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_alternativo_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_alternativo_3)}</span></li>
+                                      </ul>
+                                      <h4 class="propNameTitle">Nombre variante 1</h4>
+                                      <ul>
+                                      <li class="propContentName">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_1)}</span></li>
+                                      <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_1)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_1)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_1)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_1)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_1)}</span></li>
+                                      </ul>
+                                      <h4 class="propNameTitle">Nombre variante 2</h4>
+                                      <ul>
+                                      <li class="propContentName">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_2)}</span></li>
+                                      <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_2)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_2)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_2)}</span></li>
                                       </ul>
 
-                                      <h4 class="propSubTitle">Nombre variante 1</h4>
+                                      <h4 class="propNameTitle">Nombre variante 3</h4>
                                       <ul>
-                                      <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_1)}</span></li>
-                                      <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_1)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_1)}</span></li>
-                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_1)}</span></li>
-                                      <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_1)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_1)}</span></li>
-                                      </ul>`;
-
-
-              let namingAttribTemplate  = `<h4 class="propSubTitle">Nombre alternativo 3</h4>
-                                      <ul>
-                                      <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_alternativo_3)}</span></li>
-                                      <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_alternativo_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_alternativo_3)}</span></li>
-                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_alternativo_3)}</span></li>
-                                      <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_alternativo_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_alternativo_3)}</span></li>
+                                      <li class="propContentName">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_3)}</span></li>
+                                      <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_3)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_3)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_3)}</span></li>
                                       </ul>
 
-
-                                      <h4 class="propSubTitle">Nombre variante 2</h4>
+                                      <h4 class="propNameTitle">Otras denominaciones</h4>
                                       <ul>
-                                      <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_2)}</span></li>
-                                      <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_2)}</span></li>
-                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_2)}</span></li>
-                                      <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_2)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_2)}</span></li>
-                                      </ul>
-
-                                      <h4 class="propSubTitle">Nombre variante 3</h4>
-                                      <ul>
-                                      <li class="propContent">Denominación: <span class="pull-right">${fixNullValue(itemSelected.properties.nombre_variante_3)}</span></li>
-                                      <li class="propContent">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_variante_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_variante_3)}</span></li>
-                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_variante_3)}</span></li>
-                                      <li class="propContent">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_variante_3)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_variante_3)}</span></li>
-                                      </ul>
-
-                                      <h4 class="propSubTitle">Otras denominaciones</h4>
-                                      <ul>
-                                      <li class="propContent">Nombre recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.ig_recomendado)}</span></li>
-                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_ig_recomendada)}</span></li>
-                                      <li class="propContent">Alternativo recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.alternativo_recomendado)}</span></li>
-                                      <li class="propContent">Otras denominaciones: <span class="pull-right">${fixNullValue(itemSelected.properties.otras_denominaciones)}</span></li>
-                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_otras_denominaciones)}</span></li>
-                                      <li class="propContent">No recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.forma_no_recomendada)}</span></li>
-                                      <li class="propContent">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_fnr)}</span></li>
-                                      <li class="propContent">Forma errónea: <span class="pull-right">${fixNullValue(itemSelected.properties.forma_erronea)}</span></li>
+                                      <li class="propContentName">Nombre recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.ig_recomendado)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_ig_recomendada)}</span></li>
+                                      <li class="propContentName">Alternativo recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.alternativo_recomendado)}</span></li>
+                                      <li class="propContentName">Otras denominaciones: <span class="pull-right">${fixNullValue(itemSelected.properties.otras_denominaciones)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_otras_denominaciones)}</span></li>
+                                      <li class="propContentName">No recomendado: <span class="pull-right">${fixNullValue(itemSelected.properties.forma_no_recomendada)}</span></li>
+                                      <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_fnr)}</span></li>
+                                      <li class="propContentName">Forma errónea: <span class="pull-right">${fixNullValue(itemSelected.properties.forma_erronea)}</span></li>
                                       </ul>`;
 
               let codesINE=itemSelected.properties.codigo_ine;
@@ -607,7 +660,7 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                   </div>`;
               
               let generalAttribContainer = document.getElementById('general-tab-pane');
-              generalAttribContainer.innerHTML = generalAttribTemplate;
+              generalAttribContainer.innerHTML = generalAttribTemplate.join('');
               let namingAttribContainer = document.getElementById('naming-tab-pane');
               namingAttribContainer.innerHTML = namingAttribTemplate;
               let locationAttribContainer = document.getElementById('locate-tab-pane');
