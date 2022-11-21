@@ -183,9 +183,6 @@ main > section{
   width:48px;
 }
 
-
-
-
 .dictioTitleSecond{
   /*position: relative;
   top: -100px; 
@@ -351,7 +348,11 @@ img.envio_navarra_parte1_comp {
   margin-left:5px; 
 }
 
+/**/
 
+.nav-entity button{
+  padding: 0.5rem 0.1rem;
+}
 
 
 /*-------------------------*/

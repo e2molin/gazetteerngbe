@@ -1,6 +1,6 @@
 import { getClassIdioma, getClassEstatus, showModalMessage, isEmptyNullString, replaceAllOcurrences, fixNullValue } from './helpers';
 import { mapAPICNIG, centrarVistaSobreToponimo } from './apicnigUtils';
-import { bboxSearchServer, ineSearchServer,municipioInfoByIdServer, urlBufferSearch,urlSearchHistoEntityById,nameSearchServer,urlDiscrepancias, appURLCanonical, urlSearchListById,mtn25SearchServer  } from './constants';
+import { bboxSearchServer, ineSearchServer,municipioInfoByIdServer, urlBufferSearch,urlSearchHistoEntityById,nameSearchServer,urlDiscrepancias, appURLCanonical, urlSearchListById,mtn25SearchServer,urlSearchEntityNGMEPById  } from './constants';
 import { tabulatorHisto, tabulatorResults, updateFilter, cleanTabulatorResultsFilter } from "./tableresulsets";
 import { diccionarioNGBE } from "./datasets";
 
@@ -449,6 +449,7 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
     
     let attributeDisplay="";
     document.getElementById("spinner_searchEntityData").classList.remove("d-none");
+
     //Tratamiento de parámetros opcionales
     panningEntity = (typeof panningEntity === 'undefined') ? false : panningEntity;
     
@@ -683,12 +684,13 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
         console.log(err);
     });
 
+    
+
 
 
     fetch(`${urlSearchHistoEntityById}${idEnti}`)
     .then(res => res.json())
     .then(response =>{
-      console.log(response)
       document.getElementById('numRegHisto').textContent = response.data.length;
       tabulatorHisto.setData(response.data);
     })
@@ -763,6 +765,49 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
     })
     .catch((err)=>{
         console.log(err);
+    });
+
+    
+    fetch(`${urlSearchEntityNGMEPById}${idEnti}`)
+    .then(res => res.json())
+    .then(response =>{
+      
+      let lstNGMEPEntities = [];
+      response.features.forEach((element) => {
+        lstNGMEPEntities.push(`<div class="col-md-12 mb-2">
+                        <div class="card shadow-0 border rounded-3">
+                          <div class="card-body">
+                            <div class="row">
+                                <h6><i class="fa fa-book" aria-hidden="true"></i> ${element.properties.nombre} <span class="text-muted" style="font-size:10px;">IdNGMEP: ${element.properties.identidad_ngmep}</span></h6>
+                                <div class="col-md-6">
+                                    <ul>
+                                      <li class="text-dark"><i class="fa fa-users" aria-hidden="true" title="Población"></i> Población ${element.properties.poblacion} hab.</li>
+                                      <li class="text-dark"><i class="fa fa-circle-o" aria-hidden="true" title="Perímetro"></i> Perímetro ${element.properties.perimetro} <abbr>m.</abbr></li>
+                                      <li class="text-dark"><i class="fa fa-circle" aria-hidden="true" title="Superficie"></i> Superficie ${element.properties.superficie} <abbr>km<sup>2</sup></abbr></li>
+                                      <li class="text-dark"><i class="fa fa-balance-scale" aria-hidden="true" title="REL nº"></i> REL nº: ${element.properties.idrel}</li>
+                                      <li class="text-dark"><i class="fa fa-balance-scale" aria-hidden="true" title="Código INE"></i> Código INE ${element.properties.codigoine}</li>
+                                      <li class="text-dark"><i class="fa fa-balance-scale" aria-hidden="true" title="Código Geográfico"></i> CodGEO: ${element.properties.codgeo}</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                  <ul>
+                                    <li class="text-dark"><i class="fa fa-calendar" aria-hidden="true" title="Usuario"></i> Alta: ${element.properties.fecha_alta}</li>
+                                    <li class="text-dark"><i class="fa fa-map-marker" aria-hidden="true" title="Altitud"></i> Longitud ${element.properties.lon} <span class="text-muted" style="font-size:10px;">${element.properties.origen_coo}</span></li>
+                                    <li class="text-dark"><i class="fa fa-map-marker" aria-hidden="true" title="Altitud"></i> Latitud ${element.properties.lat} <span class="text-muted" style="font-size:10px;">${element.properties.origen_coo}</span></li>
+                                    <li class="text-dark"><i class="fa fa-map-signs" aria-hidden="true" title="Altitud"></i> Altitud ${element.properties.altura} m. <span class="text-muted" style="font-size:10px;">${element.properties.origen_alt}</span></li>
+                                    <li class="text-dark"><i class="fa fa-tag" aria-hidden="true" title="Suprimida"></i> Suprimida ${element.properties.suprimida===0 ? "No" : "Sí"} </li>
+                                    <li class="text-dark"><i class="fa fa-tag" aria-hidden="true" title="Discrepante"></i> Discrepante ${element.properties.discrepante===0 ? "No" : "Sí"} </li>
+                                  </ul>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>`);
+      });
+      document.getElementById('ngmep-tab-pane').innerHTML  = lstNGMEPEntities.join('');//response.data.length;
+    })
+    .catch((err)=>{
+      console.log(err);
     });
 
     document.getElementById("tabulatorEntityList").classList.add("d-none");

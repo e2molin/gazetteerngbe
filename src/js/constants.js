@@ -20,6 +20,7 @@ export const urlSearchListById = `${domainRoot}public/nomenclator/json/listngbe/
 export const urlSearchHistoEntityById = `${domainRoot}public/nomenclator/json/entityngbehisto/id/`;   // http://localhost/apibadasidv4/public/nomenclator/json/entityngbehisto/id/
 export const urlBufferSearch = `${domainRoot}public/nomenclator/json/listngbe/buffer?`;               // http://localhost/apibadasidv4/public/nomenclator/json/listngbe/buffer?
 export const urlDiscrepancias = `${domainRoot}public/nomenclator/json/entityngbediscrepancias/id/`;   // http://localhost/apibadasidv4/public/nomenclator/json/entityngbediscrepancias/id/
+export const urlSearchEntityNGMEPById = `${domainRoot}public/nomenclator/json/entityngmep/idngbe/`;   // http://localhost/apibadasidv4/public/nomenclator/json/entityngmep/idngbe/2810055
 
 export const appTitle= "Gazetteer NGBE";
 export const appURLCanonical = "http://sapignmad200.ign.fomento.es/runtime/gazetteerngbe/index.html"
