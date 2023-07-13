@@ -507,7 +507,7 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                       <li class="propContentName">Denominación: <span class="pull-right">${itemSelected.properties.identificador_geografico}</span></li>
                                       <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_idg)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_idg)}</span></li>
                                       <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_idg)}</span></li>
-                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_idg)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_idg)}</span></li>
                                       </ul>`);
 
                 if (!isEmptyNullString(itemSelected.properties.nombre_extendido)) { generalAttribTemplate.push(`<h4 class="propNameTitle">Nombre extendido</h4>
@@ -563,7 +563,7 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                       <li class="propContentName">Denominación: <span class="pull-right">${itemSelected.properties.identificador_geografico}</span></li>
                                       <li class="propContentName">Idioma: <img class="pull-right ${getClassIdioma(itemSelected.properties.idioma_idg)}"><span class="pull-right">${fixNullValue(itemSelected.properties.idioma_idg)}</span></li>
                                       <li class="propContentName">Fuente: <span class="pull-right">${fixNullValue(itemSelected.properties.fuente_idg)}</span></li>
-                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_extendido)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_extendido)}</span></li>
+                                      <li class="propContentName">Estatus: <img class="pull-right ${getClassEstatus(itemSelected.properties.estatus_idg)}"><span class="pull-right">${fixNullValue(itemSelected.properties.estatus_idg)}</span></li>
                                       </ul>
                                       <h4 class="propNameTitle">Nombre extendido</h4>
                                       <ul>
@@ -736,7 +736,10 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                         <div class="card shadow-0 border rounded-3">
                           <div class="card-body">
                             <div class="row">
-                                <h6><i class="fa fa-tag" aria-hidden="true"></i> ${element.varfield} <img class="${element.nombretabla}"> <span class="text-muted" style="font-size:10px;">${element.nombretabla}</span></h6>
+                                <h6>
+                                  <i class="fa fa-tag" aria-hidden="true"></i> ${element.varfield} 
+                                  <img class="${element.nombretabla}"> <span class="text-muted" style="font-size:10px;">${element.nombretabla}</span>
+                                </h6>
                                 <div class="col-md-8">
                                     <ul>
                                       <li class="text-dark"><i class="fa fa-database" aria-hidden="true" title="Consolidado"></i> ${element.oldvalue.split("#")[0]}</li>

@@ -8,7 +8,7 @@
   "security.workspace.trust.untrustedFiles": "open",
   "terminal.integrated.fontFamily": "monospace",
   "liveServer.settings.donotVerifyTags": true,
-  "window.zoomLevel": -1,
+  "window.zoomLevel": 1,
   "editor.tabSize": 2,
   "editor.unicodeHighlight.nonBasicASCII": false,
   "cSpell.language": "en,es",
