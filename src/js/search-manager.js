@@ -622,7 +622,10 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                       <li class="propContentName">Forma errónea: <span class="pull-right">${fixNullValue(itemSelected.properties.forma_erronea)}</span></li>
                                       </ul>`;
 
-              let codesINE=itemSelected.properties.codigo_ine;
+              let codesINE = itemSelected.properties.codigo_ine.slice(0,1) === "C" ?
+                              itemSelected.properties.codigo_ine.slice(1):
+                              itemSelected.properties.codigo_ine;
+
               let linksToMunis = [];
               // Tengo que coger los cinco primeros caracteres para poder manejar los INE largos
               codesINE.toString().split(",").forEach((elem)=> linksToMunis.push(`<a href="${appURLCanonical}?codigoine=${elem.slice(0, 5)}" target="_blank">${elem}</a>`));
