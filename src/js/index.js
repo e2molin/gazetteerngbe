@@ -9,7 +9,7 @@ var mobileMode=false;
 
 
 /*----------------------------------------*/
-/*Botoneras ------------------------------*/
+/*------------ Botoneras -----------------*/
 /*----------------------------------------*/
 
 document.getElementById("showPresentacion").addEventListener("click", () => {

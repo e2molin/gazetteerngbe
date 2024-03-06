@@ -346,6 +346,8 @@ const showResultsetList = (resultsRequest) => {
         name: "resultNGBE", 
         source: resultsRequest,
         extract: false // Así no sale el popup al hacer clic sobre un elemento
+  },{
+    displayInLayerSwitcher:false // Con esto evitamos que dalga en el LayerSwitch
   });
   resultNGBE_lyr.setZIndex(115);
 

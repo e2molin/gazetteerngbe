@@ -13,6 +13,9 @@
   --Nomen-blue-dark: #003c7f;
   --Nomen-green: #004713;
   --Nomen-orange: #ff6e43;
+  --Header-height:66px;
+  --Footer-height:36px;
+
 }
 /* 
   Afecta a toos los elementos contenido en el html
@@ -383,11 +386,12 @@ footer a:hover {
 Ajustes del contenedor del control Mouse
 */
 .m-control.m-container.m-mousesrs-container{
-  left:20px;
-  top: 800px;
-  height: 24px;
+  left: 20px;
+  top: calc(100% - var(--Footer-height));
+  height: 30px;
 }
 
- .m-control.m-scale-container{
-  height: 24px !important;
+.m-control.m-scale-container{
+  top: calc(100% - var(--Footer-height));
+  height: 30px !important;
 }
