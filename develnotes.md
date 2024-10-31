@@ -1,3 +1,4 @@
+
 # 💻 Apuntes de desarrollo
 
 ## ⚡️ Introduciendo Vite

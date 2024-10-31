@@ -42,31 +42,34 @@ document.getElementById("zoom-mapResults").addEventListener("click", () => {
  * Procedimiento para las búsquedas por hoja MTN25
  * @returns 
  */
- export const searchByHojaMTN = () => {
+ export const searchByHojaMTN = (hojaMTN25 = '') => {
 
     let userNumMTN = document.getElementById("mtnselect").value;
+    let codDictio = document.getElementById("codDictio").value;
     let numMTN='';
-    if (isEmptyNullString(userNumMTN)){
-      document.getElementById("alertnoselmtn").classList.remove("d-none");
-      return;
-    }
-
-    // Obtenemos de la cadena seleccionada la hoja de búsqueda
-    if (userNumMTN.slice(userNumMTN.length-8,userNumMTN.length-7)==='-'){
+    if (!isEmptyNullString(hojaMTN25)){
+      numMTN = hojaMTN25;
+    }else{
+      if (isEmptyNullString(userNumMTN)){
+        document.getElementById("alertnoselmtn").classList.remove("d-none");
+        return;
+      }
+      // Obtenemos de la cadena seleccionada la hoja de búsqueda
+      if (userNumMTN.slice(userNumMTN.length-8,userNumMTN.length-7)==='-'){
         numMTN=userNumMTN.slice(userNumMTN.length-6,userNumMTN.length)
-    }
-    // Detección de hojas BIS
-    if (userNumMTN.slice(userNumMTN.length-9,userNumMTN.length-8)==='-'){
-        numMTN=userNumMTN.slice(userNumMTN.length-7,userNumMTN.length)
+      }
+      // Detección de hojas BIS
+      if (userNumMTN.slice(userNumMTN.length-9,userNumMTN.length-8)==='-'){
+          numMTN=userNumMTN.slice(userNumMTN.length-7,userNumMTN.length)
+      }
+      if (isEmptyNullString(numMTN)){
+        document.getElementById("alertnoselmtn").classList.remove("d-none");
+        return;
+      }
     }
 
-    if (isEmptyNullString(numMTN)){
-      document.getElementById("alertnoselmtn").classList.remove("d-none");
-      return;
-    }
 
     let codProv = document.getElementById("provinCbo").value;
-    let codDictio = document.getElementById("codDictio").value;
     let urlRequest = mtn25SearchServer + numMTN + "?" + (codDictio != "0.0" ? "codDictio=" + codDictio + "&" : "") + (codProv != "00" ? "codProv=" + codProv + "&" : "");
     
     document.getElementById("alertnoselmtn").classList.add("d-none");
@@ -84,7 +87,6 @@ document.getElementById("zoom-mapResults").addEventListener("click", () => {
     fetch(urlRequest,options)
       .then(res => res.json())
       .then(response =>{
-          console.log(response);
           showResultsetList(response);
       })
       .catch(err=>{
@@ -318,28 +320,39 @@ export const searchById = () => {
  */
 const showResultsetList = (resultsRequest) => {
 
+  // Esto pasa cada vez que muestro la lista de resultados, esté llena o no
+  document.getElementById("spinner_searchspatial").classList.add("d-none");
+  document.getElementById("spinner_searchMuni").classList.add("d-none");
+  document.getElementById("spinner_searchMTN").classList.add("d-none");
+  document.getElementById("spinner_searchId").classList.add("d-none");
+  document.getElementById("spinner_searchName").classList.add("d-none");
+  document.getElementById("searchingBar").classList.add("d-none");
+  document.getElementById("tabulatorEntityList").classList.remove("d-none");
+  document.getElementById("atributosEntity").classList.add("d-none");  
+  document.getElementById("download-json").setAttribute("disabled","disabled");
+  document.getElementById("download-csv").setAttribute("disabled","disabled");
+  document.getElementById("download-html").setAttribute("disabled","disabled");
+  document.getElementById("zoom-mapResults").setAttribute("disabled","disabled");
+
+  // Borro la capa de resultados si existe
+  mapAPICNIG.getLayers().forEach((lyr) => {
+      if (lyr.getImpl().name==='resultNGBE'){
+        mapAPICNIG.removeLayers(lyr);
+      }
+  });
+
+  //Vaciamos la tabla de resultados
+  tabulatorResults.clearFilter();
+  tabulatorResults.setData([]);
+
   if (resultsRequest.totalFeatures=== 0){
-    document.getElementById("spinner_searchspatial").classList.add("d-none");
-    document.getElementById("spinner_searchMuni").classList.add("d-none");
-    document.getElementById("spinner_searchMTN").classList.add("d-none");
-    document.getElementById("spinner_searchId").classList.add("d-none");
-    document.getElementById("spinner_searchName").classList.add("d-none");
-    document.getElementById("searchingBar").classList.add("d-none");
-    showModalMessage(
-      "No se encuentran resultados"
-    );
-    document.getElementById("tabulatorEntityList").classList.remove("d-none");
-    document.getElementById("atributosEntity").classList.add("d-none");
+    document.getElementById("numResults").textContent="0";
+    showModalMessage("No se encuentran resultados");
     return;
   }
 
 
-  // Borro la capa de resultados si existe
-  mapAPICNIG.getLayers().forEach((lyr) => {
-    if (lyr.getImpl().name==='resultNGBE'){
-      mapAPICNIG.removeLayers(lyr);
-    }
-  });
+
   
   // Creo la nueva capa de resultados a partir de la informaicón recibida
   resultNGBE_lyr = new M.layer.GeoJSON({
@@ -422,12 +435,6 @@ const showResultsetList = (resultsRequest) => {
   tabulatorResults.clearFilter();
   tabulatorResults.setData(tableData);
 
-  document.getElementById("spinner_searchspatial").classList.add("d-none");
-  document.getElementById("spinner_searchMuni").classList.add("d-none");
-  document.getElementById("spinner_searchMTN").classList.add("d-none");
-  document.getElementById("spinner_searchId").classList.add("d-none");
-  document.getElementById("spinner_searchName").classList.add("d-none");
-  document.getElementById("searchingBar").classList.add("d-none");
   document.getElementById("numResults").textContent=resultsRequest.features.length;
 
   if (resultsRequest.features.length===1){
@@ -437,6 +444,10 @@ const showResultsetList = (resultsRequest) => {
   }else{
     document.getElementById("atributosEntity").classList.add("d-none");
     document.getElementById("tabulatorEntityList").classList.remove("d-none");
+    document.getElementById("download-json").removeAttribute("disabled");
+    document.getElementById("download-csv").removeAttribute("disabled");
+    document.getElementById("download-html").removeAttribute("disabled");
+    document.getElementById("zoom-mapResults").removeAttribute("disabled");
   }
 
 };
@@ -448,14 +459,14 @@ const showResultsetList = (resultsRequest) => {
  * @param {*} panningEntity 
  */
 export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
-    
+  
     let attributeDisplay="";
     document.getElementById("spinner_searchEntityData").classList.remove("d-none");
 
     //Tratamiento de parámetros opcionales
     panningEntity = (typeof panningEntity === 'undefined') ? false : panningEntity;
     
-
+    console.log(`${municipioInfoByIdServer}${idEnti}`)
     fetch(`${municipioInfoByIdServer}${idEnti}`)
     .then(res => res.json())
     .then(resultsRequest =>{
@@ -501,7 +512,7 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                       <li class="propContent">Clasificación: <span class="pull-right">${itemSelected.properties.codigo_ngbe_text}</span></li>
                                       <li class="${itemSelected.properties.provincias_nombre.length>75 ? "propSubContent":"propContent"}">Provincias: <span class="pull-right">${replaceAllOcurrences(fixNullValue(itemSelected.properties.provincias_nombre),',',', ')}</span></li>
                                       <li class="propContent">
-                                        Permalink: <span class="pull-right"><a href="${appURLCanonical}?identidad=${itemSelected.properties.id}" target="_blank">Enlace externo <i class="fa fa-external-link" aria-hidden="true"></i></a></span>
+                                        Permalink: <span class="pull-right"><a href="${appURLCanonical}?identidad=${itemSelected.properties.id}" target="_blank">Enlace externo <i class="fa fa-external-link" ></i></a></span>
                                       </li>
                                       </ul>
                                       <h4 class="propNameTitle">Identificador geográfico</h4>
@@ -624,9 +635,9 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                       <li class="propContentName">Forma errónea: <span class="pull-right">${fixNullValue(itemSelected.properties.forma_erronea)}</span></li>
                                       </ul>`;
 
-              let codesINE = itemSelected.properties.codigo_ine.slice(0,1) === "C" ?
-                              itemSelected.properties.codigo_ine.slice(1):
-                              itemSelected.properties.codigo_ine;
+              let codesINE = itemSelected.properties.codigo_ine.toString().slice(0,1) === "C" ?
+                              itemSelected.properties.codigo_ine.toString().slice(1):
+                              itemSelected.properties.codigo_ine.toString();
 
               let linksToMunis = [];
               // Tengo que coger los cinco primeros caracteres para poder manejar los INE largos
@@ -649,7 +660,7 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                              "Clase INSPIRE no encontrada";
 
               let othersAttribTemplate  = `<h4 class="propTitle">Tema INSPIRE</h4>
-                                      <span class="propContent">${urlINSPIRE} <a href="${urlINSPIRE==="Clase INSPIRE no encontrada" ? "#" : urlINSPIRE}" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                                      <span class="propContent">${urlINSPIRE} <a href="${urlINSPIRE==="Clase INSPIRE no encontrada" ? "#" : urlINSPIRE}" target="_blank"><i class="fa fa-external-link" ></i></a>
                                       </span>
                                       <h4 class="propTitle">Otras codificaciones</h4>
                                       <ul>
@@ -742,25 +753,25 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                           <div class="card-body">
                             <div class="row">
                                 <h6>
-                                  <i class="fa fa-tag" aria-hidden="true"></i> ${element.varfield} 
+                                  <i class="fa fa-tag"></i> ${element.varfield} 
                                   <img class="${element.nombretabla}"> <span class="text-muted" style="font-size:10px;">${element.nombretabla}</span>
                                 </h6>
                                 <div class="col-md-8">
                                     <ul>
-                                      <li class="text-dark"><i class="fa fa-database" aria-hidden="true" title="Consolidado"></i> ${element.oldvalue.split("#")[0]}</li>
-                                      <li class="text-primary"><i class="fa fa-paper-plane" aria-hidden="true" title="Enviado"></i> ${element.oldvalue.split("#")[1]}</li>
-                                      <li class="text-success"><i class="fa fa-lightbulb-o" aria-hidden="true" title="Propuesto"></i> ${element.newvalue}</li>
+                                      <li class="text-dark"><i class="fa fa-database" title="Consolidado"></i> ${element.oldvalue.split("#")[0]}</li>
+                                      <li class="text-primary"><i class="fa fa-paper-plane" title="Enviado"></i> ${element.oldvalue.split("#")[1]}</li>
+                                      <li class="text-success"><i class="fa fa-lightbulb-o" title="Propuesto"></i> ${element.newvalue}</li>
                                     </ul>
                                 </div>
                                 <div class="col-md-4">
                                   <ul>
-                                    <li><i class="fa fa-user" aria-hidden="true" title="Usuario"></i> ${isEmptyNullString(element.usuario) ? '' : element.usuario}</li>
-                                    <li><i class="fa fa-calendar" aria-hidden="true" title="Fecha"></i> ${element.vardate}</li>
-                                    <li><i class="fa fa-gavel" aria-hidden="true" title="Estado"></i> <span class="${estadoColor}">${estadoTexto}</span></li>
+                                    <li><i class="fa fa-user" title="Usuario"></i> ${isEmptyNullString(element.usuario) ? '' : element.usuario}</li>
+                                    <li><i class="fa fa-calendar" title="Fecha"></i> ${element.vardate}</li>
+                                    <li><i class="fa fa-gavel" title="Estado"></i> <span class="${estadoColor}">${estadoTexto}</span></li>
                                   </ul>
                                 </div>
                                 <details class="mb-4 mb-md-0">
-                                  <summary><i class="fa fa-comments" aria-hidden="true"></i> Comentarios</summary>
+                                  <summary><i class="fa fa-comments"></i> Comentarios</summary>
                                   <span class="fst-italic">${isEmptyNullString(element.comentario) ? 'Nada que comentar' : element.comentario}</span>
                                 </details>
                             </div>
@@ -786,25 +797,25 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                         <div class="card shadow-0 border rounded-3">
                           <div class="card-body">
                             <div class="row">
-                                <h6><i class="fa fa-book" aria-hidden="true"></i> ${element.properties.nombre} <span class="text-muted" style="font-size:10px;">IdNGMEP: ${element.properties.identidad_ngmep}</span></h6>
+                                <h6><i class="fa fa-book"></i> ${element.properties.nombre} <span class="text-muted" style="font-size:10px;">IdNGMEP: ${element.properties.identidad_ngmep}</span></h6>
                                 <div class="col-md-6">
                                     <ul>
-                                      <li class="text-dark"><i class="fa fa-users" aria-hidden="true" title="Población"></i> Población ${element.properties.poblacion} hab.</li>
-                                      <li class="text-dark"><i class="fa fa-circle-o" aria-hidden="true" title="Perímetro"></i> Perímetro ${element.properties.perimetro} <abbr>m.</abbr></li>
-                                      <li class="text-dark"><i class="fa fa-circle" aria-hidden="true" title="Superficie"></i> Superficie ${element.properties.superficie} <abbr>km<sup>2</sup></abbr></li>
-                                      <li class="text-dark"><i class="fa fa-balance-scale" aria-hidden="true" title="REL nº"></i> REL nº: ${element.properties.idrel}</li>
-                                      <li class="text-dark"><i class="fa fa-balance-scale" aria-hidden="true" title="Código INE"></i> Código INE ${element.properties.codigoine}</li>
-                                      <li class="text-dark"><i class="fa fa-balance-scale" aria-hidden="true" title="Código Geográfico"></i> CodGEO: ${element.properties.codgeo}</li>
+                                      <li class="text-dark"><i class="fa fa-users"  title="Población"></i> Población ${element.properties.poblacion} hab.</li>
+                                      <li class="text-dark"><i class="fa fa-circle-o" title="Perímetro"></i> Perímetro ${element.properties.perimetro} <abbr>m.</abbr></li>
+                                      <li class="text-dark"><i class="fa fa-circle"  title="Superficie"></i> Superficie ${element.properties.superficie} <abbr>km<sup>2</sup></abbr></li>
+                                      <li class="text-dark"><i class="fa fa-balance-scale" title="REL nº"></i> REL nº: ${element.properties.idrel}</li>
+                                      <li class="text-dark"><i class="fa fa-balance-scale" title="Código INE"></i> Código INE ${element.properties.codigoine}</li>
+                                      <li class="text-dark"><i class="fa fa-balance-scale"  title="Código Geográfico"></i> CodGEO: ${element.properties.codgeo}</li>
                                     </ul>
                                 </div>
                                 <div class="col-md-6">
                                   <ul>
-                                    <li class="text-dark"><i class="fa fa-calendar" aria-hidden="true" title="Usuario"></i> Alta: ${element.properties.fecha_alta}</li>
-                                    <li class="text-dark"><i class="fa fa-map-marker" aria-hidden="true" title="Altitud"></i> Longitud ${element.properties.lon} <span class="text-muted" style="font-size:10px;">${element.properties.origen_coo}</span></li>
-                                    <li class="text-dark"><i class="fa fa-map-marker" aria-hidden="true" title="Altitud"></i> Latitud ${element.properties.lat} <span class="text-muted" style="font-size:10px;">${element.properties.origen_coo}</span></li>
-                                    <li class="text-dark"><i class="fa fa-map-signs" aria-hidden="true" title="Altitud"></i> Altitud ${element.properties.altura} m. <span class="text-muted" style="font-size:10px;">${element.properties.origen_alt}</span></li>
-                                    <li class="text-dark"><i class="fa fa-tag" aria-hidden="true" title="Suprimida"></i> Suprimida ${element.properties.suprimida===0 ? "No" : "Sí"} </li>
-                                    <li class="text-dark"><i class="fa fa-tag" aria-hidden="true" title="Discrepante"></i> Discrepante ${element.properties.discrepante===0 ? "No" : "Sí"} </li>
+                                    <li class="text-dark"><i class="fa fa-calendar"  title="Usuario"></i> Alta: ${element.properties.fecha_alta}</li>
+                                    <li class="text-dark"><i class="fa fa-map-marker" title="Altitud"></i> Longitud ${element.properties.lon} <span class="text-muted" style="font-size:10px;">${element.properties.origen_coo}</span></li>
+                                    <li class="text-dark"><i class="fa fa-map-marker" title="Altitud"></i> Latitud ${element.properties.lat} <span class="text-muted" style="font-size:10px;">${element.properties.origen_coo}</span></li>
+                                    <li class="text-dark"><i class="fa fa-map-signs" title="Altitud"></i> Altitud ${element.properties.altura} m. <span class="text-muted" style="font-size:10px;">${element.properties.origen_alt}</span></li>
+                                    <li class="text-dark"><i class="fa fa-tag" title="Suprimida"></i> Suprimida ${element.properties.suprimida===0 ? "No" : "Sí"} </li>
+                                    <li class="text-dark"><i class="fa fa-tag" title="Discrepante"></i> Discrepante ${element.properties.discrepante===0 ? "No" : "Sí"} </li>
                                   </ul>
                                 </div>
                             </div>

@@ -9,6 +9,14 @@
 
 Aplicación web para la consulta del **NGBE**. El Nomenclátor Geográfico Nacional se define como un registro dinámico de información que recoge las denominaciones oficiales referenciadas geográficamente que deben utilizarse en la cartografía oficial. [🌐 Web del Nomenclator en el IGN](https://www.ign.es/web/ign/portal/rcc-area-rcc)
 
+## 🚀 Instalación
+
+* Instalamos GIT y Node.JS v20.11 (mínimo v18).
+* Clonamos el repositorio.
+* Instalamos con `npm minstall`.
+* En el fichero `constant.js` configuramos el modo de desarrollo y las URL base del API
+
+
 ## 🔍 Opciones de búsqueda
 
 ### 🌐 Espaciales

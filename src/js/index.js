@@ -83,6 +83,17 @@ document.getElementById("searchByNameparam").addEventListener("keyup", (event) =
 document.getElementById("develOne").addEventListener("click", () => {
 
   console.log("Desarrollo");
+  console.log(document.getElementById("panel-resultados").style.display);
+  document.getElementById("panel-resultados").style.display  = 'none';
+  document.getElementById("user-interface").style.gridTemplateColumns  = '295px 1fr';
+});
+
+document.getElementById("develTwo").addEventListener("click", () => {
+
+  console.log("Desarrollo");
+  document.getElementById("user-interface").style.gridTemplateColumns  = '295px 0.80fr 1.20fr;';
+  document.getElementById("panel-resultados").style.display  = 'block';
+  
 
 });
 
@@ -135,9 +146,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
                       element: (list, data) => {
                           const info = document.createElement("p");
                           if (data.results.length) {
-                              info.innerHTML = `Displaying <strong>${data.results.length}</strong> out of <strong>${data.matches.length}</strong> results`;
+                              info.innerHTML = `Mostrando <strong>${data.results.length}</strong> de <strong>${data.matches.length}</strong> resultados`;
                           } else {
-                              info.innerHTML = `Found <strong>${data.matches.length}</strong> matching results for <strong>"${data.query}"</strong>`;
+                              info.innerHTML = `Encontrados <strong>${data.matches.length}</strong> coincidentes para <strong>"${data.query}"</strong>`;
                           }
                           list.prepend(info);
                       },
@@ -189,9 +200,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     element: (list, data) => {
                         const info = document.createElement("p");
                         if (data.results.length) {
-                            info.innerHTML = `Mostrando <strong>${data.results.length}</strong> de <strong>${data.matches.length}</strong> resultados`;
+                          info.innerHTML = `Mostrando <strong>${data.results.length}</strong> de <strong>${data.matches.length}</strong> resultados`;
                         } else {
-                            info.innerHTML = `Found <strong>${data.matches.length}</strong> matching results for <strong>"${data.query}"</strong>`;
+                          info.innerHTML = `Encontrados <strong>${data.matches.length}</strong> coincidentes para <strong>"${data.query}"</strong>`;
                         }
                         list.prepend(info);
                     },
@@ -241,6 +252,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
         let codigoINESearch = paramSearch.replace('?codigoine=','');
         // console.log(`Permalink códigoINE ${paramSearch.replace('?codigoine=','')}`);
         searchByMuni(codigoINESearch);        
+      }else if(paramSearch.indexOf('?mtn25=')>=0){
+        let hojaMTN25Search = paramSearch.replace('?mtn25=','');
+        console.log(`Permalink HojaMTN25 ${paramSearch.replace('?mtn25=','')}`);
+        searchByHojaMTN(hojaMTN25Search); //http://localhost:5173/runtime/gazetteerngbe/index.html?mtn25=0579c2    
+        //http://localhost/cartocatalog/apibadasid/public/nomenclator/json/listngbe/mtn25/0463c2?   
       }
     }
 
