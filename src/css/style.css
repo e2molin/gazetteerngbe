@@ -250,10 +250,20 @@ p.propContent {
 }
 
 #propImageDictio{
-  width: 10%;
+  aspect-ratio: 1 / 1;
+  width: 100%;/*10%*/
   padding: 0px;
 }
 
+.external-links{
+  display:flex;
+  flex-flow: row;
+  justify-content: space-around;
+}
+
+.external-links img:hover{
+  filter: drop-shadow(5px 5px 10px #ff6e43);
+}
 
 img.idioma_spa{
   content: url("../img/flag-es.svg");

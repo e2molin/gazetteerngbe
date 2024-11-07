@@ -58,7 +58,7 @@ export const launchTabulatorResults = () =>{
 
   tabulatorResults = new Tabulator("#example-table", {
     /*data:tabledata,*/ //assign data to table
-    /*height:"311px",*/
+    height:"600px",
     /*layout:"fitColumns",*/
     columns:[
     {formatter: dictioIcon,width:30, hozAlign:"center"},

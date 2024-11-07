@@ -197,9 +197,18 @@ fetch(url, options)
 https://www.youtube.com/watch?v=J_ZmtP9xNg8
 
 Consulta para sacar la relación NGMEP-NGBE
-
+https://icon-sets.iconify.design/svg-spinners/
 select entidadesngmep.* 
 from ngbe_elaboracion.entidadesngmep 
 where entidadesngmep.identidad in (select regexp_split_to_table(identidad_ngmep,',')::integer from ngbe_elaboracion.ngmep_to_ngbe WHERE id_ngbe='2707911');
 
 https://www.youtube.com/watch?v=J_ZmtP9xNg8
+
+
+https://visualizadores.ign.es/poblaciones/?center=-356634.1681%2C4775526.4847%2C102100&level=8
+
+https://www.ign.es/ngbe/visualizador?zoom=14&srs=EPSG:4326&center=-6.5,37.5
+
+
+https://visualizadores.ign.es/poblaciones/?center=-356634.1681%2C4775526.4847%2C102100&level=3
+https://visualizadores.ign.es/poblaciones/?center=-356634.1681%2C4775526.4847%2C102100&level=3&showLayers=igr_poblaciones_5654%3Bigr_poblaciones_470%3Bigr_poblaciones_6573%3Bigr_poblaciones_8288%3Bigr_poblaciones_8288_0%3Bigr_po_nucleos_poblacion_9329%3Bigr_poblaciones_5100%3Bigr_poblaciones_5100_2

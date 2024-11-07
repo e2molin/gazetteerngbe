@@ -5,7 +5,7 @@
 const domainProduction = "http://10.13.90.93/apibadasidv4/";
 // const domainDeveloper = "http://localhost/apibadasidv4/";
 const domainDeveloper = "http://localhost/cartocatalog/apibadasid/";
-export const modoDeveloper = true;
+export const modoDeveloper = false;
 const domainRoot = modoDeveloper === true ? domainDeveloper:domainProduction;
 
 export const urlMunisSearcher = `${domainRoot}public/autoridades/municipios`;                         // http://localhost/apibadasidv4/public/autoridades/municipios

@@ -313,8 +313,53 @@ export const searchById = () => {
  * 📖 PROCEDIMIENTOS DE RENDERIZADO DE RESULTSETS
  */
 
+const populateDatatable = (resultsRequest) => {
+
+  document.getElementById("tabulatorEntityList").classList.add("d-none");
+  document.getElementById("atributosEntity").classList.add("d-none");
+  document.getElementById("filter-value").value=``;
+  document.getElementById("numResultsFilter").textContent = ``;
+
+  let tableData = [];
+  console.log(resultsRequest.features);
+  for (let i = 0; i < resultsRequest.features.length; i++) {
+    tableData.push({
+      dictiongbe: resultsRequest.features[i].properties.dictiongbe,
+      nombre: resultsRequest.features[i].properties.nombre,
+      tipo: resultsRequest.features[i].properties.tipo,
+      identidad: resultsRequest.features[i].properties.identidad,
+      dataLon: resultsRequest.features[i].geometry.coordinates[0],
+      dataLat: resultsRequest.features[i].geometry.coordinates[1],
+    });
+  }
+  console.log(tableData);
+  
+  tabulatorResults.clearFilter();
+  tabulatorResults.setData(tableData);
+
+  document.getElementById("numResults").textContent=resultsRequest.features.length;
+
+  if (resultsRequest.features.length===1){
+    mostrarInfoByNumEnti(resultsRequest.features[0].properties.identidad,true,false);
+    document.getElementById("tabulatorEntityList").classList.add("d-none");
+    document.getElementById("atributosEntity").classList.remove("d-none");
+  }else{
+    document.getElementById("atributosEntity").classList.add("d-none");
+    document.getElementById("tabulatorEntityList").classList.remove("d-none");
+    document.getElementById("download-json").removeAttribute("disabled");
+    document.getElementById("download-csv").removeAttribute("disabled");
+    document.getElementById("download-html").removeAttribute("disabled");
+    document.getElementById("zoom-mapResults").removeAttribute("disabled");
+  }
+
+}
+
+
+
+
+
 /**
- * Tabulñación de resultados
+ * Tabulación de resultados
  * @param {*} resultsRequest 
  * @returns 
  */
@@ -333,6 +378,7 @@ const showResultsetList = (resultsRequest) => {
   document.getElementById("download-csv").setAttribute("disabled","disabled");
   document.getElementById("download-html").setAttribute("disabled","disabled");
   document.getElementById("zoom-mapResults").setAttribute("disabled","disabled");
+  document.getElementById("presentacion").classList.add("d-none");
 
   // Borro la capa de resultados si existe
   mapAPICNIG.getLayers().forEach((lyr) => {
@@ -352,7 +398,9 @@ const showResultsetList = (resultsRequest) => {
   }
 
 
+  populateDatatable(resultsRequest);
 
+  //return;
   
   // Creo la nueva capa de resultados a partir de la informaicón recibida
   resultNGBE_lyr = new M.layer.GeoJSON({
@@ -414,41 +462,7 @@ const showResultsetList = (resultsRequest) => {
       });
     });
 
-  document.getElementById("tabulatorEntityList").classList.add("d-none");
-  document.getElementById("atributosEntity").classList.add("d-none");
-  document.getElementById("filter-value").value=``;
-  document.getElementById("numResultsFilter").textContent = ``;
-
-  let tableData = [];
-  for (let i = 0; i < resultsRequest.features.length; i++) {
-    tableData.push({
-      dictiongbe: resultsRequest.features[i].properties.dictiongbe,
-      nombre: resultsRequest.features[i].properties.nombre,
-      tipo: resultsRequest.features[i].properties.tipo,
-      identidad: resultsRequest.features[i].properties.identidad,
-      dataLon: resultsRequest.features[i].geometry.coordinates[0],
-      dataLat: resultsRequest.features[i].geometry.coordinates[1],
-    });
-  }
-
-  
-  tabulatorResults.clearFilter();
-  tabulatorResults.setData(tableData);
-
-  document.getElementById("numResults").textContent=resultsRequest.features.length;
-
-  if (resultsRequest.features.length===1){
-    mostrarInfoByNumEnti(resultsRequest.features[0].properties.identidad,true,false);
-    document.getElementById("tabulatorEntityList").classList.add("d-none");
-    document.getElementById("atributosEntity").classList.remove("d-none");
-  }else{
-    document.getElementById("atributosEntity").classList.add("d-none");
-    document.getElementById("tabulatorEntityList").classList.remove("d-none");
-    document.getElementById("download-json").removeAttribute("disabled");
-    document.getElementById("download-csv").removeAttribute("disabled");
-    document.getElementById("download-html").removeAttribute("disabled");
-    document.getElementById("zoom-mapResults").removeAttribute("disabled");
-  }
+  //---
 
 };
 
@@ -463,6 +477,17 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
     let attributeDisplay="";
     document.getElementById("spinner_searchEntityData").classList.remove("d-none");
 
+    document.getElementById("prop-image-container").classList.add("d-none");
+    document.getElementById("prop-spinner-container").classList.remove("d-none");
+    document.getElementById("histo-spin").classList.remove("d-none");
+    document.getElementById("numRegHisto").classList.add("d-none");
+    document.getElementById("discrepancia-spin").classList.remove("d-none");
+    document.getElementById("numRegDiscrepancias").classList.add("d-none");
+    document.getElementById("ngmep-spin").classList.remove("d-none");
+    document.getElementById('ngmep-tab').setAttribute("disabled","disabled");
+    document.getElementById('propNameEntity').textContent = "Cargando datos...";
+    document.getElementById("presentacion").classList.add("d-none");
+
     //Tratamiento de parámetros opcionales
     panningEntity = (typeof panningEntity === 'undefined') ? false : panningEntity;
     
@@ -472,11 +497,11 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
     .then(resultsRequest =>{
               let itemSelected = resultsRequest.features[0];
 
-              document.getElementById('propNameEntity').textContent = itemSelected.properties.identificador_geografico;
+              
               document.getElementById('propImageDictio').src = `img/icons/${itemSelected.properties.codigo_ngbe}-master.png`;
               document.getElementById('propImageDictio').title = itemSelected.properties.tipo_mostrado;
 
-              let evalNumNombres = 0;
+              let evalNumNombres = 1; // Siempre al menos existe el identificador geográfico, luego la cuenta empieza en 1
               if (itemSelected.properties.nombre_alternativo_3 !== undefined && itemSelected.properties.nombre_alternativo_3 !== null){
                   evalNumNombres=evalNumNombres+1;
               }
@@ -642,6 +667,10 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
               let linksToMunis = [];
               // Tengo que coger los cinco primeros caracteres para poder manejar los INE largos
               codesINE.toString().split(",").forEach((elem)=> linksToMunis.push(`<a href="${appURLCanonical}?codigoine=${elem.slice(0, 5)}" target="_blank">${elem}</a>`));
+              
+              let linksToMTN25s = [];
+              let seqMTN25 = itemSelected.properties.hojamtn_25;
+              seqMTN25.split(",").forEach((elem)=> linksToMTN25s.push(`<a href="${appURLCanonical}?mtn25=${elem}" target="_blank">${elem}</a>`));
 
               let locationAttribTemplate  = `<h4 class="propTitle">Geometría</h4>
                                       <ul>
@@ -653,13 +682,22 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                       <p class="propContent">${replaceAllOcurrences(fixNullValue(itemSelected.properties.provincias_nombre),',',', ')}</p>
                                       <h3 class="propTitle">Códigos INE asociados</h3>
                                       <p class="propContent">${replaceAllOcurrences(fixNullValue(linksToMunis.join(', ')),',',', ')}</p>
-                                      <h4 class="propTitle">Hoja MTN25</h4><span class="propContent">${itemSelected.properties.hojamtn_25}</span>`;
+                                      <h4 class="propTitle">Hojas MTN25</h4><span class="propContent">${linksToMTN25s.join(', ')}</span>
+                                      <h3 class="propTitle">Enlaces</h3>
+                                      <section class="external-links">
+                                          <a href="https://www.ign.es/iberpix/visor/?zoom=16&srs=EPSG:4326&center=${fixNullValue(itemSelected.properties.long_etrs89_regcan95)},${fixNullValue(itemSelected.properties.lat_etrs89_regcan95)}" target="_blank"><img src="img/icon_iberpix.png"></a>
+                                          <a href="https://visualizadores.ign.es/nomenclator_ngbe/?zoom=16&srs=EPSG:4326&center=${fixNullValue(itemSelected.properties.long_etrs89_regcan95)},${fixNullValue(itemSelected.properties.lat_etrs89_regcan95)}" target="_blank"><img src="img/icon_ngbe.png"></a>
+                                          <a href="https://visualizadores.ign.es/nomenclator_ngn/?zoom=16&srs=EPSG:4326&center=${fixNullValue(itemSelected.properties.long_etrs89_regcan95)},${fixNullValue(itemSelected.properties.lat_etrs89_regcan95)}" target="_blank"><img src="img/icon_ngn.png"></a>
+                                          <a href="https://www.cartociudad.es/visor/?zoom=16&srs=EPSG:4326&center=${fixNullValue(itemSelected.properties.long_etrs89_regcan95)},${fixNullValue(itemSelected.properties.lat_etrs89_regcan95)}" target="_blank"><img src="img/icon_cartociudad.png"></a>
+                                      </section>`;
 
               let urlINSPIRE = diccionarioNGBE.filter(item => item.codigo_ngbe.toString() === itemSelected.properties.codigo_ngbe.toString())[0]?.name_inspire !== undefined ?
                               diccionarioNGBE.filter(item => item.codigo_ngbe.toString() === itemSelected.properties.codigo_ngbe.toString())[0]?.name_inspire :
                              "Clase INSPIRE no encontrada";
 
-              let othersAttribTemplate  = `<h4 class="propTitle">Tema INSPIRE</h4>
+              let othersAttribTemplate  = `<h4 class="propTitle">Tema INSPIRE
+                                            <img src="img/icon_inspire.png" alt="icon inspire">
+                                          </h4>
                                       <span class="propContent">${urlINSPIRE} <a href="${urlINSPIRE==="Clase INSPIRE no encontrada" ? "#" : urlINSPIRE}" target="_blank"><i class="fa fa-external-link" ></i></a>
                                       </span>
                                       <h4 class="propTitle">Otras codificaciones</h4>
@@ -695,13 +733,14 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                 document.getElementById("presentacion").classList.add("d-none");
               });
               document.getElementById("spinner_searchEntityData").classList.add("d-none");
+              document.getElementById('propNameEntity').textContent = itemSelected.properties.identificador_geografico;
+              document.getElementById("prop-image-container").classList.remove("d-none");
+              document.getElementById("prop-spinner-container").classList.add("d-none");
+
     })
     .catch((err)=>{
-        console.log(err);
+      console.error(`e2m: ${err}`);
     });
-
-    
-
 
 
     fetch(`${urlSearchHistoEntityById}${idEnti}`)
@@ -711,7 +750,10 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
       tabulatorHisto.setData(response.data);
     })
     .catch((err)=>{
-        console.log(err);
+      console.error(`e2m: ${err}`);
+    }).finally(()=>{
+      document.getElementById("histo-spin").classList.add("d-none");
+      document.getElementById("numRegHisto").classList.remove("d-none");
     });
 
 
@@ -783,7 +825,10 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
       document.getElementById('numRegDiscrepancias').textContent = lstDiscrepancias.length;
     })
     .catch((err)=>{
-        console.log(err);
+      console.error(`e2m: ${err}`);
+    }).finally(() => {
+      document.getElementById("discrepancia-spin").classList.add("d-none");
+      document.getElementById("numRegDiscrepancias").classList.remove("d-none");
     });
 
     
@@ -823,12 +868,19 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                         </div>
                       </div>`);
       });
+      if (lstNGMEPEntities.length>0){
+        document.getElementById('ngmep-tab').removeAttribute("disabled");
+      }
       document.getElementById('ngmep-tab-pane').innerHTML  = lstNGMEPEntities.join('');//response.data.length;
     })
     .catch((err)=>{
-      console.log(err);
+      console.error(`e2m: ${err}`);
+    })
+    .finally(() => {
+      document.getElementById("ngmep-spin").classList.add("d-none");
     });
 
     document.getElementById("tabulatorEntityList").classList.add("d-none");
     document.getElementById("atributosEntity").classList.remove("d-none");
+
   }
