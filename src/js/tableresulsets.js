@@ -77,7 +77,6 @@ export const launchTabulatorResults = () =>{
     ],
   });
 
-
 }
 
 export const launchTabulatorHisto = () =>{

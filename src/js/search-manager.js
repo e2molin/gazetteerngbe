@@ -321,7 +321,6 @@ const populateDatatable = (resultsRequest) => {
   document.getElementById("numResultsFilter").textContent = ``;
 
   let tableData = [];
-  console.log(resultsRequest.features);
   for (let i = 0; i < resultsRequest.features.length; i++) {
     tableData.push({
       dictiongbe: resultsRequest.features[i].properties.dictiongbe,
@@ -332,7 +331,6 @@ const populateDatatable = (resultsRequest) => {
       dataLat: resultsRequest.features[i].geometry.coordinates[1],
     });
   }
-  console.log(tableData);
   
   tabulatorResults.clearFilter();
   tabulatorResults.setData(tableData);
@@ -353,10 +351,6 @@ const populateDatatable = (resultsRequest) => {
   }
 
 }
-
-
-
-
 
 /**
  * Tabulación de resultados
@@ -674,9 +668,11 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
 
               let locationAttribTemplate  = `<h4 class="propTitle">Geometría</h4>
                                       <ul>
-                                      <li class="propContent">Geográficas (epsg:4258): <span class="pull-right">${fixNullValue(itemSelected.properties.long_etrs89_regcan95)} ${fixNullValue(itemSelected.properties.lat_etrs89_regcan95)}</span>
-                                      </li>
-                                      <li class="propContent">UTM (epsg:258${itemSelected.properties.huso_etrs89_regcan95}): <span class="pull-right">${fixNullValue(itemSelected.properties.x_utm_etrs89_regcan95)} ${fixNullValue(itemSelected.properties.y_utm_etrs89_regcan95)}</span></li>
+                                      <li class="propContent">Geográficas - EPSG:4258: <span class="pull-right">${fixNullValue(itemSelected.properties.long_etrs89_regcan95)} ${fixNullValue(itemSelected.properties.lat_etrs89_regcan95)}</span></li>
+                                      <li class="propContent">
+                                        UTM Huso ${itemSelected.properties.huso_etrs89_regcan95} - EPSG:258${itemSelected.properties.huso_etrs89_regcan95}: 
+                                          <span class="pull-right">${fixNullValue(itemSelected.properties.x_utm_etrs89_regcan95)} ${fixNullValue(itemSelected.properties.y_utm_etrs89_regcan95)}</span></li>
+                                      <li class="propContent">Spherical Mercator - EPSG:3857: <span class="pull-right">${fixNullValue(itemSelected.geometry.coordinates[0])} ${fixNullValue(itemSelected.geometry.coordinates[1])}</span></li>
                                       </ul>
                                       <h4 class="propTitle">Provincias</h4>
                                       <p class="propContent">${replaceAllOcurrences(fixNullValue(itemSelected.properties.provincias_nombre),',',', ')}</p>
@@ -689,6 +685,11 @@ export const mostrarInfoByNumEnti = (idEnti,showBtnResults,panningEntity) => {
                                           <a href="https://visualizadores.ign.es/nomenclator_ngbe/?zoom=16&srs=EPSG:4326&center=${fixNullValue(itemSelected.properties.long_etrs89_regcan95)},${fixNullValue(itemSelected.properties.lat_etrs89_regcan95)}" target="_blank"><img src="img/icon_ngbe.png"></a>
                                           <a href="https://visualizadores.ign.es/nomenclator_ngn/?zoom=16&srs=EPSG:4326&center=${fixNullValue(itemSelected.properties.long_etrs89_regcan95)},${fixNullValue(itemSelected.properties.lat_etrs89_regcan95)}" target="_blank"><img src="img/icon_ngn.png"></a>
                                           <a href="https://www.cartociudad.es/visor/?zoom=16&srs=EPSG:4326&center=${fixNullValue(itemSelected.properties.long_etrs89_regcan95)},${fixNullValue(itemSelected.properties.lat_etrs89_regcan95)}" target="_blank"><img src="img/icon_cartociudad.png"></a>
+                                          <a href="https://www.ign.es/web/redes_transporte/?center=${fixNullValue(itemSelected.geometry.coordinates[0])}%2C${fixNullValue(itemSelected.geometry.coordinates[1])}%2C102100&level=10" target="_blank"><img src="img/icon_rt.png"></a>
+                                          <a href="https://visor-hidrografia.ign.es/hidrografia/?center=${fixNullValue(itemSelected.geometry.coordinates[0])}%2C${fixNullValue(itemSelected.geometry.coordinates[1])}%2C102100&level=12" target="_blank"><img src="img/icon_hidro.png"></a>
+                                          <a href="https://visualizadores.ign.es/poblaciones/?center=${fixNullValue(itemSelected.geometry.coordinates[0])}%2C${fixNullValue(itemSelected.geometry.coordinates[1])}%2C102100&level=11" target="_blank"><img src="img/icon_poblaciones.png"></a>
+
+                                          
                                       </section>`;
 
               let urlINSPIRE = diccionarioNGBE.filter(item => item.codigo_ngbe.toString() === itemSelected.properties.codigo_ngbe.toString())[0]?.name_inspire !== undefined ?

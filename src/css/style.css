@@ -3,7 +3,8 @@
   Por eso, un estilo especificado a nivel de :root prevalece sobre un html, aunque el html se defina
   en el CSS después del root y por cascada debiera prevalecer el html
 */
-:root{
+:root
+{
   --IGN-blue-verydark: #364b5f;
   --IGN-blue-dark:#005b91;
   --IGN-blue-light: #4f728f;
@@ -15,7 +16,6 @@
   --Nomen-orange: #ff6e43;
   --Header-height:66px;
   --Footer-height:36px;
-
 }
 /* 
   Afecta a toos los elementos contenido en el html
