@@ -65,8 +65,8 @@ const PRECHARGED_LYRS = {
         },
         {
           name: 'Planimetrías (1870 y 1950)',
-          type: 'WMS',
-          url: 'https://www.ign.es/wms/minutas-cartograficas?',
+          type: 'WMTS',
+          url: 'https://www.ign.es/wmts/minutas-cartograficas?',
         },
         {
           name: 'Planos de Madrid (1622 - 1960)',
@@ -204,7 +204,7 @@ const PRECHARGED_LYRS = {
   ],
 };
 
-
+// Esta es una reducción de capas ajustada a los objetivos de la Herramienta
 const PRECHARGED_LYRS_AT = {
   groups: [
 
@@ -257,8 +257,8 @@ const PRECHARGED_LYRS_AT = {
         },
         {
           name: 'Planimetrías (1870-1950)',
-          type: 'WMS',
-          url: 'https://www.ign.es/wms/minutas-cartograficas',
+          type: 'WMTS',
+          url: 'https://www.ign.es/wmts/minutas-cartograficas',
           // white_list: ['Minutas'],
         },
         {
@@ -459,14 +459,26 @@ const getConfiguredBaseLayersPlugin = () => {
       visible: true,
       format: 'image/jpeg',
   });
+  
+  const objWMTSPlanimetrias = new M.layer.WMTS({
+    url: 'https://www.ign.es/wmts/minutas-cartograficas?',
+    name: 'Minutas',
+    legend: 'Planimetrías',
+    matrixSet: 'GoogleMapsCompatible',
+    transparent: false,
+    displayInLayerSwitcher: false,
+    queryable: false,
+    visible: true,
+    format: 'image/jpeg',
+  });
 
-  const objWMSPlanimetrias = new M.layer.WMS({
-      url: 'https://www.ign.es/wms/minutas-cartograficas?',
-      name: 'Minutas',
-      legend: 'Planimetrías',
-      tiled: false,
-      visibility: true,
-  }, {})
+  // const objWMSPlanimetrias = new M.layer.WMS({
+  //     url: 'https://www.ign.es/wms/minutas-cartograficas?',
+  //     name: 'Minutas',
+  //     legend: 'Planimetrías',
+  //     tiled: false,
+  //     visibility: true,
+  // }, {})
 
   const objWMSMTNTradicional = new M.layer.WMS({
       url: 'http://10.67.33.132/wms10-inspire/mapa-raster?',
@@ -550,7 +562,7 @@ const getConfiguredBaseLayersPlugin = () => {
           id: 'planimetrias',
           preview: previewplanimetrias,
           title: 'Planimetrías',
-          layers: [objWMSPlanimetrias],
+          layers: [objWMTSPlanimetrias],
       },
     ],
   });
@@ -595,13 +607,6 @@ export const createAPICNIGMap = () => {
       utmDecimalDigits: 2,
       activeZ: false
   }));
-
-  // mapAPICNIG.addPlugin(new M.plugin.FullTOC({
-  //   position: 'TR',
-  //   collapsed: true,
-  // }));
-
-  console.log(PRECHARGED_LYRS);
 
   mapAPICNIG.addPlugin(new M.plugin.Layerswitcher({
     position: 'TR',
